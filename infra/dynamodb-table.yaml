@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Development DynamoDB table for T Level expressions of interest.
+
+Parameters:
+  TableName:
+    Type: String
+    Default: t-level-expressions-of-interest-dev
+
+Resources:
+  ExpressionsOfInterestTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref TableName
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      SSESpecification:
+        SSEEnabled: true
+      Tags:
+        - Key: Project
+          Value: T-Level-Team-Project
+        - Key: Environment
+          Value: Development
+        - Key: DataClassification
+          Value: Prototype
+
+Outputs:
+  TableName:
+    Description: DynamoDB table name
+    Value: !Ref ExpressionsOfInterestTable
+  TableArn:
+    Description: DynamoDB table ARN
+    Value: !GetAtt ExpressionsOfInterestTable.Arn
+

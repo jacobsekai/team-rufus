@@ -1,0 +1,29 @@
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+
+# Build and packaging output
+build/
+dist/
+*.egg-info/
+
+# Logs and operating-system files
+*.log
+.DS_Store
+
+# Local AWS/SAM output
+.aws-sam/
+cdk.out/
+
