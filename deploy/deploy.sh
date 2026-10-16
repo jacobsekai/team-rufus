@@ -10,7 +10,7 @@
 set -euo pipefail
 
 STACK_NAME="${STACK_NAME:-team-rufus-dev}"
-DEPLOY_REGION="${DEPLOY_REGION:-eu-west-2}"
+DEPLOY_REGION="${DEPLOY_REGION:-us-west-2}"
 PACKAGE_DIR=".aws-sam/lambda-package"
 
 cd "$(dirname "$0")/.."

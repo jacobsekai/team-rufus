@@ -1,16 +1,12 @@
 # Shared AWS sign-in for deploy.sh and teardown.sh. Source this file; do not
 # run it directly.
 #
-# Credentials are written to a named AWS profile (default: team-rufus) and
-# exported as AWS_PROFILE so the AWS CLI and SAM CLI use them. No account IDs,
-# role names, or keys are stored in this repository.
+# Uses the AWS CLI's default credentials; no named profile is required. No
+# account IDs, role names, or keys are stored in this repository.
 #
 # Optional settings:
-#   AWS_PROFILE      profile to use (default: team-rufus)
 #   CONDUIT_ACCOUNT  Conduit account ID or name (otherwise you are prompted)
 #   CONDUIT_ROLE     Conduit role name (otherwise you are prompted)
-
-export AWS_PROFILE="${AWS_PROFILE:-team-rufus}"
 
 _signed_in() {
     aws sts get-caller-identity --region "$DEPLOY_REGION" >/dev/null 2>&1
@@ -31,12 +27,11 @@ _conduit_sign_in() {
         return 1
     fi
 
-    echo "Requesting Conduit credentials for profile '$AWS_PROFILE'..."
+    echo "Requesting Conduit credentials..."
     if ! ada credentials update \
         --provider conduit \
         --account "$account" \
         --role "$role" \
-        --profile "$AWS_PROFILE" \
         --once; then
         echo "Ada could not get credentials. If your Midway session has expired, run 'mwinit' and try again." >&2
         return 1
@@ -48,13 +43,13 @@ aws_sign_in() {
         return
     fi
 
-    echo "Not signed in to AWS with profile '$AWS_PROFILE'."
+    echo "Not signed in to AWS."
     if command -v ada >/dev/null; then
         _conduit_sign_in || exit 1
     else
         echo "Sign in first, for example with one of:" >&2
-        echo "  aws login --profile $AWS_PROFILE" >&2
-        echo "  aws configure sso --profile $AWS_PROFILE" >&2
+        echo "  aws login" >&2
+        echo "  aws configure sso" >&2
         exit 1
     fi
 
@@ -72,9 +67,9 @@ confirm_account() {
     account_id="$(aws sts get-caller-identity --region "$DEPLOY_REGION" --query Account --output text)"
     arn="$(aws sts get-caller-identity --region "$DEPLOY_REGION" --query Arn --output text)"
     alias="$(aws iam list-account-aliases --query 'AccountAliases[0]' --output text 2>/dev/null || true)"
+    [[ "$alias" == "None" ]] && alias=""
 
     echo
-    echo "AWS profile : $AWS_PROFILE"
     echo "Account     : $account_id ${alias:+($alias)}"
     echo "Identity    : $arn"
     echo "Region      : $DEPLOY_REGION"

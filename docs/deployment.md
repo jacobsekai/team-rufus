@@ -64,15 +64,15 @@ deploy/deploy.sh
 
 ### Signing in
 
-The scripts use the AWS profile `team-rufus` (set `AWS_PROFILE` to change it).
-If that profile has no valid credentials:
+The scripts use the AWS CLI's default credentials; no named profile is needed.
+If there are no valid credentials:
 
 - **With Ada installed (Conduit):** the script asks for the Conduit account ID
   or name and the role, then runs `ada credentials update --provider conduit`.
   Run `mwinit` first if your Midway session has expired. To skip the prompts,
   set `CONDUIT_ACCOUNT` and `CONDUIT_ROLE` in your shell.
 - **Without Ada:** the script stops and suggests `aws login` or
-  `aws configure sso` for the same profile.
+  `aws configure sso`.
 
 Before changing anything, the script shows the account ID, account alias,
 identity, region, and stack name, and continues only if you type `yes`. It
@@ -84,7 +84,7 @@ repository.
 ### What the script does
 
 After sign-in, the script builds the Lambda package,
-deploys the stack `team-rufus-dev` to `eu-west-2`, uploads `frontend/`, clears
+deploys the stack `team-rufus-dev` to `us-west-2`, uploads `frontend/`, clears
 the CloudFront cache, and prints the site URL. The first deployment takes
 about 5 to 10 minutes while CloudFront is created.
 

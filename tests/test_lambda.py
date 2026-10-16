@@ -17,7 +17,7 @@ def _http_api_event(method, path, body=None):
         "rawQueryString": "",
         "headers": {
             "content-type": "application/json",
-            "host": "example.execute-api.eu-west-2.amazonaws.com",
+            "host": "example.execute-api.us-west-2.amazonaws.com",
             "x-forwarded-proto": "https",
             "x-forwarded-port": "443",
         },
