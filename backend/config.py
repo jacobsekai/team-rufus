@@ -23,6 +23,7 @@ class Settings:
     aws_region: str
     aws_profile: Optional[str]
     dynamodb_table_name: str
+    users_table_name: str
     aws_endpoint_url: Optional[str]
     host: str
     port: int
@@ -32,11 +33,15 @@ class Settings:
     @classmethod
     def from_env(cls) -> "Settings":
         return cls(
-            aws_region=os.getenv("AWS_REGION", "eu-west-2"),
+            aws_region=os.getenv("AWS_REGION", "us-west-2"),
             aws_profile=os.getenv("AWS_PROFILE") or None,
             dynamodb_table_name=os.getenv(
                 "DYNAMODB_TABLE_NAME",
                 "t-level-expressions-of-interest-dev",
+            ),
+            users_table_name=os.getenv(
+                "USERS_TABLE_NAME",
+                "t-level-users-dev",
             ),
             aws_endpoint_url=os.getenv("AWS_ENDPOINT_URL") or None,
             host=os.getenv("FLASK_HOST", "127.0.0.1"),

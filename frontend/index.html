@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Team Rufus backend test panel</title>
+</head>
+<body>
+<h1>Backend test panel</h1>
+<p><b>Prototype. Use made-up (synthetic) details only. Do not enter real personal information.</b></p>
+
+<h2>Health</h2>
+<button id="health-button">GET /health</button>
+
+<h2>Sign up (POST /api/users)</h2>
+<form id="signup-form">
+<p>Full name: <input name="full_name"></p>
+<p>Email: <input name="email"></p>
+<p>Password: <input name="password" type="password"> (12-128 characters)</p>
+<p><button>Sign up</button></p>
+</form>
+
+<h2>Expression of interest (POST /api/expressions-of-interest)</h2>
+<form id="interest-form">
+<p>Full name: <input name="full_name"></p>
+<p>Email: <input name="email"></p>
+<p>School (optional): <input name="school"></p>
+<p>Interests, comma separated (optional): <input name="interests"></p>
+<p><input name="consent" type="checkbox"> I consent</p>
+<p><button>Submit</button></p>
+</form>
+
+<h2>Raw request</h2>
+<form id="raw-form">
+<p>Method: <select name="method"><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select>
+Path: <input name="path" value="/health" size="40"></p>
+<p>JSON body:<br><textarea name="body" rows="6" cols="60"></textarea></p>
+<p><button>Send</button></p>
+</form>
+
+<h2>Response</h2>
+<pre id="output">Nothing sent yet.</pre>
+
+<script>
+const output = document.getElementById("output");
+
+// Sends a request to the backend and prints the status and body.
+// Paths are relative, so this works locally and behind CloudFront.
+async function send(method, path, body) {
+    output.textContent = method + " " + path + " ...";
+    const options = { method: method, headers: {} };
+    if (body !== undefined) {
+        options.headers["Content-Type"] = "application/json";
+        options.body = typeof body === "string" ? body : JSON.stringify(body);
+    }
+    try {
+        const response = await fetch(path, options);
+        const text = await response.text();
+        let shown = text;
+        try { shown = JSON.stringify(JSON.parse(text), null, 2); } catch (e) {}
+        output.textContent = method + " " + path + "\nHTTP " + response.status + "\n\n" + shown;
+    } catch (error) {
+        output.textContent = method + " " + path + "\nRequest failed: " + error;
+    }
+}
+
+function fields(form) {
+    return Object.fromEntries(new FormData(form));
+}
+
+document.getElementById("health-button").addEventListener("click", function () {
+    send("GET", "/health");
+});
+
+document.getElementById("signup-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    send("POST", "/api/users", fields(event.target));
+});
+
+document.getElementById("interest-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    const data = fields(event.target);
+    const payload = {
+        full_name: data.full_name,
+        email: data.email,
+        consent: data.consent === "on",
+    };
+    if (data.school) payload.school = data.school;
+    if (data.interests) {
+        payload.interests = data.interests.split(",").map(function (item) { return item.trim(); }).filter(Boolean);
+    }
+    send("POST", "/api/expressions-of-interest", payload);
+});
+
+document.getElementById("raw-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    const data = fields(event.target);
+    send(data.method, data.path, data.body.trim() === "" ? undefined : data.body);
+});
+</script>
+</body>
+</html>
