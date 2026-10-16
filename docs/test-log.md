@@ -20,3 +20,5 @@ Record representative tests rather than every individual test execution.
 | 2026-10-16 | Lambda integration | Integration | API Gateway HTTP API v2 event for `GET /health` | HTTP 200 and `{"status":"ok"}` | Covered by automated test | Pass |
 | 2026-10-16 | Deployment template | Static analysis | `sam validate --lint` on `deploy/template.yaml` and `infra/dynamodb-table.yaml` | Valid template, no lint errors | Valid SAM Template | Pass |
 | 2026-10-16 | Lambda package | Build | Build with Python 3.12 for `manylinux2014_aarch64`; import `backend.lambda_handler` | Python 3.12 wheels selected; handler imports | boto3 1.43, ARM `.so` files; handler imported | Pass |
+| 2026-10-16 | Deploy sign-in | Manual (stubbed `aws`/`ada`) | No credentials; enter account and role; answer `yes` | Ada called with Conduit provider, account, role, profile; account shown; deploy continues | As expected | Pass |
+| 2026-10-16 | Deploy sign-in | Manual (stubbed `aws`/`ada`) | Already signed in; answer `no` | Account shown; script exits without changes | Cancelled, exit code 1 | Pass |

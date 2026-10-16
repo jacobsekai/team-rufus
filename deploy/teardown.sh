@@ -6,7 +6,12 @@ set -euo pipefail
 STACK_NAME="${STACK_NAME:-team-rufus-dev}"
 DEPLOY_REGION="${DEPLOY_REGION:-eu-west-2}"
 
-aws sts get-caller-identity --region "$DEPLOY_REGION" --output table
+cd "$(dirname "$0")/.."
+# shellcheck source=deploy/aws-login.sh
+source deploy/aws-login.sh
+
+aws_sign_in
+confirm_account "Delete '$STACK_NAME'"
 read -r -p "Permanently delete stack '$STACK_NAME' and ALL its data in $DEPLOY_REGION? Type the stack name to confirm: " answer
 if [[ "$answer" != "$STACK_NAME" ]]; then
     echo "Cancelled."

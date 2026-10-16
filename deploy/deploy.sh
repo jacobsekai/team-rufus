@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # Build the Lambda package, deploy the stack, and upload the frontend.
 #
-# Usage (from the repository root, logged in to the project AWS account):
+# Usage (from the repository root):
 #   deploy/deploy.sh
 #
-# Override defaults with STACK_NAME=... DEPLOY_REGION=... deploy/deploy.sh
+# If you are not signed in, the script signs you in through Conduit (via Ada)
+# and shows the target account before changing anything. See aws-login.sh for
+# optional settings. Override defaults with STACK_NAME=... DEPLOY_REGION=...
 set -euo pipefail
 
 STACK_NAME="${STACK_NAME:-team-rufus-dev}"
@@ -12,9 +14,11 @@ DEPLOY_REGION="${DEPLOY_REGION:-eu-west-2}"
 PACKAGE_DIR=".aws-sam/lambda-package"
 
 cd "$(dirname "$0")/.."
+# shellcheck source=deploy/aws-login.sh
+source deploy/aws-login.sh
 
-echo "Deploying stack '$STACK_NAME' to $DEPLOY_REGION as:"
-aws sts get-caller-identity --region "$DEPLOY_REGION" --output table
+aws_sign_in
+confirm_account "Deploy '$STACK_NAME'"
 
 # Dependencies must be resolved by the same Python version Lambda runs (3.12).
 find_python312() {
