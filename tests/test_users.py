@@ -4,7 +4,6 @@ from botocore.exceptions import ClientError
 import pytest
 from werkzeug.security import check_password_hash
 
-from backend import create_app
 from backend.repositories import (
     DuplicateRecordError,
     RepositoryError,
@@ -103,16 +102,12 @@ def test_signup_requires_json(client):
     assert response.status_code == 415
 
 
-def test_signup_returns_503_when_storage_fails(repository):
+def test_signup_returns_503_when_storage_fails(make_app):
     class FailingUsersRepository:
         def create_user(self, user):
             raise RepositoryError("Unable to save the record.")
 
-    app = create_app(
-        {"TESTING": True},
-        repository=repository,
-        users_repository=FailingUsersRepository(),
-    )
+    app = make_app(users_repository=FailingUsersRepository())
     response = app.test_client().post("/api/users", json=VALID_SIGNUP)
 
     assert response.status_code == 503

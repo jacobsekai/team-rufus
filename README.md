@@ -21,24 +21,39 @@ backend/
   __init__.py                 Flask application factory
   __main__.py                 Local entry point
   lambda_handler.py           AWS Lambda entry point
+  accounts.py                 Sign up, sign in/out, sessions, my account
+  content.py                  Downloadable content and download links
+  content_catalogue.json      List of downloadable files
+  helpers.py                  Shared validation and response helpers
   aws.py                      AWS/DynamoDB client construction
   config.py                   Environment-based configuration
   repositories.py             DynamoDB persistence layer
-  routes.py                   HTTP endpoints and request validation
+  routes.py                   Health and expression-of-interest endpoints
   requirements.txt            Runtime dependencies
   requirements-dev.txt        Runtime plus test dependencies
 tests/
   conftest.py                 Test fixtures and in-memory repository
   test_api.py                 Expression-of-interest API tests
-  test_users.py               User signup API and repository tests
-  test_lambda.py              API Gateway/Lambda event tests
+  test_users.py               Signup API tests
+  test_accounts.py            Sign-in, session, and my-account tests
+  test_content.py             Downloads and catalogue tests
+  test_repositories.py        DynamoDB request tests
+  test_lambda.py              Lambda event (function URL / API Gateway v2) tests
+content/                      Downloadable files (uploaded by deploy.sh)
+frontend/
+  index.html                  Placeholder home page (frontend team replaces)
+  debug/index.html            Debug panel at /debug: try every endpoint
+  debug/signin-tests.js       "Run sign-in tests": end-to-end sign-in checks
 infra/
   dynamodb-table.yaml         Development table definitions
 deploy/
-  template.yaml               CloudFront, S3, API Gateway, Lambda (AWS SAM)
+  template.yaml               CloudFront, S3, Lambda function URL (AWS SAM)
   deploy.sh                   Build and deploy to AWS
   teardown.sh                 Delete the AWS deployment
+  midway.sh                   Midway (CloudFrontSigner) signing key setup
+  cfs/                        CloudFrontSigner 403 page and redirect script
 docs/
+  api.md                      API reference for the frontend
   dynamodb-design.md          Table and data design
   deployment.md               AWS hosting design and security decisions
   development-log.md          Iterative development record
@@ -72,7 +87,7 @@ source .venv/bin/activate
 python -m pytest
 ```
 
-The tests use an in-memory repository and do not contact AWS.
+The tests use in-memory repositories and do not contact AWS.
 
 ## Run the backend locally
 
@@ -90,63 +105,37 @@ Health check:
 curl http://127.0.0.1:5000/health
 ```
 
-Submit an expression of interest:
+## API
 
-```bash
-curl -X POST http://127.0.0.1:5000/api/expressions-of-interest \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "full_name": "Example Student",
-    "email": "example.student@example.com",
-    "school": "Example School",
-    "interests": ["Digital", "Engineering"],
-    "consent": true
-  }'
-```
+The full request and response contract for the frontend team is in
+[`docs/api.md`](docs/api.md).
 
-The API returns only the generated record ID and status after a successful
-submission. It does not provide an unauthenticated read endpoint for
-expression-of-interest records.
+| Method | Path | Purpose |
+|---|---|---|
+| `GET` | `/health` | Liveness check |
+| `POST` | `/api/expressions-of-interest` | Register interest in placements |
+| `POST` | `/api/users` | Create an account |
+| `POST` | `/api/login` / `/api/logout` | Sign in / sign out |
+| `GET` | `/api/users/me` | View my account |
+| `POST` | `/api/users/me/delete` | Delete my account (password required) |
+| `GET` | `/api/content` | List downloads |
+| `GET` | `/api/content/<id>/download` | Download a file (some need sign-in) |
 
-Create a user account:
-
-```bash
-curl -X POST http://127.0.0.1:5000/api/users \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "full_name": "Example Student",
-    "email": "example.student@example.com",
-    "password": "correct horse battery"
-  }'
-```
-
-| Field | Rules |
-|---|---|
-| `full_name` | Required, 1–100 characters |
-| `email` | Required, valid email; stored lower-case |
-| `password` | Required, 12–128 characters |
-
-| Status | Meaning |
-|---|---|
-| `201` | Account created; returns `id`, `email`, `full_name`, `status` |
-| `400` | Validation failed; `details` lists each problem |
-| `409` | An account with this email already exists |
-| `415` | Request was not JSON |
-| `503` | The account could not be saved |
-
-The password is hashed before storage and is never returned.
+Passwords are hashed before storage and never returned. There is no endpoint
+for reading other people's data.
 
 ## DynamoDB tables
 
-The application expects two tables by default. Both are defined in
-`infra/dynamodb-table.yaml`.
+The application expects three tables by default, all defined in
+`infra/dynamodb-table.yaml`. See `docs/dynamodb-design.md` for the item shapes.
 
 | Table | Setting | Partition key |
 |---|---|---|
 | `t-level-expressions-of-interest-dev` | `DYNAMODB_TABLE_NAME` | `id` |
 | `t-level-users-dev` | `USERS_TABLE_NAME` | `email` |
+| `t-level-sessions-dev` | `SESSIONS_TABLE_NAME` | `token_hash` |
 
-Both tables use:
+All tables use:
 
 - On-demand billing for the prototype.
 - Server-side encryption.
@@ -160,10 +149,20 @@ Use synthetic data while developing and demonstrating the prototype. Do not
 store real student or customer information until the team has agreed the
 retention, access-control, and privacy requirements.
 
+## Debug panel
+
+`/debug` on the deployed site is an unstyled page for trying every backend
+endpoint by hand. Its **Run sign-in tests** button signs up a new made-up
+account and checks 30 steps of the sign-in journey against the live backend
+(sign-in, wrong passwords, lockout, sign-out, members-only download, account
+deletion), printing PASS or FAIL for each. The test account is deleted at the
+end.
+
 ## Deploy to AWS
 
-The prototype can be hosted on CloudFront so others can open it in a browser.
-See `docs/deployment.md` for the architecture and security decisions.
+The prototype is hosted on CloudFront behind Midway sign-in, so Amazon staff
+(the team and assessors) can open it in a browser. See `docs/deployment.md`
+for the architecture, security decisions, and one-time Midway onboarding.
 
 ```bash
 deploy/deploy.sh      # deploy or update; prints the site URL

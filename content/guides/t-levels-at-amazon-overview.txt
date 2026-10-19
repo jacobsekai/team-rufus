@@ -1,0 +1,4 @@
+PLACEHOLDER - NOT APPROVED CONTENT
+
+This file exists only to test public downloads in the Team Rufus prototype.
+Replace it with approved content and record the source in the assets log.

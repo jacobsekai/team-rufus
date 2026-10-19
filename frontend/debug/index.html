@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Team Rufus debug panel</title>
+</head>
+<body>
+<h1>Debug panel</h1>
+<p><b>Prototype. Use made-up (synthetic) details only. Do not enter real personal information.</b></p>
+<p>If a request shows an HTML 403 page, your Midway sign-in has expired: reload this page.</p>
+
+<h2>Sign-in tests</h2>
+<p>Runs the whole sign-in journey with a new made-up account (sign up, sign in, wrong passwords, lockout, sign out, delete) and checks every response. The test account is deleted at the end. Signs you out.</p>
+<p><button id="signin-tests-button">Run sign-in tests</button></p>
+<pre id="signin-tests-output">Not run yet.</pre>
+
+<h2>Health</h2>
+<button id="health-button">GET /health</button>
+
+<h2>Sign up (POST /api/users)</h2>
+<form id="signup-form">
+<p>Full name: <input name="full_name"></p>
+<p>Email: <input name="email"></p>
+<p>Password: <input name="password" type="password"> (12-128 characters)</p>
+<p><button>Sign up</button></p>
+</form>
+
+<h2>Sign in (POST /api/login)</h2>
+<form id="login-form">
+<p>Email: <input name="email"></p>
+<p>Password: <input name="password" type="password"></p>
+<p><button>Sign in</button></p>
+</form>
+
+<h2>My account</h2>
+<p><button id="me-button">GET /api/users/me</button> <button id="logout-button">POST /api/logout</button></p>
+<form id="delete-form">
+<p>Delete my account (POST /api/users/me/delete). Confirm password: <input name="password" type="password"> <button>Delete account</button></p>
+</form>
+
+<h2>Downloads (GET /api/content)</h2>
+<p><button id="content-button">Load content list</button></p>
+<ul id="content-list"></ul>
+
+<h2>Expression of interest (POST /api/expressions-of-interest)</h2>
+<form id="interest-form">
+<p>Full name: <input name="full_name"></p>
+<p>Email: <input name="email"></p>
+<p>I am a: <select name="customer_type">
+<option value="">(choose)</option>
+<option value="student">Student</option>
+<option value="school">School</option>
+<option value="parent_carer">Parent or carer</option>
+<option value="other">Other</option>
+</select></p>
+<p>School (optional): <input name="school"></p>
+<p>Interests:
+<input type="checkbox" name="interests" value="Digital"> Digital
+<input type="checkbox" name="interests" value="Business"> Business
+<input type="checkbox" name="interests" value="Media"> Media
+<input type="checkbox" name="interests" value="Finance"> Finance
+<input type="checkbox" name="interests" value="Engineering"> Engineering
+</p>
+<p><input name="consent" type="checkbox"> I consent</p>
+<p><button>Submit</button></p>
+</form>
+
+<h2>Raw request</h2>
+<form id="raw-form">
+<p>Method: <select name="method"><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select>
+Path: <input name="path" value="/health" size="40"></p>
+<p>JSON body:<br><textarea name="body" rows="6" cols="60"></textarea></p>
+<p><button>Send</button></p>
+</form>
+
+<h2>Response</h2>
+<pre id="output">Nothing sent yet.</pre>
+
+<script src="/debug/signin-tests.js"></script>
+<script>
+const output = document.getElementById("output");
+
+// Sends a request to the backend and prints the status and body.
+// apiRequest comes from /debug/signin-tests.js.
+async function send(method, path, body) {
+    output.textContent = method + " " + path + " ...";
+    try {
+        const result = await apiRequest(method, path, body);
+        const shown = result.body !== null ? JSON.stringify(result.body, null, 2) : result.text;
+        output.textContent = method + " " + path + "\nHTTP " + result.status + "\n\n" + shown;
+    } catch (error) {
+        output.textContent = method + " " + path + "\nRequest failed: " + error;
+    }
+}
+
+function fields(form) {
+    return Object.fromEntries(new FormData(form));
+}
+
+document.getElementById("signin-tests-button").addEventListener("click", async function () {
+    const button = this;
+    const log = document.getElementById("signin-tests-output");
+    button.disabled = true;
+    log.textContent = "Running...\n";
+    try {
+        const totals = await runSignInTests(function (passed, name, detail) {
+            log.textContent += (passed ? "PASS  " : "FAIL  ") + name + " (" + detail + ")\n";
+        });
+        log.textContent += "\n" + totals.passed + " passed, " + totals.failed + " failed\n";
+    } catch (error) {
+        log.textContent += "\nStopped: " + error + "\n";
+    }
+    button.disabled = false;
+});
+
+document.getElementById("health-button").addEventListener("click", function () {
+    send("GET", "/health");
+});
+
+document.getElementById("signup-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    send("POST", "/api/users", fields(event.target));
+});
+
+document.getElementById("login-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    send("POST", "/api/login", fields(event.target));
+});
+
+document.getElementById("me-button").addEventListener("click", function () {
+    send("GET", "/api/users/me");
+});
+
+document.getElementById("logout-button").addEventListener("click", function () {
+    send("POST", "/api/logout");
+});
+
+document.getElementById("delete-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    send("POST", "/api/users/me/delete", fields(event.target));
+});
+
+// Lists downloads as plain links. Built with textContent, not innerHTML,
+// so catalogue text can never run as code.
+document.getElementById("content-button").addEventListener("click", async function () {
+    await send("GET", "/api/content");
+    const list = document.getElementById("content-list");
+    list.replaceChildren();
+    const response = await fetch("/api/content");
+    if (!response.ok) return;
+    const body = await response.json();
+    body.items.forEach(function (item) {
+        const entry = document.createElement("li");
+        const link = document.createElement("a");
+        if (item.download_url.startsWith("/api/content/")) link.href = item.download_url;
+        link.textContent = item.title;
+        entry.appendChild(link);
+        entry.appendChild(document.createTextNode(
+            " - " + item.description + (item.requires_login ? " [sign-in needed]" : " [public]")
+        ));
+        list.appendChild(entry);
+    });
+});
+
+document.getElementById("interest-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    const form = new FormData(event.target);
+    const payload = {
+        full_name: form.get("full_name"),
+        email: form.get("email"),
+        customer_type: form.get("customer_type"),
+        interests: form.getAll("interests"),
+        consent: form.get("consent") === "on",
+    };
+    if (form.get("school")) payload.school = form.get("school");
+    send("POST", "/api/expressions-of-interest", payload);
+});
+
+document.getElementById("raw-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    const data = fields(event.target);
+    send(data.method, data.path, data.body.trim() === "" ? undefined : data.body);
+});
+</script>
+</body>
+</html>

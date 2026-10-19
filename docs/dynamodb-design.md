@@ -1,6 +1,16 @@
 # DynamoDB design
 
-## Table
+| Table | Partition key | Holds |
+|---|---|---|
+| `t-level-expressions-of-interest-dev` | `id` | Expressions of interest |
+| `t-level-users-dev` | `email` | User accounts |
+| `t-level-sessions-dev` | `token_hash` | Sign-in sessions |
+
+Every operation is a single-item read or write by partition key, so no
+secondary indexes or scans are needed and response times stay constant as the
+tables grow.
+
+## Expressions of interest table
 
 Development table name:
 
@@ -16,9 +26,8 @@ The name is configurable through `DYNAMODB_TABLE_NAME`.
 |---|---|---|
 | `id` | String | UUID partition key |
 
-There is currently no secondary index because the first prototype operation is
-submission. An authenticated administrative read model should be designed before
-adding queries for personal data.
+Submissions can only be written through the API. Reading them back would need
+an authenticated staff role, which is out of scope for the prototype.
 
 ## Item shape
 
@@ -27,8 +36,9 @@ adding queries for personal data.
 | `id` | String | Unique record identifier |
 | `full_name` | String | User-provided name |
 | `email` | String | Normalised email address |
+| `customer_type` | String | `student`, `school`, `parent_carer`, or `other` |
 | `school` | String | Optional school or organisation |
-| `interests` | List[String] | Selected programme interests |
+| `interests` | List[String] | Placement areas: `Digital`, `Business`, `Media`, `Finance`, `Engineering` |
 | `consent` | Boolean | Confirmation that the user agreed to submit |
 | `created_at` | String | UTC creation timestamp |
 | `updated_at` | String | UTC update timestamp |
@@ -67,16 +77,67 @@ without copying their email address.
 | `id` | String | UUID for referencing the user elsewhere |
 | `full_name` | String | User-provided name |
 | `password_hash` | String | Salted PBKDF2-SHA256 hash, 600,000 iterations |
+| `failed_login_count` | Number | Wrong passwords in a row (absent until the first failure) |
+| `locked_until` | Number | Epoch seconds; sign-in refused until then (absent when not locked) |
 | `created_at` | String | UTC creation timestamp |
 | `updated_at` | String | UTC update timestamp |
 
 The plain-text password is never stored, logged, or returned by the API.
+`failed_login_count` is increased with an atomic `ADD` update, so two wrong
+passwords submitted at the same moment are both counted.
+
+## Sessions table
+
+Development table name:
+
+```text
+t-level-sessions-dev
+```
+
+The name is configurable through `SESSIONS_TABLE_NAME`.
+
+### Key design
+
+| Attribute | Type | Purpose |
+|---|---|---|
+| `token_hash` | String | SHA-256 hash of the session token (partition key) |
+
+The browser keeps a random 256-bit token in the `rufus_session` cookie. Only
+its hash is stored, so someone who could read the table still could not sign
+in as anyone. Sessions are stored on the server rather than in a signed cookie
+so that signing out and deleting an account take effect immediately.
+
+### Item shape
+
+| Attribute | Type | Purpose |
+|---|---|---|
+| `token_hash` | String | Partition key |
+| `email` | String | Which user the session belongs to |
+| `created_at` | String | UTC creation timestamp |
+| `expires_at` | Number | Epoch seconds; DynamoDB time-to-live deletes the item after this |
+
+TTL deletion can take up to a few days, so the application also rejects any
+session whose `expires_at` has passed.
 
 ## Security decisions
 
 - The Flask service defaults to `127.0.0.1`.
-- No DynamoDB read endpoint is exposed without an authentication and
-  authorisation design.
+- The only read endpoint for personal data is `GET /api/users/me`, which
+  returns the signed-in user's own profile and nothing else.
+- Sign-in uses the same error message for an unknown email and a wrong
+  password, and checks a dummy hash for unknown emails so response times do
+  not reveal which emails are registered.
+- After 5 wrong passwords in a row, the account is locked for 15 minutes.
+  This slows down password guessing. Someone could deliberately lock another
+  user out for 15 minutes; this is accepted for the prototype.
+- The session cookie is `HttpOnly` (JavaScript cannot read it), `Secure`
+  (HTTPS only), and `SameSite=Strict` (not sent with requests started by other
+  websites, which prevents cross-site request forgery).
+- Deleting an account requires the password again, so a session left open on
+  a shared computer cannot be used to delete it.
+- Deleting an account removes the user item and the current session. Any
+  other sessions stop working at once because their user no longer exists.
+  Expressions of interest are separate submissions and are not deleted.
 - AWS credentials are obtained through the standard AWS credential chain.
 - No credentials are stored in source code or `.env.example`.
 - The development table template enables server-side encryption and
