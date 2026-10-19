@@ -59,6 +59,22 @@ configuration is needed.
   would add per-IP limits but costs about $6 per month.
 - There is no custom domain; the address is `https://<id>.cloudfront.net`.
 
+## Security finding: CloudFront disabled (2026-10-19)
+
+Amazon's Shepherd scanner raised a Sev-2.5 ticket (V2414010851, due
+2026-10-24): "Lack of Approved Authentication for Publicly Accessible
+CloudFront". Amazon policy requires Midway authentication on any public
+CloudFront site in an Amazon AWS account, and this site was open to the
+internet.
+
+Containment: the distribution was disabled on 2026-10-19, as the ticket
+recommends. The template now keeps it disabled (`DistributionEnabled`
+defaults to `false`) so redeploying cannot re-expose it. Do not enable it
+until Midway sign-in (CloudFrontSigner with a Bindle) protects the site.
+
+Do not press "Request Verification Of Fix" or close the ticket; Shepherd
+resolves it automatically.
+
 ## Deploying
 
 Requirements: access to the project AWS account, the AWS CLI, the AWS SAM
