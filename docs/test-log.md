@@ -52,3 +52,8 @@ Record representative tests rather than every individual test execution.
 | 2026-10-19 | Signing key | Unit | Generate key pair locally | PKCS#8 private key, SPKI public key, file mode 600 | As expected | Pass |
 | 2026-10-19 | Deployment template | Static analysis | `sam validate --lint` | Valid; every behavior except `/js/cfs-handler.js` has the trusted key group | Valid SAM Template | Pass |
 | 2026-10-19 | Delete account | Regression | Wrong password; API status codes | HTTP 400 (not 403, which CloudFront reserves for Midway) | Covered by automated test | Pass |
+| 2026-10-19 | Live deployment (Midway) | Security | Distribution config after deploy | Default, `/api/*`, `/health` restricted to the CloudFrontSigner key group; only `/js/cfs-handler.js` open; 403 → `/error/403.html` | As expected | Pass |
+| 2026-10-19 | Live deployment (Midway) | Security | Unauthenticated GET `/`, `/index.html`, `/health`, `/api/users/me`, `/api/content`, a download, a missing path, `/error/403.html`; POST `/api/users` | HTTP 403 with the CloudFrontSigner redirect page; no app content or data | As expected | Pass |
+| 2026-10-19 | Live deployment (Midway) | Security | Forged CloudFront-* cookies | HTTP 403 | As expected | Pass |
+| 2026-10-19 | Live deployment (Midway) | Security | Direct call to the Lambda function URL; old API Gateway URL | HTTP 403 (IAM); old URL no longer resolves | As expected | Pass |
+| 2026-10-19 | Live deployment (Midway) | Functional | GET `/js/cfs-handler.js` | HTTP 200 with v2 authorize endpoint | As expected | Pass |
