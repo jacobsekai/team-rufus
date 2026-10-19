@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Development DynamoDB tables for T Level expressions of interest and user accounts.
+Description: Development DynamoDB tables for T Level expressions of interest, user accounts, and sign-in sessions.
 
 Parameters:
   TableName:
@@ -8,6 +8,9 @@ Parameters:
   UsersTableName:
     Type: String
     Default: t-level-users-dev
+  SessionsTableName:
+    Type: String
+    Default: t-level-sessions-dev
 
 Resources:
   ExpressionsOfInterestTable:
@@ -56,6 +59,33 @@ Resources:
         - Key: DataClassification
           Value: Prototype
 
+  SessionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref SessionsTableName
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: token_hash
+          AttributeType: S
+      KeySchema:
+        - AttributeName: token_hash
+          KeyType: HASH
+      # DynamoDB deletes expired sessions automatically.
+      TimeToLiveSpecification:
+        AttributeName: expires_at
+        Enabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      SSESpecification:
+        SSEEnabled: true
+      Tags:
+        - Key: Project
+          Value: T-Level-Team-Project
+        - Key: Environment
+          Value: Development
+        - Key: DataClassification
+          Value: Prototype
+
 Outputs:
   TableName:
     Description: DynamoDB table name
@@ -69,3 +99,9 @@ Outputs:
   UsersTableArn:
     Description: Users DynamoDB table ARN
     Value: !GetAtt UsersTable.Arn
+  SessionsTableName:
+    Description: Sessions DynamoDB table name
+    Value: !Ref SessionsTable
+  SessionsTableArn:
+    Description: Sessions DynamoDB table ARN
+    Value: !GetAtt SessionsTable.Arn

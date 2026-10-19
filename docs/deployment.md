@@ -18,7 +18,8 @@ Browser ── CloudFront ─┤
 | S3 | Stores the frontend HTML, CSS, and JavaScript |
 | API Gateway (HTTP API) | Receives API requests from CloudFront and invokes Lambda |
 | Lambda | Runs the unchanged Flask app via `backend/lambda_handler.py` |
-| DynamoDB | The two tables defined in `infra/dynamodb-table.yaml` |
+| DynamoDB | The three tables defined in `infra/dynamodb-table.yaml` |
+| S3 (content) | Private bucket for downloadable files; reachable only via short-lived signed links |
 
 Everything is defined in `deploy/template.yaml` (AWS SAM). The tables are
 included as a nested stack so each table is defined in one place only.
@@ -38,12 +39,17 @@ configuration is needed.
 - **Security headers.** The managed `SecurityHeadersPolicy` adds HSTS,
   `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, and
   `X-XSS-Protection` to every response.
-- **Least-privilege Lambda.** The function may only call `dynamodb:PutItem` on
-  the two project tables. It cannot read, update, or delete data.
+- **Least-privilege Lambda.** The function may only create expressions of
+  interest (`PutItem`), manage single user and session items (`PutItem`,
+  `GetItem`, `UpdateItem`, `DeleteItem`), and read content files
+  (`s3:GetObject`). It cannot scan or list any table, so it cannot dump data.
+- **Private downloads.** The content bucket is not connected to CloudFront.
+  Each download is a link signed by the Lambda function that expires after
+  5 minutes; members-only links are only issued to signed-in users.
 - **Rate limiting.** API Gateway is limited to 10 requests per second (burst 20)
   so abuse cannot run up costs.
 - **Logs expire.** Lambda logs are kept for 14 days.
-- **Encryption at rest.** S3 and both DynamoDB tables are encrypted.
+- **Encryption at rest.** Both S3 buckets and all DynamoDB tables are encrypted.
 
 ### Known limitations (acceptable for a prototype)
 
@@ -84,7 +90,8 @@ repository.
 ### What the script does
 
 After sign-in, the script builds the Lambda package,
-deploys the stack `team-rufus-dev` to `us-west-2`, uploads `frontend/`, clears
+deploys the stack `team-rufus-dev` to `us-west-2`, uploads `content/` and
+`frontend/`, clears
 the CloudFront cache, and prints the site URL. The first deployment takes
 about 5 to 10 minutes while CloudFront is created.
 
@@ -96,6 +103,6 @@ Run the same command again after changing backend or frontend code.
 deploy/teardown.sh
 ```
 
-This permanently deletes the stack, the frontend bucket, and both DynamoDB
+This permanently deletes the stack, both buckets, and all three DynamoDB
 tables including all data. It uses the same sign-in, shows the account, and
 then asks you to type the stack name to confirm.

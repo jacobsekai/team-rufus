@@ -40,15 +40,31 @@ Resources:
         Variables:
           DYNAMODB_TABLE_NAME: !GetAtt Tables.Outputs.TableName
           USERS_TABLE_NAME: !GetAtt Tables.Outputs.UsersTableName
+          SESSIONS_TABLE_NAME: !GetAtt Tables.Outputs.SessionsTableName
+          CONTENT_BUCKET_NAME: !Ref ContentBucket
       Policies:
-        # Least privilege: the API only ever creates items.
+        # Least privilege: only the actions each table needs.
         - Version: "2012-10-17"
           Statement:
-            - Effect: Allow
+            - Sid: CreateExpressionsOfInterest
+              Effect: Allow
               Action: dynamodb:PutItem
+              Resource: !GetAtt Tables.Outputs.TableArn
+            - Sid: ManageUsersAndSessions
+              Effect: Allow
+              Action:
+                - dynamodb:PutItem
+                - dynamodb:GetItem
+                - dynamodb:UpdateItem
+                - dynamodb:DeleteItem
               Resource:
-                - !GetAtt Tables.Outputs.TableArn
                 - !GetAtt Tables.Outputs.UsersTableArn
+                - !GetAtt Tables.Outputs.SessionsTableArn
+            # Needed to sign download links; the bucket itself stays private.
+            - Sid: ReadContentFiles
+              Effect: Allow
+              Action: s3:GetObject
+              Resource: !Sub "${ContentBucket.Arn}/*"
       Events:
         Api:
           Type: HttpApi
@@ -64,6 +80,29 @@ Resources:
         ThrottlingBurstLimit: 20
 
   FrontendBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      Tags:
+        - Key: Project
+          Value: T-Level-Team-Project
+        - Key: Environment
+          Value: Development
+
+  # Downloadable content. Not connected to CloudFront: files are only
+  # reachable through short-lived links signed by the Lambda function.
+  ContentBucket:
     Type: AWS::S3::Bucket
     Properties:
       PublicAccessBlockConfiguration:
@@ -175,3 +214,6 @@ Outputs:
   DistributionId:
     Description: CloudFront distribution ID (used to clear the cache)
     Value: !Ref Distribution
+  ContentBucketName:
+    Description: Private S3 bucket holding downloadable content
+    Value: !Ref ContentBucket

@@ -18,12 +18,19 @@ if [[ "$answer" != "$STACK_NAME" ]]; then
     exit 1
 fi
 
-BUCKET="$(aws cloudformation describe-stacks \
-    --stack-name "$STACK_NAME" \
-    --region "$DEPLOY_REGION" \
-    --query "Stacks[0].Outputs[?OutputKey=='FrontendBucketName'].OutputValue" \
-    --output text)"
+output() {
+    aws cloudformation describe-stacks \
+        --stack-name "$STACK_NAME" \
+        --region "$DEPLOY_REGION" \
+        --query "Stacks[0].Outputs[?OutputKey=='$1'].OutputValue" \
+        --output text
+}
 
 # CloudFormation cannot delete a bucket that still contains files.
-aws s3 rm "s3://$BUCKET" --recursive --region "$DEPLOY_REGION"
+for output_key in FrontendBucketName ContentBucketName; do
+    bucket="$(output "$output_key")"
+    if [[ -n "$bucket" && "$bucket" != "None" ]]; then
+        aws s3 rm "s3://$bucket" --recursive --region "$DEPLOY_REGION"
+    fi
+done
 sam delete --stack-name "$STACK_NAME" --region "$DEPLOY_REGION" --no-prompts

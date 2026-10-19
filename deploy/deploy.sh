@@ -69,8 +69,12 @@ output() {
 }
 
 BUCKET="$(output FrontendBucketName)"
+CONTENT_BUCKET="$(output ContentBucketName)"
 DISTRIBUTION_ID="$(output DistributionId)"
 SITE_URL="$(output SiteUrl)"
+
+echo "Uploading downloadable content..."
+aws s3 sync content/ "s3://$CONTENT_BUCKET" --delete --exclude README.md --region "$DEPLOY_REGION"
 
 echo "Uploading frontend..."
 aws s3 sync frontend/ "s3://$BUCKET" --delete --region "$DEPLOY_REGION"

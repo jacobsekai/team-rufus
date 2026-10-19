@@ -19,12 +19,42 @@
 <p><button>Sign up</button></p>
 </form>
 
+<h2>Sign in (POST /api/login)</h2>
+<form id="login-form">
+<p>Email: <input name="email"></p>
+<p>Password: <input name="password" type="password"></p>
+<p><button>Sign in</button></p>
+</form>
+
+<h2>My account</h2>
+<p><button id="me-button">GET /api/users/me</button> <button id="logout-button">POST /api/logout</button></p>
+<form id="delete-form">
+<p>Delete my account (DELETE /api/users/me). Confirm password: <input name="password" type="password"> <button>Delete account</button></p>
+</form>
+
+<h2>Downloads (GET /api/content)</h2>
+<p><button id="content-button">Load content list</button></p>
+<ul id="content-list"></ul>
+
 <h2>Expression of interest (POST /api/expressions-of-interest)</h2>
 <form id="interest-form">
 <p>Full name: <input name="full_name"></p>
 <p>Email: <input name="email"></p>
+<p>I am a: <select name="customer_type">
+<option value="">(choose)</option>
+<option value="student">Student</option>
+<option value="school">School</option>
+<option value="parent_carer">Parent or carer</option>
+<option value="other">Other</option>
+</select></p>
 <p>School (optional): <input name="school"></p>
-<p>Interests, comma separated (optional): <input name="interests"></p>
+<p>Interests:
+<input type="checkbox" name="interests" value="Digital"> Digital
+<input type="checkbox" name="interests" value="Business"> Business
+<input type="checkbox" name="interests" value="Media"> Media
+<input type="checkbox" name="interests" value="Finance"> Finance
+<input type="checkbox" name="interests" value="Engineering"> Engineering
+</p>
 <p><input name="consent" type="checkbox"> I consent</p>
 <p><button>Submit</button></p>
 </form>
@@ -76,18 +106,57 @@ document.getElementById("signup-form").addEventListener("submit", function (even
     send("POST", "/api/users", fields(event.target));
 });
 
+document.getElementById("login-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    send("POST", "/api/login", fields(event.target));
+});
+
+document.getElementById("me-button").addEventListener("click", function () {
+    send("GET", "/api/users/me");
+});
+
+document.getElementById("logout-button").addEventListener("click", function () {
+    send("POST", "/api/logout");
+});
+
+document.getElementById("delete-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    send("DELETE", "/api/users/me", fields(event.target));
+});
+
+// Lists downloads as plain links. Built with textContent, not innerHTML,
+// so catalogue text can never run as code.
+document.getElementById("content-button").addEventListener("click", async function () {
+    await send("GET", "/api/content");
+    const list = document.getElementById("content-list");
+    list.replaceChildren();
+    const response = await fetch("/api/content");
+    if (!response.ok) return;
+    const body = await response.json();
+    body.items.forEach(function (item) {
+        const entry = document.createElement("li");
+        const link = document.createElement("a");
+        if (item.download_url.startsWith("/api/content/")) link.href = item.download_url;
+        link.textContent = item.title;
+        entry.appendChild(link);
+        entry.appendChild(document.createTextNode(
+            " - " + item.description + (item.requires_login ? " [sign-in needed]" : " [public]")
+        ));
+        list.appendChild(entry);
+    });
+});
+
 document.getElementById("interest-form").addEventListener("submit", function (event) {
     event.preventDefault();
-    const data = fields(event.target);
+    const form = new FormData(event.target);
     const payload = {
-        full_name: data.full_name,
-        email: data.email,
-        consent: data.consent === "on",
+        full_name: form.get("full_name"),
+        email: form.get("email"),
+        customer_type: form.get("customer_type"),
+        interests: form.getAll("interests"),
+        consent: form.get("consent") === "on",
     };
-    if (data.school) payload.school = data.school;
-    if (data.interests) {
-        payload.interests = data.interests.split(",").map(function (item) { return item.trim(); }).filter(Boolean);
-    }
+    if (form.get("school")) payload.school = form.get("school");
     send("POST", "/api/expressions-of-interest", payload);
 });
 

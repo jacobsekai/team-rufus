@@ -28,3 +28,22 @@ Record representative tests rather than every individual test execution.
 | 2026-10-16 | Live deployment (CloudFront) | Functional | Synthetic expression of interest | HTTP 201 with ID | As expected | Pass |
 | 2026-10-16 | Live deployment (DynamoDB) | Security | Read stored synthetic user item | Only `pbkdf2:sha256:600000` hash stored, no plain password | As expected | Pass |
 | 2026-10-16 | Live deployment (security) | Security | HTTP request; direct S3 object URL; response headers | 301 to HTTPS; S3 returns 403; HSTS, nosniff, X-Frame-Options present | As expected | Pass |
+| 2026-10-19 | Sign-in | Functional | Correct email (any letter case) and password | HTTP 200; cookie set with HttpOnly, Secure, SameSite=Strict | Covered by automated test | Pass |
+| 2026-10-19 | Sign-in | Security | Wrong password vs unknown email | Identical HTTP 401 message; no cookie | Covered by automated test | Pass |
+| 2026-10-19 | Sign-in | Security | 5 wrong passwords then the correct one | HTTP 429 with Retry-After ≤ 900 s | Covered by automated test | Pass |
+| 2026-10-19 | Sign-in | Boundary | Lock time in the past; success after one failure | Sign-in allowed; failure count reset to 0 | Covered by automated test | Pass |
+| 2026-10-19 | Sign-in | Validation | Missing email/password, empty password, unknown field, non-object, non-JSON | HTTP 400 / 415 | Covered by automated test | Pass |
+| 2026-10-19 | Sessions | Security | Inspect sessions table after sign-in | Only SHA-256 of token stored, never the token | Covered by automated test | Pass |
+| 2026-10-19 | Sessions | Security | Made-up token; expired session; session of deleted user | HTTP 401; bad cookie cleared; expired session deleted | Covered by automated test | Pass |
+| 2026-10-19 | Sign-out | Functional | Sign out, then GET /api/users/me | Session deleted; HTTP 401 | Covered by automated test | Pass |
+| 2026-10-19 | My account | Security | GET /api/users/me signed in / signed out | Only id, email, full_name, created_at / HTTP 401 | Covered by automated test | Pass |
+| 2026-10-19 | Delete account | Security | Wrong password; not signed in; correct password | HTTP 403 / 401 / 200 then user and session removed and sign-in fails | Covered by automated test | Pass |
+| 2026-10-19 | Downloads | Functional | List content signed out and signed in | All items listed; `signed_in` flag correct | Covered by automated test | Pass |
+| 2026-10-19 | Downloads | Security | Members-only item signed out, signed in, after sign-out | HTTP 401 / 302 to signed link / 401 | Covered by automated test | Pass |
+| 2026-10-19 | Downloads | Validation | Unknown ID; no bucket configured | HTTP 404 / 503 | Covered by automated test | Pass |
+| 2026-10-19 | Content catalogue | Validation | Duplicate ID, bad ID, `../` path, non-boolean flag, extra field, blank title | Start-up refused with a clear error | Covered by automated test | Pass |
+| 2026-10-19 | Expression of interest | Validation | Each customer type; missing/unknown/wrong-case type | HTTP 201 / HTTP 400 | Covered by automated test | Pass |
+| 2026-10-19 | Expression of interest | Validation | Interests ` digital `, `FINANCE`, `Digital`; `Cooking`; non-list | Stored as `Digital`, `Finance` / HTTP 400 | Covered by automated test | Pass |
+| 2026-10-19 | Repositories | Unit | Stubbed DynamoDB table | Consistent reads, atomic `ADD` for failures, AWS errors mapped to RepositoryError | Covered by automated test | Pass |
+| 2026-10-19 | Lambda integration | Integration | Sign up via API Gateway v2 event, reuse returned cookie on GET /api/users/me | HTTP 200 with the user's email | Covered by automated test | Pass |
+| 2026-10-19 | Test quality | Mutation | Temporarily removed members-only check, weakened SameSite, disabled lockout | Each change made at least one test fail | Covered by automated test | Pass |

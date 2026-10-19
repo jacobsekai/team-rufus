@@ -1,0 +1,16 @@
+[
+  {
+    "id": "t-levels-at-amazon-overview",
+    "title": "T Levels at Amazon: overview (placeholder)",
+    "description": "Placeholder file for testing public downloads. Replace with approved content.",
+    "file": "guides/t-levels-at-amazon-overview.txt",
+    "requires_login": false
+  },
+  {
+    "id": "placement-preparation-checklist",
+    "title": "Placement preparation checklist (placeholder)",
+    "description": "Placeholder file for testing members-only downloads. Replace with approved content.",
+    "file": "members/placement-preparation-checklist.txt",
+    "requires_login": true
+  }
+]

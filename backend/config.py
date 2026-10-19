@@ -24,6 +24,10 @@ class Settings:
     aws_profile: Optional[str]
     dynamodb_table_name: str
     users_table_name: str
+    sessions_table_name: str
+    content_bucket_name: Optional[str]
+    session_hours: int
+    session_cookie_secure: bool
     aws_endpoint_url: Optional[str]
     host: str
     port: int
@@ -42,6 +46,17 @@ class Settings:
             users_table_name=os.getenv(
                 "USERS_TABLE_NAME",
                 "t-level-users-dev",
+            ),
+            sessions_table_name=os.getenv(
+                "SESSIONS_TABLE_NAME",
+                "t-level-sessions-dev",
+            ),
+            content_bucket_name=os.getenv("CONTENT_BUCKET_NAME") or None,
+            session_hours=int(os.getenv("SESSION_HOURS", "12")),
+            # Browsers only send Secure cookies over HTTPS. Set to 0 only when
+            # testing locally over plain HTTP on a non-localhost address.
+            session_cookie_secure=_as_bool(
+                os.getenv("SESSION_COOKIE_SECURE"), default=True
             ),
             aws_endpoint_url=os.getenv("AWS_ENDPOINT_URL") or None,
             host=os.getenv("FLASK_HOST", "127.0.0.1"),

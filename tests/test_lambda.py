@@ -4,7 +4,6 @@ import json
 
 from apig_wsgi import make_lambda_handler
 
-from backend import create_app
 
 
 def _http_api_event(method, path, body=None):
@@ -34,12 +33,7 @@ def _http_api_event(method, path, body=None):
     }
 
 
-def test_signup_through_lambda_event(repository, users_repository):
-    app = create_app(
-        {"TESTING": True},
-        repository=repository,
-        users_repository=users_repository,
-    )
+def test_signup_through_lambda_event(app, users_repository):
     handler = make_lambda_handler(app)
 
     response = handler(
@@ -60,15 +54,37 @@ def test_signup_through_lambda_event(repository, users_repository):
     assert "student@example.com" in users_repository.users
 
 
-def test_health_through_lambda_event(repository, users_repository):
-    app = create_app(
-        {"TESTING": True},
-        repository=repository,
-        users_repository=users_repository,
-    )
+def test_health_through_lambda_event(app):
     handler = make_lambda_handler(app)
 
     response = handler(_http_api_event("GET", "/health"), None)
 
     assert response["statusCode"] == 200
     assert json.loads(response["body"]) == {"status": "ok"}
+
+
+def test_session_cookie_round_trip_through_lambda_events(app):
+    """API Gateway v2 sends cookies in a separate list; check sign-in works."""
+
+    handler = make_lambda_handler(app)
+    signup = handler(
+        _http_api_event(
+            "POST",
+            "/api/users",
+            {
+                "full_name": "Example Student",
+                "email": "student@example.com",
+                "password": "correct horse battery",
+            },
+        ),
+        None,
+    )
+    set_cookies = signup.get("cookies") or []
+    session_cookie = next(c for c in set_cookies if c.startswith("rufus_session="))
+
+    me_event = _http_api_event("GET", "/api/users/me")
+    me_event["cookies"] = [session_cookie.split(";", 1)[0]]
+    me = handler(me_event, None)
+
+    assert me["statusCode"] == 200
+    assert json.loads(me["body"])["email"] == "student@example.com"
