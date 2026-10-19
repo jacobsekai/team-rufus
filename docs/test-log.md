@@ -57,3 +57,6 @@ Record representative tests rather than every individual test execution.
 | 2026-10-19 | Live deployment (Midway) | Security | Forged CloudFront-* cookies | HTTP 403 | As expected | Pass |
 | 2026-10-19 | Live deployment (Midway) | Security | Direct call to the Lambda function URL; old API Gateway URL | HTTP 403 (IAM); old URL no longer resolves | As expected | Pass |
 | 2026-10-19 | Live deployment (Midway) | Functional | GET `/js/cfs-handler.js` | HTTP 200 with v2 authorize endpoint | As expected | Pass |
+| 2026-10-19 | Debug sign-in tests | End-to-end | Runner against local Flask (in-memory database) with a browser-style cookie jar | All 30 steps pass | 30 passed, 0 failed | Pass |
+| 2026-10-19 | Debug sign-in tests | Mutation | Lockout disabled in the backend | Runner reports the lockout step as FAIL | 29 passed, 1 failed | Pass |
+| 2026-10-19 | Index-page function | Unit | `/`, `/debug`, `/debug/`, `/debug/signin-tests.js`, `/index.html`, `/error/403.html` | Folder paths get `/index.html`; file paths unchanged | All as expected | Pass |

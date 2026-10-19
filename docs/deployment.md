@@ -17,6 +17,7 @@ Browser ── CloudFront ─┤
 |---|---|
 | CloudFront | One public HTTPS address for the frontend and the API |
 | S3 | Stores the frontend HTML, CSS, and JavaScript |
+| CloudFront Function | Serves `index.html` for folder paths such as `/debug` |
 | CloudFrontSigner | Amazon's approved Midway integration for CloudFront; issues signed cookies after Midway sign-in and a Bindle check |
 | Lambda function URL | Receives API requests; IAM-only, so only this CloudFront distribution can call it |
 | Lambda | Runs the unchanged Flask app via `backend/lambda_handler.py` |

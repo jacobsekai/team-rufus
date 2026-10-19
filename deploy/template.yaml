@@ -200,6 +200,29 @@ Resources:
         SigningBehavior: always
         SigningProtocol: sigv4
 
+  # S3 has no folder index pages, so map "/debug" and "/debug/" to
+  # "/debug/index.html". Without this S3 returns 403, which CloudFront turns
+  # into the Midway redirect page.
+  IndexPageFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: !Sub "${AWS::StackName}-index-pages"
+      AutoPublish: true
+      FunctionConfig:
+        Comment: Serve index.html for folder paths
+        Runtime: cloudfront-js-2.0
+      FunctionCode: |
+        function handler(event) {
+          var request = event.request;
+          var uri = request.uri;
+          if (uri.endsWith('/')) {
+            request.uri = uri + 'index.html';
+          } else if (uri.split('/').pop().indexOf('.') === -1) {
+            request.uri = uri + '/index.html';
+          }
+          return request;
+        }
+
   Distribution:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -232,6 +255,9 @@ Resources:
           Compress: true
           TrustedKeyGroups:
             - !Ref CfsKeyGroup
+          FunctionAssociations:
+            - EventType: viewer-request
+              FunctionARN: !GetAtt IndexPageFunction.FunctionMetadata.FunctionARN
           # Managed-CachingOptimized
           CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
           # Managed-SecurityHeadersPolicy

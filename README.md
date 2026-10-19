@@ -40,6 +40,10 @@ tests/
   test_repositories.py        DynamoDB request tests
   test_lambda.py              Lambda event (function URL / API Gateway v2) tests
 content/                      Downloadable files (uploaded by deploy.sh)
+frontend/
+  index.html                  Placeholder home page (frontend team replaces)
+  debug/index.html            Debug panel at /debug: try every endpoint
+  debug/signin-tests.js       "Run sign-in tests": end-to-end sign-in checks
 infra/
   dynamodb-table.yaml         Development table definitions
 deploy/
@@ -143,6 +147,15 @@ approval.
 Use synthetic data while developing and demonstrating the prototype. Do not
 store real student or customer information until the team has agreed the
 retention, access-control, and privacy requirements.
+
+## Debug panel
+
+`/debug` on the deployed site is an unstyled page for trying every backend
+endpoint by hand. Its **Run sign-in tests** button signs up a new made-up
+account and checks 30 steps of the sign-in journey against the live backend
+(sign-in, wrong passwords, lockout, sign-out, members-only download, account
+deletion), printing PASS or FAIL for each. The test account is deleted at the
+end.
 
 ## Deploy to AWS
 
