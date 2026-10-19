@@ -4,6 +4,19 @@ Description: >-
   Team Rufus prototype. CloudFront serves the frontend from a private S3
   bucket and forwards /api/* and /health to the Flask backend on Lambda.
 
+Parameters:
+  DistributionEnabled:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: >-
+      Off by default. Amazon security (Shepherd) requires Midway authentication
+      on any public CloudFront site in an Amazon account. Only set to "true"
+      once Midway sign-in protects the site.
+
+Conditions:
+  DistributionOn: !Equals [!Ref DistributionEnabled, "true"]
+
 Globals:
   Function:
     Tags:
@@ -115,7 +128,7 @@ Resources:
     Properties:
       DistributionConfig:
         Comment: Team Rufus prototype
-        Enabled: true
+        Enabled: !If [DistributionOn, true, false]
         DefaultRootObject: index.html
         HttpVersion: http2and3
         PriceClass: PriceClass_100
