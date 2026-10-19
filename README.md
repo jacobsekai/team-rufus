@@ -38,14 +38,16 @@ tests/
   test_accounts.py            Sign-in, session, and my-account tests
   test_content.py             Downloads and catalogue tests
   test_repositories.py        DynamoDB request tests
-  test_lambda.py              API Gateway/Lambda event tests
+  test_lambda.py              Lambda event (function URL / API Gateway v2) tests
 content/                      Downloadable files (uploaded by deploy.sh)
 infra/
   dynamodb-table.yaml         Development table definitions
 deploy/
-  template.yaml               CloudFront, S3, API Gateway, Lambda (AWS SAM)
+  template.yaml               CloudFront, S3, Lambda function URL (AWS SAM)
   deploy.sh                   Build and deploy to AWS
   teardown.sh                 Delete the AWS deployment
+  midway.sh                   Midway (CloudFrontSigner) signing key setup
+  cfs/                        CloudFrontSigner 403 page and redirect script
 docs/
   api.md                      API reference for the frontend
   dynamodb-design.md          Table and data design
@@ -144,8 +146,9 @@ retention, access-control, and privacy requirements.
 
 ## Deploy to AWS
 
-The prototype can be hosted on CloudFront so others can open it in a browser.
-See `docs/deployment.md` for the architecture and security decisions.
+The prototype is hosted on CloudFront behind Midway sign-in, so Amazon staff
+(the team and assessors) can open it in a browser. See `docs/deployment.md`
+for the architecture, security decisions, and one-time Midway onboarding.
 
 ```bash
 deploy/deploy.sh      # deploy or update; prints the site URL

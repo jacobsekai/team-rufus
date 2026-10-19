@@ -395,7 +395,8 @@ def delete_my_account():
 
     user = g.current_user
     if not check_password_hash(user["password_hash"], payload["password"]):
-        return error_response("Password is incorrect.", 403)
+        # Not 403: CloudFront replaces every 403 with the Midway sign-in page.
+        return error_response("Password is incorrect.", 400)
 
     try:
         _users().delete_user(user["email"])

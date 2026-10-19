@@ -47,3 +47,8 @@ Record representative tests rather than every individual test execution.
 | 2026-10-19 | Repositories | Unit | Stubbed DynamoDB table | Consistent reads, atomic `ADD` for failures, AWS errors mapped to RepositoryError | Covered by automated test | Pass |
 | 2026-10-19 | Lambda integration | Integration | Sign up via API Gateway v2 event, reuse returned cookie on GET /api/users/me | HTTP 200 with the user's email | Covered by automated test | Pass |
 | 2026-10-19 | Test quality | Mutation | Temporarily removed members-only check, weakened SameSite, disabled lockout | Each change made at least one test fail | Covered by automated test | Pass |
+| 2026-10-19 | CloudFrontSigner files | Static check | Compare templates with CloudFrontSignerConstructs 6.x | Byte-identical: 403 page 375 chars, handler 11,867 chars | Match | Pass |
+| 2026-10-19 | CloudFrontSigner files | Unit | Render with dummy Bindle and secret ARN | No placeholders left; v2 authorize endpoint; handler parses | As expected | Pass |
+| 2026-10-19 | Signing key | Unit | Generate key pair locally | PKCS#8 private key, SPKI public key, file mode 600 | As expected | Pass |
+| 2026-10-19 | Deployment template | Static analysis | `sam validate --lint` | Valid; every behavior except `/js/cfs-handler.js` has the trusted key group | Valid SAM Template | Pass |
+| 2026-10-19 | Delete account | Regression | Wrong password; API status codes | HTTP 400 (not 403, which CloudFront reserves for Midway) | Covered by automated test | Pass |

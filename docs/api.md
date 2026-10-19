@@ -13,6 +13,35 @@ On the deployed site the frontend and API share one address, so call the API
 with relative paths, for example `fetch("/api/login", ...)`. The browser sends
 the session cookie automatically; no token handling is needed in JavaScript.
 
+### Deployed site: two rules for `fetch`
+
+1. **Midway first.** The whole site sits behind Midway. A visitor signs in to
+   Midway when they open any page; after that, `fetch` calls to `/api/...`
+   from the same site work normally. If the Midway cookies expire, API calls
+   get an HTML `403` page instead of JSON, and reloading the page signs the
+   visitor in again.
+2. **Hash request bodies.** Requests with a body (`POST`, `DELETE` with JSON)
+   must send the body's SHA-256 hash in an `x-amz-content-sha256` header,
+   because CloudFront signs requests to the Lambda backend. Use this helper:
+
+   ```js
+   async function apiFetch(method, path, body) {
+     const options = { method, headers: {} };
+     if (body !== undefined) {
+       const text = JSON.stringify(body);
+       const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+       options.headers["Content-Type"] = "application/json";
+       options.headers["x-amz-content-sha256"] = [...new Uint8Array(digest)]
+         .map((b) => b.toString(16).padStart(2, "0")).join("");
+       options.body = text;
+     }
+     return fetch(path, options);
+   }
+   ```
+
+The API never returns `403` itself; CloudFront reserves that code for the
+Midway sign-in page.
+
 | Method | Path | Sign-in | Purpose |
 |---|---|---|---|
 | `GET` | `/health` | No | Liveness check |
@@ -116,7 +145,7 @@ Confirms the password before deleting.
 | `200` | `{"status": "deleted"}`; account deleted and signed out |
 | `400` | Password missing |
 | `401` | Not signed in |
-| `403` | Password is incorrect |
+| `400` | `Password is incorrect.` |
 
 ## `GET /api/content`
 

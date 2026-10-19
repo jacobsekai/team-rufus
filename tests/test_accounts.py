@@ -188,7 +188,8 @@ def test_delete_account_requires_correct_password(client, signed_up, users_repos
     _login(client)
     response = client.delete("/api/users/me", json={"password": "wrong password here"})
 
-    assert response.status_code == 403
+    assert response.status_code == 400
+    assert response.get_json() == {"error": "Password is incorrect."}
     assert EMAIL in users_repository.users
 
 
@@ -220,3 +221,17 @@ def test_login_returns_503_when_database_fails(make_app):
     client = make_app(users_repository=FailingUsersRepository()).test_client()
 
     assert _login(client).status_code == 503
+
+
+def test_api_never_returns_403(client, signed_up):
+    """CloudFront turns any 403 into the Midway redirect page, so the API must
+    use other status codes for its own errors."""
+
+    _login(client)
+    responses = [
+        client.delete("/api/users/me", json={"password": "wrong password here"}),
+        client.post("/api/login", json={"email": EMAIL, "password": "wrong"}),
+        client.get("/api/content/members-guide/download"),
+    ]
+
+    assert all(response.status_code != 403 for response in responses)

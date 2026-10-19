@@ -9,6 +9,8 @@ DEPLOY_REGION="${DEPLOY_REGION:-us-west-2}"
 cd "$(dirname "$0")/.."
 # shellcheck source=deploy/aws-login.sh
 source deploy/aws-login.sh
+# shellcheck source=deploy/midway.sh
+source deploy/midway.sh
 
 aws_sign_in
 confirm_account "Delete '$STACK_NAME'"
@@ -34,3 +36,9 @@ for output_key in FrontendBucketName ContentBucketName; do
     fi
 done
 sam delete --stack-name "$STACK_NAME" --region "$DEPLOY_REGION" --no-prompts
+
+# The key group that used the CloudFrontSigner key went with the stack, so the
+# key, its secret, and the KMS key (7-day deletion window) can now be removed.
+cfs_delete_signing_key
+
+echo "Deleted. Also offboard the domain at https://cloudfrontsigner.ninjas.security.a2z.com/"

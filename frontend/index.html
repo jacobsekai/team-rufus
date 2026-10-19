@@ -7,6 +7,7 @@
 <body>
 <h1>Backend test panel</h1>
 <p><b>Prototype. Use made-up (synthetic) details only. Do not enter real personal information.</b></p>
+<p>If a request shows an HTML 403 page, your Midway sign-in has expired: reload this page.</p>
 
 <h2>Health</h2>
 <button id="health-button">GET /health</button>
@@ -73,6 +74,13 @@ Path: <input name="path" value="/health" size="40"></p>
 <script>
 const output = document.getElementById("output");
 
+async function sha256Hex(text) {
+    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(digest)).map(function (b) {
+        return b.toString(16).padStart(2, "0");
+    }).join("");
+}
+
 // Sends a request to the backend and prints the status and body.
 // Paths are relative, so this works locally and behind CloudFront.
 async function send(method, path, body) {
@@ -81,6 +89,9 @@ async function send(method, path, body) {
     if (body !== undefined) {
         options.headers["Content-Type"] = "application/json";
         options.body = typeof body === "string" ? body : JSON.stringify(body);
+        // CloudFront signs requests to the Lambda backend and needs the
+        // body's SHA-256 hash to do so.
+        options.headers["x-amz-content-sha256"] = await sha256Hex(options.body);
     }
     try {
         const response = await fetch(path, options);

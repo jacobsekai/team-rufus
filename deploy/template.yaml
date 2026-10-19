@@ -3,6 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >-
   Team Rufus prototype. CloudFront serves the frontend from a private S3
   bucket and forwards /api/* and /health to the Flask backend on Lambda.
+  Every path requires Midway sign-in through CloudFrontSigner.
 
 Parameters:
   DistributionEnabled:
@@ -11,8 +12,14 @@ Parameters:
     AllowedValues: ["true", "false"]
     Description: >-
       Off by default. Amazon security (Shepherd) requires Midway authentication
-      on any public CloudFront site in an Amazon account. Only set to "true"
-      once Midway sign-in protects the site.
+      on any public CloudFront site in an Amazon account. deploy/deploy.sh
+      sets this to "true" only after the CloudFrontSigner key is in place.
+  CfsPublicKeyId:
+    Type: String
+    AllowedPattern: "^K[A-Z0-9]+$"
+    Description: >-
+      CloudFront public key used by CloudFrontSigner to sign Midway cookies.
+      Created by deploy/midway.sh; never set by hand.
 
 Conditions:
   DistributionOn: !Equals [!Ref DistributionEnabled, "true"]
@@ -78,19 +85,50 @@ Resources:
               Effect: Allow
               Action: s3:GetObject
               Resource: !Sub "${ContentBucket.Arn}/*"
-      Events:
-        Api:
-          Type: HttpApi
-          Properties:
-            ApiId: !Ref HttpApi
+      # IAM-only function URL: callable by this CloudFront distribution (through
+      # origin access control) and nothing else, so the backend has no public
+      # endpoint that skips Midway.
+      FunctionUrlConfig:
+        AuthType: AWS_IAM
 
-  HttpApi:
-    Type: AWS::Serverless::HttpApi
+  # CloudFront signs every origin request; Lambda only accepts those that come
+  # from this distribution.
+  ApiOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
     Properties:
-      # Caps total traffic so a public signup form cannot run up costs.
-      DefaultRouteSettings:
-        ThrottlingRateLimit: 10
-        ThrottlingBurstLimit: 20
+      OriginAccessControlConfig:
+        Name: !Sub "${AWS::StackName}-api"
+        OriginAccessControlOriginType: lambda
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  ApiFunctionUrlPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunctionUrl
+      FunctionName: !Ref ApiFunction
+      FunctionUrlAuthType: AWS_IAM
+      Principal: cloudfront.amazonaws.com
+      SourceArn: !Sub "arn:aws:cloudfront::${AWS::AccountId}:distribution/${Distribution}"
+
+  ApiFunctionInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref ApiFunction
+      Principal: cloudfront.amazonaws.com
+      SourceArn: !Sub "arn:aws:cloudfront::${AWS::AccountId}:distribution/${Distribution}"
+
+  # Viewers must present CloudFront cookies signed with this key, which only
+  # CloudFrontSigner can issue after Midway sign-in and a Bindle check.
+  CfsKeyGroup:
+    Type: AWS::CloudFront::KeyGroup
+    Properties:
+      KeyGroupConfig:
+        Name: !Sub "${AWS::StackName}-cloudfrontsigner"
+        Comment: CloudFrontSigner (Midway) signing key
+        Items:
+          - !Ref CfsPublicKeyId
 
   FrontendBucket:
     Type: AWS::S3::Bucket
@@ -178,37 +216,62 @@ Resources:
             S3OriginConfig:
               OriginAccessIdentity: ""
           - Id: Api
-            DomainName: !Sub "${HttpApi}.execute-api.${AWS::Region}.amazonaws.com"
+            # FunctionUrl is "https://<id>.lambda-url.<region>.on.aws/".
+            DomainName: !Select [2, !Split ["/", !GetAtt ApiFunctionUrl.FunctionUrl]]
+            OriginAccessControlId: !GetAtt ApiOriginAccessControl.Id
             CustomOriginConfig:
               OriginProtocolPolicy: https-only
               OriginSSLProtocols:
                 - TLSv1.2
+        # Midway: every behavior except /js/cfs-handler.js requires
+        # CloudFrontSigner cookies. Without them CloudFront returns 403, which
+        # serves /error/403.html; that page sends the browser to Midway.
         DefaultCacheBehavior:
           TargetOriginId: Frontend
           ViewerProtocolPolicy: redirect-to-https
           Compress: true
+          TrustedKeyGroups:
+            - !Ref CfsKeyGroup
           # Managed-CachingOptimized
           CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
           # Managed-SecurityHeadersPolicy
           ResponseHeadersPolicyId: 67f7725c-6f97-4210-82d7-5512b31e9d03
         CacheBehaviors:
+          # Must stay public: the 403 page loads it to start the Midway redirect.
+          - PathPattern: /js/cfs-handler.js
+            TargetOriginId: Frontend
+            ViewerProtocolPolicy: redirect-to-https
+            # Managed-CachingDisabled so a key rotation takes effect at once.
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            ResponseHeadersPolicyId: 67f7725c-6f97-4210-82d7-5512b31e9d03
           - PathPattern: /api/*
             TargetOriginId: Api
             ViewerProtocolPolicy: https-only
             AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
             CachedMethods: [GET, HEAD]
+            TrustedKeyGroups:
+              - !Ref CfsKeyGroup
             # Managed-CachingDisabled: API responses must never be cached.
             CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
-            # Managed-AllViewerExceptHostHeader: API Gateway needs its own Host.
+            # Managed-AllViewerExceptHostHeader: the function URL needs its own
+            # Host header for origin access control signing.
             OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
             ResponseHeadersPolicyId: 67f7725c-6f97-4210-82d7-5512b31e9d03
           - PathPattern: /health
             TargetOriginId: Api
             ViewerProtocolPolicy: https-only
             AllowedMethods: [GET, HEAD]
+            TrustedKeyGroups:
+              - !Ref CfsKeyGroup
             CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
             OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
             ResponseHeadersPolicyId: 67f7725c-6f97-4210-82d7-5512b31e9d03
+        CustomErrorResponses:
+          # Required by CloudFrontSigner: response code must stay 403.
+          - ErrorCode: 403
+            ResponseCode: 403
+            ResponsePagePath: /error/403.html
+            ErrorCachingMinTTL: 0
         ViewerCertificate:
           CloudFrontDefaultCertificate: true
       Tags:
