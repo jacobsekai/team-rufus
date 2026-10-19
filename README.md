@@ -116,7 +116,8 @@ The full request and response contract for the frontend team is in
 | `POST` | `/api/expressions-of-interest` | Register interest in placements |
 | `POST` | `/api/users` | Create an account |
 | `POST` | `/api/login` / `/api/logout` | Sign in / sign out |
-| `GET` / `DELETE` | `/api/users/me` | View / delete my account |
+| `GET` | `/api/users/me` | View my account |
+| `POST` | `/api/users/me/delete` | Delete my account (password required) |
 | `GET` | `/api/content` | List downloads |
 | `GET` | `/api/content/<id>/download` | Download a file (some need sign-in) |
 

@@ -42,17 +42,18 @@ async function runSignInTests(report) {
     let passed = 0;
     let failed = 0;
 
-    async function check(name, method, path, body, expectStatus, extraCheck) {
+    async function check(name, method, path, body, expectStatus, extraCheck, options) {
         let result;
         try {
-            result = await apiRequest(method, path, body);
+            result = await apiRequest(method, path, body, options);
         } catch (error) {
             failed += 1;
             report(false, name, "request failed: " + error);
             return null;
         }
         let ok = result.status === expectStatus;
-        let detail = "expected HTTP " + expectStatus + ", got " + result.status;
+        let detail = "expected HTTP " + expectStatus + ", got "
+            + (result.redirected ? "a redirect" : result.status);
         if (ok && extraCheck) {
             const problem = extraCheck(result);
             if (problem) {
@@ -128,14 +129,15 @@ async function runSignInTests(report) {
         { email: email, password: password }, 429);
     await check("Lockout: existing session still works", "GET", "/api/users/me", undefined, 200);
 
-    await check("Delete account: wrong password refused", "DELETE", "/api/users/me",
+    await check("Delete account: wrong password refused", "POST", "/api/users/me/delete",
         { password: wrongPassword }, 400, expectError("Password is incorrect."));
-    await check("Delete account", "DELETE", "/api/users/me", { password: password }, 200);
+    await check("Delete account", "POST", "/api/users/me/delete", { password: password }, 200);
     await check("Deleted: my account refused", "GET", "/api/users/me", undefined, 401);
     await check("Deleted: sign-in refused", "POST", "/api/login",
         { email: email, password: password }, 401);
     if (membersItem) {
-        await check("Signed out: members-only download refused", "GET", membersItem.download_url, undefined, 401);
+        await check("Signed out: members-only download refused", "GET", membersItem.download_url, undefined, 401,
+            null, { redirect: "manual" });
     }
 
     return { passed: passed, failed: failed };

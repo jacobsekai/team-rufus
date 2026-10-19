@@ -60,3 +60,6 @@ Record representative tests rather than every individual test execution.
 | 2026-10-19 | Debug sign-in tests | End-to-end | Runner against local Flask (in-memory database) with a browser-style cookie jar | All 30 steps pass | 30 passed, 0 failed | Pass |
 | 2026-10-19 | Debug sign-in tests | Mutation | Lockout disabled in the backend | Runner reports the lockout step as FAIL | 29 passed, 1 failed | Pass |
 | 2026-10-19 | Index-page function | Unit | `/`, `/debug`, `/debug/`, `/debug/signin-tests.js`, `/index.html`, `/error/403.html` | Folder paths get `/index.html`; file paths unchanged | All as expected | Pass |
+| 2026-10-19 | Debug sign-in tests (live, via Midway) | End-to-end | Run sign-in tests on the deployed `/debug` page | All 30 steps pass | 25 passed, 5 failed: both account-deletion requests got HTTP 403; later steps failed as a result | Fail |
+| 2026-10-19 | Account deletion (live) | Investigation | Lambda invocation count vs requests made by the run | Every request reaches Lambda | 31 requests, 29 invocations: the two `DELETE` requests with a body were rejected by CloudFront's signed request to the Lambda URL | Fail |
+| 2026-10-19 | Account deletion | Fix verification | Changed to `POST /api/users/me/delete`; runner re-run against local Flask | All 30 steps pass | 30 passed, 0 failed | Pass |

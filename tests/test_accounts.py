@@ -186,7 +186,7 @@ def test_session_of_deleted_user_is_rejected(client, signed_up, users_repository
 
 def test_delete_account_requires_correct_password(client, signed_up, users_repository):
     _login(client)
-    response = client.delete("/api/users/me", json={"password": "wrong password here"})
+    response = client.post("/api/users/me/delete", json={"password": "wrong password here"})
 
     assert response.status_code == 400
     assert response.get_json() == {"error": "Password is incorrect."}
@@ -194,7 +194,7 @@ def test_delete_account_requires_correct_password(client, signed_up, users_repos
 
 
 def test_delete_account_requires_sign_in(client, signed_up, users_repository):
-    response = client.delete("/api/users/me", json={"password": PASSWORD})
+    response = client.post("/api/users/me/delete", json={"password": PASSWORD})
 
     assert response.status_code == 401
     assert EMAIL in users_repository.users
@@ -204,7 +204,7 @@ def test_delete_account_removes_user_and_session(
     client, signed_up, users_repository, sessions_repository
 ):
     _login(client)
-    response = client.delete("/api/users/me", json={"password": PASSWORD})
+    response = client.post("/api/users/me/delete", json={"password": PASSWORD})
 
     assert response.status_code == 200
     assert response.get_json() == {"status": "deleted"}
@@ -229,9 +229,16 @@ def test_api_never_returns_403(client, signed_up):
 
     _login(client)
     responses = [
-        client.delete("/api/users/me", json={"password": "wrong password here"}),
+        client.post("/api/users/me/delete", json={"password": "wrong password here"}),
         client.post("/api/login", json={"email": EMAIL, "password": "wrong"}),
         client.get("/api/content/members-guide/download"),
     ]
 
     assert all(response.status_code != 403 for response in responses)
+
+
+def test_api_has_no_delete_with_body(app):
+    """CloudFront's signed requests to Lambda reject DELETE bodies, so no
+    endpoint may expect one."""
+
+    assert not any("DELETE" in (rule.methods or ()) for rule in app.url_map.iter_rules())

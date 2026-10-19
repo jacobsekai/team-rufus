@@ -368,7 +368,9 @@ def get_my_account():
     return jsonify(_public_profile(g.current_user)), 200
 
 
-@accounts.delete("/api/users/me")
+# POST rather than DELETE: CloudFront's signed requests to the Lambda function
+# URL reject DELETE requests that have a body, and the password must be sent.
+@accounts.post("/api/users/me/delete")
 @login_required
 def delete_my_account():
     """Delete the signed-in user's account (UK GDPR right to erasure).

@@ -20,7 +20,7 @@ the session cookie automatically; no token handling is needed in JavaScript.
    from the same site work normally. If the Midway cookies expire, API calls
    get an HTML `403` page instead of JSON, and reloading the page signs the
    visitor in again.
-2. **Hash request bodies.** Requests with a body (`POST`, `DELETE` with JSON)
+2. **Hash request bodies.** Requests with a body (`POST` with JSON)
    must send the body's SHA-256 hash in an `x-amz-content-sha256` header,
    because CloudFront signs requests to the Lambda backend. Use this helper:
 
@@ -40,7 +40,9 @@ the session cookie automatically; no token handling is needed in JavaScript.
    ```
 
 The API never returns `403` itself; CloudFront reserves that code for the
-Midway sign-in page.
+Midway sign-in page. The API also has no `DELETE` endpoints: CloudFront's
+signed requests to the Lambda backend reject `DELETE` requests with a body, so
+deleting an account is a `POST`.
 
 | Method | Path | Sign-in | Purpose |
 |---|---|---|---|
@@ -50,7 +52,7 @@ Midway sign-in page.
 | `POST` | `/api/login` | No | Sign in |
 | `POST` | `/api/logout` | No | Sign out |
 | `GET` | `/api/users/me` | Yes | View my account |
-| `DELETE` | `/api/users/me` | Yes | Delete my account |
+| `POST` | `/api/users/me/delete` | Yes | Delete my account |
 | `GET` | `/api/content` | No | List downloadable content |
 | `GET` | `/api/content/<id>/download` | Depends on item | Download a file |
 
@@ -132,7 +134,7 @@ No body needed. Always `200` `{"status": "signed_out"}` and clears the cookie.
 | `200` | `{"id", "email", "full_name", "created_at"}` |
 | `401` | `You need to sign in.` |
 
-## `DELETE /api/users/me`
+## `POST /api/users/me/delete`
 
 Confirms the password before deleting.
 

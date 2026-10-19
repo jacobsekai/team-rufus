@@ -35,7 +35,7 @@
 <h2>My account</h2>
 <p><button id="me-button">GET /api/users/me</button> <button id="logout-button">POST /api/logout</button></p>
 <form id="delete-form">
-<p>Delete my account (DELETE /api/users/me). Confirm password: <input name="password" type="password"> <button>Delete account</button></p>
+<p>Delete my account (POST /api/users/me/delete). Confirm password: <input name="password" type="password"> <button>Delete account</button></p>
 </form>
 
 <h2>Downloads (GET /api/content)</h2>
@@ -137,7 +137,7 @@ document.getElementById("logout-button").addEventListener("click", function () {
 
 document.getElementById("delete-form").addEventListener("submit", function (event) {
     event.preventDefault();
-    send("DELETE", "/api/users/me", fields(event.target));
+    send("POST", "/api/users/me/delete", fields(event.target));
 });
 
 // Lists downloads as plain links. Built with textContent, not innerHTML,
