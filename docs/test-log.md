@@ -72,3 +72,4 @@ Record representative tests rather than every individual test execution.
 | 2026-10-20 | Test quality | Mutation | Removed the symbol check; removed the Remember me cookie expiry | A test fails each time | 1 failed each time | Pass |
 | 2026-10-20 | Debug sign-in tests | End-to-end | Updated runner against local Flask | All 44 steps pass | 44 passed, 0 failed | Pass |
 | 2026-10-20 | Debug sign-in tests (live, via Midway) | End-to-end | Run sign-in tests on the deployed `/debug` page after adding saved items, password rule, terms and Remember me | All 44 steps pass | All 44 PASS | Pass |
+| 2026-10-20 | Chat launcher | Unit | Valid Quick link; empty, malformed, http, other domain, look-alike domain, javascript: link; adding twice | Only https *.aws.amazon.com links accepted; opens in new tab with noopener; added once | All assertions passed | Pass |

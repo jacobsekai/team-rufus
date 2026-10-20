@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>Team Rufus debug panel</title>
+<script src="/chat/config.js"></script>
+<script src="/chat/chat-launcher.js" defer></script>
 </head>
 <body>
 <h1>Debug panel</h1>
@@ -13,6 +15,9 @@
 <p>Runs the whole sign-in journey with a new made-up account (sign up, password rules, terms, sign in, Remember me, saved items, wrong passwords, lockout, sign out, delete) and checks every response. The test account is deleted at the end. Signs you out.</p>
 <p><button id="signin-tests-button">Run sign-in tests</button></p>
 <pre id="signin-tests-output">Not run yet.</pre>
+
+<h2>Chat assistant</h2>
+<p>The "Ask about T Levels" button (bottom right) opens the Team Rufus chat agent in Amazon Quick. It only appears once <code>agentUrl</code> is set in <code>/chat/config.js</code>.</p>
 
 <h2>Health</h2>
 <button id="health-button">GET /health</button>

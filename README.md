@@ -46,6 +46,7 @@ frontend/
   index.html                  Placeholder home page (frontend team replaces)
   debug/index.html            Debug panel at /debug: try every endpoint
   debug/signin-tests.js       "Run sign-in tests": end-to-end sign-in checks
+  chat/                       "Ask about T Levels" button for every page
 infra/
   dynamodb-table.yaml         Development table definitions
 deploy/
@@ -153,6 +154,12 @@ approval.
 Use synthetic data while developing and demonstrating the prototype. Do not
 store real student or customer information until the team has agreed the
 retention, access-control, and privacy requirements.
+
+## Chat assistant
+
+The Task 4 AI feature is an Amazon Quick chat agent, opened from an
+**Ask about T Levels** button on every page. Setup steps, knowledge files,
+agent instructions and test prompts are in [`docs/chatbot/`](docs/chatbot/README.md).
 
 ## Debug panel
 
