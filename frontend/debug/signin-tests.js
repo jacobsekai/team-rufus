@@ -37,7 +37,7 @@ async function apiRequest(method, path, body, extraOptions) {
 async function runSignInTests(report) {
     const stamp = Date.now();
     const email = "signin.test." + stamp + "@example.com";
-    const password = "synthetic test password " + stamp;
+    const password = "synthetic test password " + stamp + "!";
     const wrongPassword = "definitely the wrong password";
     let passed = 0;
     let failed = 0;
@@ -78,12 +78,19 @@ async function runSignInTests(report) {
         expectError("You need to sign in."));
 
     await check("Sign-up rejects a short password", "POST", "/api/users",
-        { full_name: "Sign-in Test", email: email, password: "short" }, 400);
+        { full_name: "Sign-in Test", email: email, password: "short1!", accept_terms: true }, 400);
+    await check("Sign-up rejects a password with no symbol", "POST", "/api/users",
+        { full_name: "Sign-in Test", email: email, password: "no symbol here 123", accept_terms: true }, 400);
+    await check("Sign-up rejects a password with no number", "POST", "/api/users",
+        { full_name: "Sign-in Test", email: email, password: "no number here!!", accept_terms: true }, 400);
+    await check("Sign-up requires accepting the terms", "POST", "/api/users",
+        { full_name: "Sign-in Test", email: email, password: password }, 400,
+        function (r) { return r.body && r.body.details && r.body.details.indexOf("accept_terms must be true.") !== -1 ? null : "terms error missing"; });
     await check("Sign-up creates the account", "POST", "/api/users",
-        { full_name: "Sign-in Test", email: email, password: password }, 201,
+        { full_name: "Sign-in Test", email: email, password: password, accept_terms: true }, 201,
         function (r) { return r.body && r.body.email === email ? null : "email not returned"; });
     await check("Sign-up rejects the same email (any case)", "POST", "/api/users",
-        { full_name: "Sign-in Test", email: email.toUpperCase(), password: password }, 409);
+        { full_name: "Sign-in Test", email: email.toUpperCase(), password: password, accept_terms: true }, 409);
     await check("Sign-up signs the user in", "GET", "/api/users/me", undefined, 200,
         function (r) { return r.body && r.body.email === email ? null : "wrong account returned"; });
     await check("My account hides the password hash", "GET", "/api/users/me", undefined, 200,
@@ -99,13 +106,31 @@ async function runSignInTests(report) {
         expectError("Email or password is incorrect."));
     await check("Sign-in: missing password refused", "POST", "/api/login", { email: email }, 400);
     await check("Sign-in: unknown field refused", "POST", "/api/login",
-        { email: email, password: password, remember_me: true }, 400);
+        { email: email, password: password, is_admin: true }, 400);
+    await check("Sign-in: Remember me must be true or false", "POST", "/api/login",
+        { email: email, password: password, remember_me: "yes" }, 400);
     await check("Sign-in: body that is not a JSON object refused", "POST", "/api/login", "email=x", 400,
         null);
     await check("Sign-in works (email case and spaces ignored)", "POST", "/api/login",
         { email: "  " + email.toUpperCase() + " ", password: password }, 200,
         function (r) { return r.body && r.body.status === "signed_in" ? null : "status was not signed_in"; });
     await check("Signed in: my account works", "GET", "/api/users/me", undefined, 200);
+
+    await check("Sign-in with Remember me works", "POST", "/api/login",
+        { email: email, password: password, remember_me: true }, 200);
+
+    await check("Subjects list has five subjects", "GET", "/api/subjects", undefined, 200,
+        function (r) { return r.body && r.body.subjects && r.body.subjects.length === 5 ? null : "wrong number of subjects"; });
+    await check("Saved items: new account has none", "GET", "/api/users/me/saved", undefined, 200,
+        function (r) { return r.body && r.body.items && r.body.items.length === 0 ? null : "list not empty"; });
+    await check("Saved items: save a subject", "POST", "/api/users/me/saved", { type: "subject", id: "digital" }, 201);
+    await check("Saved items: saving again is harmless", "POST", "/api/users/me/saved", { type: "subject", id: "digital" }, 200);
+    await check("Saved items: save a guide", "POST", "/api/users/me/saved", { type: "guide", id: "parents-guide" }, 201);
+    await check("Saved items: unknown subject refused", "POST", "/api/users/me/saved", { type: "subject", id: "cooking" }, 400);
+    await check("Saved items: list shows both", "GET", "/api/users/me/saved", undefined, 200,
+        function (r) { return r.body && r.body.items && r.body.items.length === 2 ? null : "expected 2 items"; });
+    await check("Saved items: remove the subject", "POST", "/api/users/me/saved/remove", { type: "subject", id: "digital" }, 200,
+        function (r) { return r.body && r.body.items && r.body.items.length === 1 ? null : "expected 1 item left"; });
 
     await check("Content list shows signed in", "GET", "/api/content", undefined, 200,
         function (r) { return r.body && r.body.signed_in === true ? null : "signed_in was not true"; });
@@ -133,6 +158,7 @@ async function runSignInTests(report) {
         { password: wrongPassword }, 400, expectError("Password is incorrect."));
     await check("Delete account", "POST", "/api/users/me/delete", { password: password }, 200);
     await check("Deleted: my account refused", "GET", "/api/users/me", undefined, 401);
+    await check("Deleted: saved items refused", "GET", "/api/users/me/saved", undefined, 401);
     await check("Deleted: sign-in refused", "POST", "/api/login",
         { email: email, password: password }, 401);
     if (membersItem) {

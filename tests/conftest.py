@@ -43,6 +43,10 @@ class InMemoryUsersRepository:
         self.users[email]["locked_until"] = locked_until
         self.users[email]["failed_login_count"] = 0
 
+    def set_saved_items(self, email, saved, updated_at):
+        self.users[email]["saved"] = dict(saved)
+        self.users[email]["updated_at"] = updated_at
+
     def clear_failed_logins(self, email):
         self.users[email]["failed_login_count"] = 0
         self.users[email].pop("locked_until", None)

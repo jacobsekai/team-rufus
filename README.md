@@ -25,6 +25,7 @@ backend/
   content.py                  Downloadable content and download links
   content_catalogue.json      List of downloadable files
   helpers.py                  Shared validation and response helpers
+  saved.py                    Saved subjects and guides
   aws.py                      AWS/DynamoDB client construction
   config.py                   Environment-based configuration
   repositories.py             DynamoDB persistence layer
@@ -38,6 +39,7 @@ tests/
   test_accounts.py            Sign-in, session, and my-account tests
   test_content.py             Downloads and catalogue tests
   test_repositories.py        DynamoDB request tests
+  test_saved.py               Saved items and subjects tests
   test_lambda.py              Lambda event (function URL / API Gateway v2) tests
 content/                      Downloadable files (uploaded by deploy.sh)
 frontend/
@@ -118,6 +120,9 @@ The full request and response contract for the frontend team is in
 | `POST` | `/api/login` / `/api/logout` | Sign in / sign out |
 | `GET` | `/api/users/me` | View my account |
 | `POST` | `/api/users/me/delete` | Delete my account (password required) |
+| `GET` / `POST` | `/api/users/me/saved` | List / add saved subjects and guides |
+| `POST` | `/api/users/me/saved/remove` | Remove a saved item |
+| `GET` | `/api/subjects` | Placement subject areas |
 | `GET` | `/api/content` | List downloads |
 | `GET` | `/api/content/<id>/download` | Download a file (some need sign-in) |
 
@@ -153,9 +158,9 @@ retention, access-control, and privacy requirements.
 
 `/debug` on the deployed site is an unstyled page for trying every backend
 endpoint by hand. Its **Run sign-in tests** button signs up a new made-up
-account and checks 30 steps of the sign-in journey against the live backend
-(sign-in, wrong passwords, lockout, sign-out, members-only download, account
-deletion), printing PASS or FAIL for each. The test account is deleted at the
+account and checks 44 steps of the sign-in journey against the live backend
+(password rules, terms, sign-in, Remember me, saved items, wrong passwords,
+lockout, sign-out, members-only download, account deletion), printing PASS or FAIL for each. The test account is deleted at the
 end.
 
 ## Deploy to AWS

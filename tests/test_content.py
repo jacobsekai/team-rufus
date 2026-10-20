@@ -7,13 +7,13 @@ import pytest
 from backend.content import S3ContentStore, load_catalogue
 
 
-PASSWORD = "correct horse battery"
+PASSWORD = "correct horse battery 9!"
 
 
 def _sign_up(client):
     client.post(
         "/api/users",
-        json={"full_name": "Example Member", "email": "member@example.com", "password": PASSWORD},
+        json={"full_name": "Example Member", "email": "member@example.com", "password": PASSWORD, "accept_terms": True},
     )
 
 

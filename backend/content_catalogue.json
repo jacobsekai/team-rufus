@@ -1,16 +1,30 @@
 [
   {
-    "id": "t-levels-at-amazon-overview",
-    "title": "T Levels at Amazon: overview (placeholder)",
-    "description": "Placeholder file for testing public downloads. Replace with approved content.",
-    "file": "guides/t-levels-at-amazon-overview.txt",
+    "id": "student-checklist",
+    "title": "Student checklist (placeholder)",
+    "description": "Questions for your open day and a simple application planner. Placeholder until the approved PDF is added.",
+    "file": "guides/student-checklist.pdf",
+    "requires_login": false
+  },
+  {
+    "id": "parent-carer-guide",
+    "title": "Parent and carer guide (placeholder)",
+    "description": "A clear summary of study, placements and progression routes. Placeholder until the approved PDF is added.",
+    "file": "guides/parent-carer-guide.pdf",
+    "requires_login": false
+  },
+  {
+    "id": "educator-briefing",
+    "title": "Educator briefing (placeholder)",
+    "description": "Conversation prompts and links to official T Level guidance. Placeholder until the approved PDF is added.",
+    "file": "guides/educator-briefing.pdf",
     "requires_login": false
   },
   {
     "id": "placement-preparation-checklist",
     "title": "Placement preparation checklist (placeholder)",
-    "description": "Placeholder file for testing members-only downloads. Replace with approved content.",
-    "file": "members/placement-preparation-checklist.txt",
+    "description": "For account holders: what to sort out before your placement starts. Placeholder until the approved PDF is added.",
+    "file": "members/placement-preparation-checklist.pdf",
     "requires_login": true
   }
 ]

@@ -27,6 +27,7 @@ class Settings:
     sessions_table_name: str
     content_bucket_name: Optional[str]
     session_hours: int
+    remember_me_days: int
     session_cookie_secure: bool
     aws_endpoint_url: Optional[str]
     host: str
@@ -53,6 +54,7 @@ class Settings:
             ),
             content_bucket_name=os.getenv("CONTENT_BUCKET_NAME") or None,
             session_hours=int(os.getenv("SESSION_HOURS", "12")),
+            remember_me_days=int(os.getenv("REMEMBER_ME_DAYS", "30")),
             # Browsers only send Secure cookies over HTTPS. Set to 0 only when
             # testing locally over plain HTTP on a non-localhost address.
             session_cookie_secure=_as_bool(

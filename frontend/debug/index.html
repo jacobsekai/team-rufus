@@ -10,7 +10,7 @@
 <p>If a request shows an HTML 403 page, your Midway sign-in has expired: reload this page.</p>
 
 <h2>Sign-in tests</h2>
-<p>Runs the whole sign-in journey with a new made-up account (sign up, sign in, wrong passwords, lockout, sign out, delete) and checks every response. The test account is deleted at the end. Signs you out.</p>
+<p>Runs the whole sign-in journey with a new made-up account (sign up, password rules, terms, sign in, Remember me, saved items, wrong passwords, lockout, sign out, delete) and checks every response. The test account is deleted at the end. Signs you out.</p>
 <p><button id="signin-tests-button">Run sign-in tests</button></p>
 <pre id="signin-tests-output">Not run yet.</pre>
 
@@ -21,7 +21,8 @@
 <form id="signup-form">
 <p>Full name: <input name="full_name"></p>
 <p>Email: <input name="email"></p>
-<p>Password: <input name="password" type="password"> (12-128 characters)</p>
+<p>Password: <input name="password" type="password"> (12-128 characters, including a number and a symbol)</p>
+<p><input name="accept_terms" type="checkbox"> I accept the Terms of use and have read the Privacy notice</p>
 <p><button>Sign up</button></p>
 </form>
 
@@ -29,6 +30,7 @@
 <form id="login-form">
 <p>Email: <input name="email"></p>
 <p>Password: <input name="password" type="password"></p>
+<p><input name="remember_me" type="checkbox"> Remember me</p>
 <p><button>Sign in</button></p>
 </form>
 
@@ -36,6 +38,14 @@
 <p><button id="me-button">GET /api/users/me</button> <button id="logout-button">POST /api/logout</button></p>
 <form id="delete-form">
 <p>Delete my account (POST /api/users/me/delete). Confirm password: <input name="password" type="password"> <button>Delete account</button></p>
+</form>
+
+<h2>Saved subjects and guides</h2>
+<p><button id="subjects-button">GET /api/subjects</button> <button id="saved-button">GET /api/users/me/saved</button></p>
+<form id="saved-form">
+<p>Type: <select name="type"><option>subject</option><option>guide</option></select>
+ID: <input name="id" value="digital"> (subjects: digital, business, media, finance, engineering; guides: any lowercase-with-dashes id)</p>
+<p><button name="action" value="save">Save</button> <button name="action" value="remove">Remove</button></p>
 </form>
 
 <h2>Downloads (GET /api/content)</h2>
@@ -119,12 +129,39 @@ document.getElementById("health-button").addEventListener("click", function () {
 
 document.getElementById("signup-form").addEventListener("submit", function (event) {
     event.preventDefault();
-    send("POST", "/api/users", fields(event.target));
+    const form = new FormData(event.target);
+    send("POST", "/api/users", {
+        full_name: form.get("full_name"),
+        email: form.get("email"),
+        password: form.get("password"),
+        accept_terms: form.get("accept_terms") === "on",
+    });
 });
 
 document.getElementById("login-form").addEventListener("submit", function (event) {
     event.preventDefault();
-    send("POST", "/api/login", fields(event.target));
+    const form = new FormData(event.target);
+    send("POST", "/api/login", {
+        email: form.get("email"),
+        password: form.get("password"),
+        remember_me: form.get("remember_me") === "on",
+    });
+});
+
+document.getElementById("subjects-button").addEventListener("click", function () {
+    send("GET", "/api/subjects");
+});
+
+document.getElementById("saved-button").addEventListener("click", function () {
+    send("GET", "/api/users/me/saved");
+});
+
+document.getElementById("saved-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    const form = new FormData(event.target);
+    const path = event.submitter && event.submitter.value === "remove"
+        ? "/api/users/me/saved/remove" : "/api/users/me/saved";
+    send("POST", path, { type: form.get("type"), id: form.get("id") });
 });
 
 document.getElementById("me-button").addEventListener("click", function () {
