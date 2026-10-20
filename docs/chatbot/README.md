@@ -69,8 +69,9 @@ user and assistant and ending with the user's question:
 
 ## Inputs for the Task 4 feasibility assessment
 
-- **Technical requirements:** Amazon Bedrock access to Claude Opus 5.5 in
-  us-west-2; a Bedrock Guardrail; the Lambda role allowed
+- **Technical requirements:** Amazon Bedrock access to Claude Opus 5.5
+  (called in us-east-1, where this account's Messages endpoint serves Claude;
+  the rest of the stack is in us-west-2); a Bedrock Guardrail; the Lambda role allowed
   `bedrock-mantle:CreateInference` and `bedrock:ApplyGuardrail` only; Python
   3.12 with the Anthropic SDK. No API keys: the Lambda's IAM role signs every
   request.

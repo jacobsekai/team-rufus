@@ -64,6 +64,9 @@ Resources:
           SESSIONS_TABLE_NAME: !GetAtt Tables.Outputs.SessionsTableName
           CONTENT_BUCKET_NAME: !Ref ContentBucket
           CHAT_MODEL_ID: anthropic.claude-opus-5-5
+          # Claude answers in us-east-1 for this account; the guardrail and
+          # everything else stay in the stack's region.
+          CHAT_BEDROCK_REGION: us-east-1
           CHAT_GUARDRAIL_ID: !GetAtt ChatGuardrail.GuardrailId
           CHAT_GUARDRAIL_VERSION: !GetAtt ChatGuardrailVersion.Version
       Policies:
@@ -89,7 +92,7 @@ Resources:
             - Sid: InvokeClaude
               Effect: Allow
               Action: bedrock-mantle:CreateInference
-              Resource: !Sub "arn:aws:bedrock-mantle:${AWS::Region}:${AWS::AccountId}:project/default"
+              Resource: !Sub "arn:aws:bedrock-mantle:us-east-1:${AWS::AccountId}:project/default"
             - Sid: ApplyChatGuardrail
               Effect: Allow
               Action: bedrock:ApplyGuardrail

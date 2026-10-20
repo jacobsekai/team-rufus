@@ -80,3 +80,4 @@ Record representative tests rather than every individual test execution.
 | 2026-10-20 | Chat API | Privacy | Log output during a question | Message text never logged; only stop reason and token counts | Covered by automated test | Pass |
 | 2026-10-20 | Chat widget | Unit | History trimming by count and size | Newest messages kept; starts with a user message; within limits | All assertions passed | Pass |
 | 2026-10-20 | Test quality | Mutation | Disabled the input block; disabled masking | A test fails each time | 1 failed each time | Pass |
+| 2026-10-20 | Claude on Bedrock (live) | Integration | One tiny request per model ID and region from the project account | Opus 5.5 answers | us-west-2: "model does not exist" for every Claude model and prefix, although access shows AUTHORIZED; us-east-1: `anthropic.claude-opus-5-5` answered `ok`. Claude region set to us-east-1 | Pass |

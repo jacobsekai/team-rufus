@@ -29,6 +29,7 @@ class Settings:
     session_hours: int
     remember_me_days: int
     chat_model_id: str
+    chat_bedrock_region: str
     chat_guardrail_id: Optional[str]
     chat_guardrail_version: Optional[str]
     session_cookie_secure: bool
@@ -59,6 +60,9 @@ class Settings:
             session_hours=int(os.getenv("SESSION_HOURS", "12")),
             remember_me_days=int(os.getenv("REMEMBER_ME_DAYS", "30")),
             chat_model_id=os.getenv("CHAT_MODEL_ID", "anthropic.claude-opus-5-5"),
+            # Claude on Bedrock's Messages endpoint answers in us-east-1 for
+            # this account (us-west-2 returned "model does not exist").
+            chat_bedrock_region=os.getenv("CHAT_BEDROCK_REGION", "us-east-1"),
             # The chat assistant only runs when a Bedrock Guardrail is set.
             chat_guardrail_id=os.getenv("CHAT_GUARDRAIL_ID") or None,
             chat_guardrail_version=os.getenv("CHAT_GUARDRAIL_VERSION") or None,

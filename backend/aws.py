@@ -61,4 +61,4 @@ def get_claude_client(settings: Settings):
     # Imported here so the rest of the app starts even if the SDK is missing.
     from anthropic import AnthropicBedrockMantle
 
-    return AnthropicBedrockMantle(aws_region=settings.aws_region)
+    return AnthropicBedrockMantle(aws_region=settings.chat_bedrock_region)
