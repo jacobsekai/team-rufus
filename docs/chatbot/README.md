@@ -91,4 +91,9 @@ user and assistant and ending with the user's question:
   penny per question at prototype traffic; guardrail checks cost fractions of
   a penny.
 - **Limitations:** only Amazon staff can use it (Midway); no per-person rate
-  limit; the knowledge files must be updated by hand when facts change.
+  limit; the knowledge files must be updated by hand when facts change. The
+  prompt-attack filter scores harmless role-play ("Act as a careers
+  adviser...") as highly as real attacks, so those questions are blocked;
+  live testing on 2026-10-20 measured this, and the filter was lowered from
+  HIGH to MEDIUM so low-confidence phrasings like "Explain it like I'm 12"
+  get through.

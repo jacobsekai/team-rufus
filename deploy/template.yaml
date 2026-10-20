@@ -117,11 +117,12 @@ Resources:
       Name: !Sub "${AWS::StackName}-chat"
       Description: Team Rufus chat assistant guardrail
       BlockedInputMessaging: >-
-        I can't help with that here. If you're worried about your safety or
-        feeling very low, please talk to a trusted adult or your school or
-        college's safeguarding lead. You can call Childline free on 0800 1111,
-        or 999 in an emergency. I can answer questions about T Levels and
-        placements.
+        I can't help with that message. Please ask me about T Levels,
+        placements at Amazon or this website, and don't share passwords or
+        other private details here. If you're worried about your safety or
+        feeling very low, talk to a trusted adult or your school or college's
+        safeguarding lead, call Childline free on 0800 1111, or call 999 in an
+        emergency.
       BlockedOutputsMessaging: >-
         Sorry, I can't answer that. Please ask me about T Levels, placements at
         Amazon, or this website.
@@ -132,7 +133,9 @@ Resources:
           - {Type: HATE, InputStrength: HIGH, OutputStrength: HIGH}
           - {Type: INSULTS, InputStrength: HIGH, OutputStrength: HIGH}
           - {Type: MISCONDUCT, InputStrength: HIGH, OutputStrength: HIGH}
-          - {Type: PROMPT_ATTACK, InputStrength: HIGH, OutputStrength: NONE}
+          # MEDIUM, not HIGH: HIGH also blocked low-confidence matches such as
+          # "Explain it like I'm 12". Real injection attempts score HIGH.
+          - {Type: PROMPT_ATTACK, InputStrength: MEDIUM, OutputStrength: NONE}
       # Personal details are masked (for example {EMAIL}) so they never reach
       # the model; card numbers and passwords block the message.
       SensitiveInformationPolicyConfig:
@@ -158,7 +161,7 @@ Resources:
     Type: AWS::Bedrock::GuardrailVersion
     Properties:
       GuardrailIdentifier: !GetAtt ChatGuardrail.GuardrailId
-      Description: "v2: addresses masked in questions only"
+      Description: "v3: prompt attack MEDIUM, clearer blocked message"
 
   # CloudFront signs every origin request; Lambda only accepts those that come
   # from this distribution.

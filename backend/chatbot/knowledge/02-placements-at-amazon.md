@@ -1,9 +1,10 @@
 # T Level placements at Amazon
 
 Sources: aboutamazon.co.uk (T Level placements page), checked 2026-10-20;
-the project brief from the Amazon Emerging Talent Programs team; the Team
-Rufus design (application stages). The application stages come from the
-team's research and must be checked against current official guidance.
+the Amazon Emerging Talent Programs team. The application stages below were
+gathered by the website team and must be checked against current official
+guidance. When citing them, say "Source: this website" and tell the user to
+check Amazon's official careers channels.
 
 ## What Amazon offers
 
