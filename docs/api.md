@@ -56,6 +56,7 @@ deleting an account is a `POST`.
 | `POST` | `/api/users/me/saved` | Yes | Save a subject or guide |
 | `POST` | `/api/users/me/saved/remove` | Yes | Remove a saved item |
 | `GET` | `/api/subjects` | No | List the placement subject areas |
+| `POST` | `/api/chat` | No | Ask the chat assistant (details in `docs/chatbot/README.md`) |
 | `POST` | `/api/users/me/delete` | Yes | Delete my account |
 | `GET` | `/api/content` | No | List downloadable content |
 | `GET` | `/api/content/<id>/download` | Depends on item | Download a file |

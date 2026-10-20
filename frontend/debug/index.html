@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Team Rufus debug panel</title>
-<script src="/chat/config.js"></script>
-<script src="/chat/chat-launcher.js" defer></script>
+<script src="/chat/chat-widget.js" defer></script>
 </head>
 <body>
 <h1>Debug panel</h1>
@@ -17,7 +16,10 @@
 <pre id="signin-tests-output">Not run yet.</pre>
 
 <h2>Chat assistant</h2>
-<p>The "Ask about T Levels" button (bottom right) opens the Team Rufus chat agent in Amazon Quick. It only appears once <code>agentUrl</code> is set in <code>/chat/config.js</code>.</p>
+<p>The "Ask about T Levels" button (bottom right) opens the chat panel (Claude on Amazon Bedrock, behind a Bedrock Guardrail). Raw API:</p>
+<form id="chat-form">
+<p>Question: <input name="question" size="60" value="What is a T Level?"> <button>POST /api/chat</button></p>
+</form>
 
 <h2>Health</h2>
 <button id="health-button">GET /health</button>
@@ -151,6 +153,11 @@ document.getElementById("login-form").addEventListener("submit", function (event
         password: form.get("password"),
         remember_me: form.get("remember_me") === "on",
     });
+});
+
+document.getElementById("chat-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    send("POST", "/api/chat", { messages: [{ role: "user", content: new FormData(event.target).get("question") }] });
 });
 
 document.getElementById("subjects-button").addEventListener("click", function () {

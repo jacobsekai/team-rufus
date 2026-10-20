@@ -1,68 +1,93 @@
 # Chat assistant (Task 4 AI feature)
 
-The site's AI feature is a custom chat agent in **Amazon's internal Amazon
-Quick** (account `amazonbi`). Every page shows an **Ask about T Levels**
-button that opens the agent in a new tab. Visitors are Amazon staff (the
-site is behind Midway), and they sign in to Quick with Midway too.
+Every page has an **Ask about T Levels** button that opens a chat panel on
+the same page. Questions go to `POST /api/chat`, which answers with
+**Claude Opus 5.5 on Amazon Bedrock**, checked by a **Bedrock Guardrail**.
+The site is behind Midway, so only Amazon staff can use it.
 
-## Why a button and not a chat window inside the page
+## Why Bedrock and not Amazon Quick
 
-Amazon's internal Quick only allows embedding on an allow-listed domain. The
-[iframe embedding runbook](https://w.amazon.com/bin/view/Qinternal/Runbooks/quick-suite-iframe-embedding-enablement-process/)
-requires an Amazon-owned domain (for example `*.amazon.dev`), a completed
-AppSec review, and 5 to 10 business days. The prototype's
-`d*.cloudfront.net` address is not Amazon-owned and has no AppSec review, so
-the agent opens in its own tab instead. Embedding is listed as future work.
+The team first chose Amazon Quick. Embedding a Quick chat agent inside the
+site needs an Amazon-owned domain, an AppSec review, and an allow-listing
+ticket ([runbook](https://w.amazon.com/bin/view/Qinternal/Runbooks/quick-suite-iframe-embedding-enablement-process/)),
+which takes weeks; the prototype's `cloudfront.net` address qualifies for
+none of these. Calling Claude through Bedrock from our own backend keeps the
+chat on the page, works for every Midway visitor with no extra sign-in, and
+lets us control the safety rules in code. Embedding Quick is future work.
+
+## How a question is answered
+
+1. **Guardrail (input).** Harmful content (sexual, violence, hate, insults,
+   misconduct) and prompt attacks are blocked at the strictest level. Email
+   addresses, phone numbers, postal addresses and UK NI and NHS numbers are
+   masked (for example `{EMAIL}`), so they never reach the model. Card numbers
+   and passwords block the message. A blocked question gets a reply that
+   signposts Childline (0800 1111) and 999, in case the user needs help.
+2. **Claude.** The system prompt is `backend/chatbot/instructions.md`
+   followed by every file in `backend/chatbot/knowledge/`. It limits answers
+   to T Levels, placements and the website, and sets rules for a 16 to 19
+   audience (no personal data, no promises, no writing applications,
+   wellbeing signposting, resisting attempts to change the rules). Effort is
+   `low` for fast, short answers. The system prompt is cached, so repeat
+   requests cost less.
+3. **Guardrail (output).** The answer is checked again before it is shown.
+
+The server stores no conversation and never logs message text; it logs only
+token counts and the stop reason. The browser keeps the conversation in
+memory and drops it when the page closes. Only normal answers are kept in the
+history, so a blocked question is never sent again.
 
 ## Files
 
 | File | Purpose |
 |---|---|
-| `knowledge/*.md` | Upload to the Quick space. The agent answers only from these. |
-| `agent-instructions.md` | Paste into the chat agent builder: scope, safety rules, tone, welcome message, suggested prompts. |
-| `test-prompts.md` | 17 test prompts with expected behaviour, and a table to record results. |
-| `frontend/chat/config.js` | Set `agentUrl` to the agent's share link. |
-| `frontend/chat/chat-launcher.js` | Adds the button. Include both scripts on every page (see the comment at the top). |
+| `backend/chat.py` | The endpoint, request validation, guardrail and Claude calls |
+| `backend/chatbot/instructions.md` | Rules and style for the assistant |
+| `backend/chatbot/knowledge/*.md` | What the assistant knows, with sources |
+| `frontend/chat/chat-widget.js` | The chat button and panel (one script tag per page) |
+| `deploy/template.yaml` | `ChatGuardrail` and the Lambda permissions |
+| `test-prompts.md` | 17 test prompts with expected behaviour |
 
-## Setting it up in Amazon Quick
+To change what the assistant knows, edit the knowledge files and redeploy.
+To change the guardrail, edit `ChatGuardrail` and also the `Description` of
+`ChatGuardrailVersion`, so a new version is published.
 
-1. **Sign in.** Open Amazon Quick, use the account name `amazonbi`, and sign
-   in with Midway. If you don't see **Chat agents** and **Spaces** in the left
-   navigation, request a Pro role (Reader Pro or Author Pro).
-2. **Create the space.** Spaces > Create space > name it
-   "T Levels at Amazon" > upload the three files in `knowledge/`.
-3. **Create the agent.** Chat agents > Create chat agent > Skip (builder
-   view). Fill in each field from `agent-instructions.md`. Under
-   **Knowledge sources**, link the "T Levels at Amazon" space.
-   This step matters: an agent with no linked space answers from everything
-   the *visitor* can access in Quick, which could include their own internal
-   documents.
-4. **Test.** Use the preview to run every prompt in `test-prompts.md` and
-   record the results. Adjust the instructions and re-test until they pass.
-5. **Launch and share.** Launch chat agent > Share > add the team members
-   and assessors as **Viewer**. Ask one assessor to open it to confirm they
-   have access.
-6. **Connect the site.** Copy the agent's link into `agentUrl` in
-   `frontend/chat/config.js`, then run `deploy/deploy.sh`.
+## API
+
+`POST /api/chat` with the recent conversation, oldest first, alternating
+user and assistant and ending with the user's question:
+
+```json
+{"messages": [{"role": "user", "content": "What is a T Level?"}]}
+```
+
+| Status | Body |
+|---|---|
+| `200` | `{"status": "answered", "reply": "..."}`, or `"blocked"` / `"refused"` with a safe reply |
+| `400` | Invalid messages (max 20 messages; questions 1 to 1,000 characters; 12,000 characters in total) |
+| `503` | The assistant is unavailable (or the guardrail is not configured) |
 
 ## Inputs for the Task 4 feasibility assessment
 
-- **Technical requirements:** Amazon Quick with chat agent permissions; one
-  space holding the knowledge files; Midway sign-in. No backend code or API
-  keys in this repository; the site only links to the agent.
+- **Technical requirements:** Amazon Bedrock access to Claude Opus 5.5 in
+  us-west-2; a Bedrock Guardrail; the Lambda role allowed
+  `bedrock-mantle:CreateInference` and `bedrock:ApplyGuardrail` only; Python
+  3.12 with the Anthropic SDK. No API keys: the Lambda's IAM role signs every
+  request.
 - **Data requirements:** the knowledge files contain public information only
   (TLevels.gov.uk, UCAS, aboutamazon.co.uk, the brief, the site's own help).
-  The agent is told not to ask for personal details. Conversations are held
-  in Amazon's internal Quick, not in this project's database.
-- **Ethical considerations:** the users may be 16 to 19, so the agent is
-  limited to T Level topics, refers wellbeing concerns to Childline and
-  trusted adults, never promises placements, and won't write applications.
-  Answers can still be wrong, so it cites sources and points to official
-  sites.
-- **AI-generated vs human-generated data:** the agent writes new sentences
-  from the human-written knowledge files. It can sound confident when it is
-  wrong, it doesn't know anything after the files were last updated, and two
-  people asking the same question can get differently worded answers.
-- **Limitations:** only Amazon staff can use it (internal Quick + Midway);
-  it opens in a new tab rather than on the page; the knowledge files must be
-  updated by hand when facts change.
+  Personal details are masked before the model sees them, and nothing is
+  stored.
+- **Ethical considerations:** the audience includes 16 to 19 year olds, so
+  the guardrail runs at its strictest, blocked questions signpost help, and
+  the assistant never promises placements or writes applications. It can
+  still be wrong, so it cites sources and the panel says so.
+- **AI-generated vs human-generated data:** the assistant writes new
+  sentences from the human-written knowledge files. It can sound confident
+  when it is wrong, it knows nothing newer than the files, and the same
+  question can get differently worded answers.
+- **Cost:** Claude Opus 5.5 with a cached system prompt costs well under a
+  penny per question at prototype traffic; guardrail checks cost fractions of
+  a penny.
+- **Limitations:** only Amazon staff can use it (Midway); no per-person rate
+  limit; the knowledge files must be updated by hand when facts change.

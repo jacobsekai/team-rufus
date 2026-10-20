@@ -38,6 +38,15 @@ This describes the Team Rufus prototype website.
   placements.
 - Registering interest is not an application for a placement.
 
+## The chat assistant
+
+- The "Ask about T Levels" button on every page opens the chat assistant.
+- It answers questions about T Levels, placements and this website.
+- Don't share personal details in the chat. Email addresses and phone numbers
+  are hidden before your message reaches the assistant.
+- The conversation is not saved. It disappears when you close or reload the
+  page.
+
 ## Accessibility
 
 - The Accessibility page lets you choose a larger text size and a high

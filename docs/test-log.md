@@ -73,3 +73,10 @@ Record representative tests rather than every individual test execution.
 | 2026-10-20 | Debug sign-in tests | End-to-end | Updated runner against local Flask | All 44 steps pass | 44 passed, 0 failed | Pass |
 | 2026-10-20 | Debug sign-in tests (live, via Midway) | End-to-end | Run sign-in tests on the deployed `/debug` page after adding saved items, password rule, terms and Remember me | All 44 steps pass | All 44 PASS | Pass |
 | 2026-10-20 | Chat launcher | Unit | Valid Quick link; empty, malformed, http, other domain, look-alike domain, javascript: link; adding twice | Only https *.aws.amazon.com links accepted; opens in new tab with noopener; added once | All assertions passed | Pass |
+| 2026-10-20 | Chat API | Functional | Question with fake Claude and guardrail | HTTP 200 answered; guardrail checks input then output; Opus 5.5, low effort, cached system prompt, no thinking override | Covered by automated test | Pass |
+| 2026-10-20 | Chat API | Security | Guardrail blocks the question; masks an email; blocks the answer | Blocked question never reaches Claude; Claude sees {EMAIL}; blocked answer replaced | Covered by automated test | Pass |
+| 2026-10-20 | Chat API | Error handling | Claude refusal, empty answer, connection error, 429, 500, guardrail error, no guardrail configured | Friendly reply or HTTP 503; Claude not called when the guardrail fails | Covered by automated test | Pass |
+| 2026-10-20 | Chat API | Validation | 14 malformed payloads (roles, order, length, extra fields, system role, too many/long) | HTTP 400; Claude not called | Covered by automated test | Pass |
+| 2026-10-20 | Chat API | Privacy | Log output during a question | Message text never logged; only stop reason and token counts | Covered by automated test | Pass |
+| 2026-10-20 | Chat widget | Unit | History trimming by count and size | Newest messages kept; starts with a user message; within limits | All assertions passed | Pass |
+| 2026-10-20 | Test quality | Mutation | Disabled the input block; disabled masking | A test fails each time | 1 failed each time | Pass |

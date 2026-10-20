@@ -22,6 +22,7 @@ Browser ── CloudFront ─┤
 | Lambda function URL | Receives API requests; IAM-only, so only this CloudFront distribution can call it |
 | Lambda | Runs the unchanged Flask app via `backend/lambda_handler.py` |
 | DynamoDB | The three tables defined in `infra/dynamodb-table.yaml` |
+| Amazon Bedrock | Claude Opus 5.5 for the chat assistant, and a Guardrail that checks every question and answer |
 | S3 (content) | Private bucket for downloadable files; reachable only via short-lived signed links |
 
 Everything is defined in `deploy/template.yaml` (AWS SAM). The tables are
@@ -44,8 +45,10 @@ configuration is needed.
   `X-XSS-Protection` to every response.
 - **Least-privilege Lambda.** The function may only create expressions of
   interest (`PutItem`), manage single user and session items (`PutItem`,
-  `GetItem`, `UpdateItem`, `DeleteItem`), and read content files
-  (`s3:GetObject`). It cannot scan or list any table, so it cannot dump data.
+  `GetItem`, `UpdateItem`, `DeleteItem`), read content files
+  (`s3:GetObject`), call Claude (`bedrock-mantle:CreateInference` on the
+  account's default project) and apply the chat guardrail
+  (`bedrock:ApplyGuardrail` on that guardrail only). It cannot scan or list any table, so it cannot dump data.
 - **Private downloads.** The content bucket is not connected to CloudFront.
   Each download is a link signed by the Lambda function that expires after
   5 minutes; members-only links are only issued to signed-in users.

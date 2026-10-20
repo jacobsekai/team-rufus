@@ -26,6 +26,8 @@ backend/
   content_catalogue.json      List of downloadable files
   helpers.py                  Shared validation and response helpers
   saved.py                    Saved subjects and guides
+  chat.py                     Chat assistant (Claude on Bedrock + guardrail)
+  chatbot/                    Assistant instructions and knowledge files
   aws.py                      AWS/DynamoDB client construction
   config.py                   Environment-based configuration
   repositories.py             DynamoDB persistence layer
@@ -40,13 +42,14 @@ tests/
   test_content.py             Downloads and catalogue tests
   test_repositories.py        DynamoDB request tests
   test_saved.py               Saved items and subjects tests
+  test_chat.py                Chat assistant tests (fake Claude and guardrail)
   test_lambda.py              Lambda event (function URL / API Gateway v2) tests
 content/                      Downloadable files (uploaded by deploy.sh)
 frontend/
   index.html                  Placeholder home page (frontend team replaces)
   debug/index.html            Debug panel at /debug: try every endpoint
   debug/signin-tests.js       "Run sign-in tests": end-to-end sign-in checks
-  chat/                       "Ask about T Levels" button for every page
+  chat/chat-widget.js         "Ask about T Levels" chat panel for every page
 infra/
   dynamodb-table.yaml         Development table definitions
 deploy/
@@ -65,10 +68,11 @@ docs/
 
 ## Local setup
 
-Create a virtual environment and install the dependencies:
+Python 3.12 is required (the version AWS Lambda runs; the Anthropic SDK needs
+3.10 or later). Create a virtual environment and install the dependencies:
 
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r backend/requirements-dev.txt
@@ -124,6 +128,7 @@ The full request and response contract for the frontend team is in
 | `GET` / `POST` | `/api/users/me/saved` | List / add saved subjects and guides |
 | `POST` | `/api/users/me/saved/remove` | Remove a saved item |
 | `GET` | `/api/subjects` | Placement subject areas |
+| `POST` | `/api/chat` | Ask the chat assistant (see `docs/chatbot/`) |
 | `GET` | `/api/content` | List downloads |
 | `GET` | `/api/content/<id>/download` | Download a file (some need sign-in) |
 
@@ -157,9 +162,10 @@ retention, access-control, and privacy requirements.
 
 ## Chat assistant
 
-The Task 4 AI feature is an Amazon Quick chat agent, opened from an
-**Ask about T Levels** button on every page. Setup steps, knowledge files,
-agent instructions and test prompts are in [`docs/chatbot/`](docs/chatbot/README.md).
+The Task 4 AI feature is a chat panel on every page (**Ask about T Levels**).
+`POST /api/chat` answers with Claude Opus 5.5 on Amazon Bedrock, behind a
+Bedrock Guardrail. Design, safety rules and test prompts are in
+[`docs/chatbot/`](docs/chatbot/README.md).
 
 ## Debug panel
 
