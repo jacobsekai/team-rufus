@@ -53,7 +53,8 @@ Resources:
         - arm64
       # Password hashing is CPU-bound; more memory gives Lambda more CPU.
       MemorySize: 1024
-      Timeout: 10
+      # Chat answers from Claude can take several seconds.
+      Timeout: 60
       LoggingConfig:
         LogGroup: !Ref ApiLogGroup
       Environment:
@@ -62,6 +63,12 @@ Resources:
           USERS_TABLE_NAME: !GetAtt Tables.Outputs.UsersTableName
           SESSIONS_TABLE_NAME: !GetAtt Tables.Outputs.SessionsTableName
           CONTENT_BUCKET_NAME: !Ref ContentBucket
+          CHAT_MODEL_ID: anthropic.claude-opus-5-5
+          # Claude answers in us-east-1 for this account; the guardrail and
+          # everything else stay in the stack's region.
+          CHAT_BEDROCK_REGION: us-east-1
+          CHAT_GUARDRAIL_ID: !GetAtt ChatGuardrail.GuardrailId
+          CHAT_GUARDRAIL_VERSION: !GetAtt ChatGuardrailVersion.Version
       Policies:
         # Least privilege: only the actions each table needs.
         - Version: "2012-10-17"
@@ -80,6 +87,16 @@ Resources:
               Resource:
                 - !GetAtt Tables.Outputs.UsersTableArn
                 - !GetAtt Tables.Outputs.SessionsTableArn
+            # Claude on Amazon Bedrock. Mantle grants are per account
+            # project, not per model.
+            - Sid: InvokeClaude
+              Effect: Allow
+              Action: bedrock-mantle:CreateInference
+              Resource: !Sub "arn:aws:bedrock-mantle:us-east-1:${AWS::AccountId}:project/default"
+            - Sid: ApplyChatGuardrail
+              Effect: Allow
+              Action: bedrock:ApplyGuardrail
+              Resource: !GetAtt ChatGuardrail.GuardrailArn
             # Needed to sign download links; the bucket itself stays private.
             - Sid: ReadContentFiles
               Effect: Allow
@@ -90,6 +107,57 @@ Resources:
       # endpoint that skips Midway.
       FunctionUrlConfig:
         AuthType: AWS_IAM
+
+  # Checks every chat question before it reaches Claude and every answer
+  # before it is shown. Users can be 16 to 19, so filters are at their
+  # strictest and the blocked message signposts help.
+  ChatGuardrail:
+    Type: AWS::Bedrock::Guardrail
+    Properties:
+      Name: !Sub "${AWS::StackName}-chat"
+      Description: Team Rufus chat assistant guardrail
+      BlockedInputMessaging: >-
+        I can't help with that here. If you're worried about your safety or
+        feeling very low, please talk to a trusted adult or your school or
+        college's safeguarding lead. You can call Childline free on 0800 1111,
+        or 999 in an emergency. I can answer questions about T Levels and
+        placements.
+      BlockedOutputsMessaging: >-
+        Sorry, I can't answer that. Please ask me about T Levels, placements at
+        Amazon, or this website.
+      ContentPolicyConfig:
+        FiltersConfig:
+          - {Type: SEXUAL, InputStrength: HIGH, OutputStrength: HIGH}
+          - {Type: VIOLENCE, InputStrength: HIGH, OutputStrength: HIGH}
+          - {Type: HATE, InputStrength: HIGH, OutputStrength: HIGH}
+          - {Type: INSULTS, InputStrength: HIGH, OutputStrength: HIGH}
+          - {Type: MISCONDUCT, InputStrength: HIGH, OutputStrength: HIGH}
+          - {Type: PROMPT_ATTACK, InputStrength: HIGH, OutputStrength: NONE}
+      # Personal details are masked (for example {EMAIL}) so they never reach
+      # the model; card numbers and passwords block the message.
+      SensitiveInformationPolicyConfig:
+        PiiEntitiesConfig:
+          - {Type: EMAIL, Action: ANONYMIZE}
+          # Input only: answers include the Childline number.
+          - {Type: PHONE, Action: ANONYMIZE, InputEnabled: true, OutputEnabled: false}
+          - {Type: ADDRESS, Action: ANONYMIZE}
+          - {Type: UK_NATIONAL_INSURANCE_NUMBER, Action: ANONYMIZE}
+          - {Type: UK_NATIONAL_HEALTH_SERVICE_NUMBER, Action: ANONYMIZE}
+          - {Type: CREDIT_DEBIT_CARD_NUMBER, Action: BLOCK}
+          - {Type: PASSWORD, Action: BLOCK}
+      Tags:
+        - Key: Project
+          Value: T-Level-Team-Project
+        - Key: Environment
+          Value: Development
+
+  # Versions are immutable. After changing the guardrail above, change this
+  # Description so CloudFormation publishes a new version.
+  ChatGuardrailVersion:
+    Type: AWS::Bedrock::GuardrailVersion
+    Properties:
+      GuardrailIdentifier: !GetAtt ChatGuardrail.GuardrailId
+      Description: "v1: initial filters and PII masking"
 
   # CloudFront signs every origin request; Lambda only accepts those that come
   # from this distribution.
@@ -244,6 +312,8 @@ Resources:
             OriginAccessControlId: !GetAtt ApiOriginAccessControl.Id
             CustomOriginConfig:
               OriginProtocolPolicy: https-only
+              # Chat answers can take longer than the 30-second default.
+              OriginReadTimeout: 60
               OriginSSLProtocols:
                 - TLSv1.2
         # Midway: every behavior except /js/cfs-handler.js requires

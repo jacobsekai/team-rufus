@@ -3,7 +3,13 @@
 from flask import Flask
 
 from .accounts import accounts
-from .aws import get_dynamodb_resource, get_s3_client
+from .aws import (
+    get_bedrock_runtime_client,
+    get_claude_client,
+    get_dynamodb_resource,
+    get_s3_client,
+)
+from .chat import ChatService, build_system_prompt, chat
 from .config import Settings
 from .content import S3ContentStore, content, load_catalogue
 from .repositories import (
@@ -27,6 +33,10 @@ def _settings_from_app(app: Flask) -> Settings:
         content_bucket_name=app.config.get("CONTENT_BUCKET_NAME"),
         session_hours=app.config["SESSION_HOURS"],
         remember_me_days=app.config["REMEMBER_ME_DAYS"],
+        chat_model_id=app.config["CHAT_MODEL_ID"],
+        chat_bedrock_region=app.config["CHAT_BEDROCK_REGION"],
+        chat_guardrail_id=app.config.get("CHAT_GUARDRAIL_ID"),
+        chat_guardrail_version=app.config.get("CHAT_GUARDRAIL_VERSION"),
         session_cookie_secure=app.config["SESSION_COOKIE_SECURE"],
         aws_endpoint_url=app.config.get("AWS_ENDPOINT_URL"),
         host=app.config["FLASK_HOST"],
@@ -43,11 +53,12 @@ def create_app(
     sessions_repository=None,
     content_store=None,
     content_catalogue=None,
+    chat_service=None,
 ) -> Flask:
     """Create and configure the Flask application.
 
-    The repositories, content store, and catalogue are injectable so tests can
-    run without AWS. Production and local development use DynamoDB and S3 by
+    The repositories, content store, catalogue, and chat service are
+    injectable so tests can run without AWS. Production and local development use DynamoDB and S3 by
     default.
     """
 
@@ -62,6 +73,10 @@ def create_app(
         CONTENT_BUCKET_NAME=settings.content_bucket_name,
         SESSION_HOURS=settings.session_hours,
         REMEMBER_ME_DAYS=settings.remember_me_days,
+        CHAT_MODEL_ID=settings.chat_model_id,
+        CHAT_BEDROCK_REGION=settings.chat_bedrock_region,
+        CHAT_GUARDRAIL_ID=settings.chat_guardrail_id,
+        CHAT_GUARDRAIL_VERSION=settings.chat_guardrail_version,
         SESSION_COOKIE_SECURE=settings.session_cookie_secure,
         AWS_ENDPOINT_URL=settings.aws_endpoint_url,
         FLASK_HOST=settings.host,
@@ -98,10 +113,26 @@ def create_app(
             runtime_settings.content_bucket_name,
         )
 
+    # Without a guardrail the chat stays off (POST /api/chat returns 503).
+    if (
+        chat_service is None
+        and runtime_settings.chat_guardrail_id
+        and runtime_settings.chat_guardrail_version
+    ):
+        chat_service = ChatService(
+            model_client=get_claude_client(runtime_settings),
+            guardrail_client=get_bedrock_runtime_client(runtime_settings),
+            model_id=runtime_settings.chat_model_id,
+            guardrail_id=runtime_settings.chat_guardrail_id,
+            guardrail_version=runtime_settings.chat_guardrail_version,
+            system_prompt=build_system_prompt(),
+        )
+
     app.extensions["expressions_of_interest_repository"] = repository
     app.extensions["users_repository"] = users_repository
     app.extensions["sessions_repository"] = sessions_repository
     app.extensions["content_store"] = content_store
+    app.extensions["chat_service"] = chat_service
     app.extensions["content_catalogue"] = (
         content_catalogue if content_catalogue is not None else load_catalogue()
     )
@@ -109,4 +140,5 @@ def create_app(
     app.register_blueprint(accounts)
     app.register_blueprint(content)
     app.register_blueprint(saved)
+    app.register_blueprint(chat)
     return app
