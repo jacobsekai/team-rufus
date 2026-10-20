@@ -71,3 +71,4 @@ Record representative tests rather than every individual test execution.
 | 2026-10-20 | Saved items | Validation | Unknown subject, wrong case, unknown type, bad guide id, 65-char id, unknown field, 51st item; signed out | HTTP 400 with specific error; HTTP 401 signed out | Covered by automated test | Pass |
 | 2026-10-20 | Test quality | Mutation | Removed the symbol check; removed the Remember me cookie expiry | A test fails each time | 1 failed each time | Pass |
 | 2026-10-20 | Debug sign-in tests | End-to-end | Updated runner against local Flask | All 44 steps pass | 44 passed, 0 failed | Pass |
+| 2026-10-20 | Debug sign-in tests (live, via Midway) | End-to-end | Run sign-in tests on the deployed `/debug` page after adding saved items, password rule, terms and Remember me | All 44 steps pass | All 44 PASS | Pass |
