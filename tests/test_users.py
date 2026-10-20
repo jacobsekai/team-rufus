@@ -14,7 +14,8 @@ from backend.repositories import (
 VALID_SIGNUP = {
     "full_name": "Example Student",
     "email": "Example.Student@example.com",
-    "password": "correct horse battery",
+    "password": "correct horse battery 9!",
+    "accept_terms": True,
 }
 
 
@@ -58,7 +59,15 @@ def test_rejects_duplicate_email_case_insensitively(client, users_repository):
 
 @pytest.mark.parametrize(
     "password",
-    ["short", "x" * 11, "x" * 129, 123456789012, None],
+    [
+        "short",
+        "abc1!" + "x" * 6,       # 11 characters
+        "abc1!" + "x" * 124,     # 129 characters
+        "no number here!",       # no number
+        "no symbol here 123",    # spaces do not count as symbols
+        123456789012,
+        None,
+    ],
 )
 def test_rejects_invalid_password(client, users_repository, password):
     response = client.post(
@@ -66,7 +75,10 @@ def test_rejects_invalid_password(client, users_repository, password):
     )
 
     assert response.status_code == 400
-    assert any("password" in detail for detail in response.get_json()["details"])
+    assert (
+        "password must be 12 to 128 characters and include a number and a symbol."
+        in response.get_json()["details"]
+    )
     assert users_repository.users == {}
 
 
@@ -157,3 +169,31 @@ def test_users_repository_maps_dynamodb_errors(error_code, expected_error):
 
     # Exact type check: DuplicateRecordError is a subclass of RepositoryError.
     assert type(raised.value) is expected_error
+
+
+@pytest.mark.parametrize("password", ["abc1!" + "x" * 7, "abc1!" + "x" * 123, "pässwörd 1 é€"])
+def test_accepts_password_at_the_boundaries(client, password):
+    response = client.post("/api/users", json={**VALID_SIGNUP, "password": password})
+
+    assert response.status_code == 201
+
+
+@pytest.mark.parametrize("accept_terms", [None, False, "true", 1])
+def test_signup_requires_accepting_the_terms(client, users_repository, accept_terms):
+    payload = {**VALID_SIGNUP, "accept_terms": accept_terms}
+    if accept_terms is None:
+        del payload["accept_terms"]
+
+    response = client.post("/api/users", json=payload)
+
+    assert response.status_code == 400
+    assert "accept_terms must be true." in response.get_json()["details"]
+    assert users_repository.users == {}
+
+
+def test_signup_records_when_terms_were_accepted(client, users_repository):
+    client.post("/api/users", json=VALID_SIGNUP)
+
+    saved = users_repository.users["example.student@example.com"]
+    assert saved["terms_accepted_at"] == saved["created_at"]
+    assert saved["saved"] == {}

@@ -64,3 +64,10 @@ Record representative tests rather than every individual test execution.
 | 2026-10-19 | Account deletion (live) | Investigation | Lambda invocation count vs requests made by the run | Every request reaches Lambda | 31 requests, 29 invocations: the two `DELETE` requests with a body were rejected by CloudFront's signed request to the Lambda URL | Fail |
 | 2026-10-19 | Account deletion | Fix verification | Changed to `POST /api/users/me/delete`; runner re-run against local Flask | All 30 steps pass | 30 passed, 0 failed | Pass |
 | 2026-10-19 | Debug sign-in tests (live, via Midway) | End-to-end | Re-run Run sign-in tests on the deployed `/debug` page after the deletion fix | All 30 steps pass | All 30 PASS | Pass |
+| 2026-10-20 | Sign-up password rule | Boundary | 11 and 129 chars; no number; no symbol; spaces only; 12 and 128 chars; accented letters with number and symbol | Reject the first five; accept the last three | Covered by automated test | Pass |
+| 2026-10-20 | Sign-up terms | Validation | `accept_terms` missing, false, "true", 1 | HTTP 400; nothing stored. With `true`: `terms_accepted_at` stored | Covered by automated test | Pass |
+| 2026-10-20 | Remember me | Functional | Sign in without / with Remember me; sign up | No cookie expiry and 12-hour server session / 30-day cookie and session / no expiry | Covered by automated test | Pass |
+| 2026-10-20 | Saved items | Functional | Save, save again, list, remove, remove unsaved, another user's list | 201 / 200 already_saved / newest first / removed / not_saved / empty | Covered by automated test | Pass |
+| 2026-10-20 | Saved items | Validation | Unknown subject, wrong case, unknown type, bad guide id, 65-char id, unknown field, 51st item; signed out | HTTP 400 with specific error; HTTP 401 signed out | Covered by automated test | Pass |
+| 2026-10-20 | Test quality | Mutation | Removed the symbol check; removed the Remember me cookie expiry | A test fails each time | 1 failed each time | Pass |
+| 2026-10-20 | Debug sign-in tests | End-to-end | Updated runner against local Flask | All 44 steps pass | 44 passed, 0 failed | Pass |

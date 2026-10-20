@@ -30,8 +30,8 @@ from .repositories import DuplicateRecordError, RepositoryError
 
 accounts = Blueprint("accounts", __name__)
 
-SIGNUP_FIELDS = {"full_name", "email", "password"}
-LOGIN_FIELDS = {"email", "password"}
+SIGNUP_FIELDS = {"full_name", "email", "password", "accept_terms"}
+LOGIN_FIELDS = {"email", "password", "remember_me"}
 DELETE_ACCOUNT_FIELDS = {"password"}
 
 PASSWORD_MIN_LENGTH = 12
@@ -87,11 +87,20 @@ def _public_profile(user: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def _set_session_cookie(response, token: str) -> None:
+def _session_lifetime(remember_me: bool) -> timedelta:
+    if remember_me:
+        return timedelta(days=current_app.config["REMEMBER_ME_DAYS"])
+    return timedelta(hours=current_app.config["SESSION_HOURS"])
+
+
+def _set_session_cookie(response, token: str, remember_me: bool) -> None:
+    # Without "Remember me" the cookie has no expiry date, so the browser
+    # forgets it when it closes. The server-side expiry still applies.
+    max_age = int(_session_lifetime(True).total_seconds()) if remember_me else None
     response.set_cookie(
         SESSION_COOKIE_NAME,
         token,
-        max_age=current_app.config["SESSION_HOURS"] * 3600,
+        max_age=max_age,
         secure=current_app.config["SESSION_COOKIE_SECURE"],
         httponly=True,
         samesite="Strict",
@@ -109,10 +118,10 @@ def _clear_session_cookie(response) -> None:
     )
 
 
-def _start_session(response, email: str) -> None:
+def _start_session(response, email: str, remember_me: bool = False) -> None:
     token = secrets.token_urlsafe(32)
     now = utc_now()
-    expires = now + timedelta(hours=current_app.config["SESSION_HOURS"])
+    expires = now + _session_lifetime(remember_me)
     _sessions().create_session(
         {
             "token_hash": _token_hash(token),
@@ -122,7 +131,7 @@ def _start_session(response, email: str) -> None:
             "expires_at": int(expires.timestamp()),
         }
     )
-    _set_session_cookie(response, token)
+    _set_session_cookie(response, token, remember_me)
 
 
 def current_user() -> Optional[Dict[str, Any]]:
@@ -183,15 +192,23 @@ def login_required(view):
     return wrapped
 
 
-def _validate_password_length(password: Any, errors: List[str]) -> None:
+PASSWORD_RULE_MESSAGE = (
+    f"password must be {PASSWORD_MIN_LENGTH} to {PASSWORD_MAX_LENGTH} characters "
+    "and include a number and a symbol."
+)
+
+
+def _validate_new_password(password: Any, errors: List[str]) -> None:
+    """Apply the sign-up password rule shown in the design."""
+
     if (
         not isinstance(password, str)
         or not PASSWORD_MIN_LENGTH <= len(password) <= PASSWORD_MAX_LENGTH
+        or not any(char.isdigit() for char in password)
+        # A symbol is anything that is not a letter, a number, or a space.
+        or not any(not char.isalnum() and not char.isspace() for char in password)
     ):
-        errors.append(
-            f"password must be between {PASSWORD_MIN_LENGTH} and "
-            f"{PASSWORD_MAX_LENGTH} characters."
-        )
+        errors.append(PASSWORD_RULE_MESSAGE)
 
 
 def _validate_signup(payload: Any) -> tuple[Dict[str, Any], List[str]]:
@@ -211,7 +228,10 @@ def _validate_signup(payload: Any) -> tuple[Dict[str, Any], List[str]]:
 
     # Passwords are not stripped: spaces are valid password characters.
     password = payload.get("password")
-    _validate_password_length(password, errors)
+    _validate_new_password(password, errors)
+
+    if payload.get("accept_terms") is not True:
+        errors.append("accept_terms must be true.")
 
     if errors:
         return {}, errors
@@ -243,9 +263,17 @@ def _validate_login(payload: Any) -> tuple[Dict[str, Any], List[str]]:
     ):
         errors.append("password is required.")
 
+    remember_me = payload.get("remember_me", False)
+    if not isinstance(remember_me, bool):
+        errors.append("remember_me must be true or false.")
+
     if errors:
         return {}, errors
-    return {"email": normalize_email(email), "password": password}, []
+    return {
+        "email": normalize_email(email),
+        "password": password,
+        "remember_me": remember_me,
+    }, []
 
 
 @accounts.post("/api/users")
@@ -269,6 +297,9 @@ def create_user():
         "id": str(uuid4()),
         "full_name": signup["full_name"],
         "password_hash": hash_password(signup["password"]),
+        # Evidence that the user agreed to the Terms and Privacy notice.
+        "terms_accepted_at": timestamp,
+        "saved": {},
         "created_at": timestamp,
         "updated_at": timestamp,
     }
@@ -335,7 +366,7 @@ def login():
         response = make_response(
             jsonify({**_public_profile(user), "status": "signed_in"}), 200
         )
-        _start_session(response, user["email"])
+        _start_session(response, user["email"], credentials["remember_me"])
     except RepositoryError:
         current_app.logger.exception("Failed to sign the user in.")
         return error_response("Unable to sign in right now.", 503)

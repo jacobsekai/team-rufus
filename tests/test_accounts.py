@@ -1,6 +1,7 @@
 """Sign-in, sign-out, session, and "my account" tests."""
 
 import hashlib
+import time
 
 import pytest
 
@@ -12,7 +13,7 @@ from backend.accounts import (
 from backend.repositories import RepositoryError
 
 
-PASSWORD = "correct horse battery"
+PASSWORD = "correct horse battery 9!"
 EMAIL = "member@example.com"
 
 
@@ -22,7 +23,7 @@ def signed_up(client):
 
     response = client.post(
         "/api/users",
-        json={"full_name": "Example Member", "email": EMAIL, "password": PASSWORD},
+        json={"full_name": "Example Member", "email": EMAIL, "password": PASSWORD, "accept_terms": True},
     )
     assert response.status_code == 201
     client.post("/api/logout")
@@ -44,7 +45,7 @@ def _session_cookie_header(response):
 def test_signup_signs_the_user_in(client):
     response = client.post(
         "/api/users",
-        json={"full_name": "New Member", "email": "new@example.com", "password": PASSWORD},
+        json={"full_name": "New Member", "email": "new@example.com", "password": PASSWORD, "accept_terms": True},
     )
 
     assert response.status_code == 201
@@ -118,7 +119,8 @@ def test_wrong_email_or_password_gives_the_same_answer(client, signed_up, email,
 @pytest.mark.parametrize(
     "payload",
     [{}, {"email": EMAIL}, {"password": PASSWORD}, {"email": EMAIL, "password": ""},
-     {"email": EMAIL, "password": PASSWORD, "remember_me": True}, ["not", "an", "object"]],
+     {"email": EMAIL, "password": PASSWORD, "is_admin": True}, ["not", "an", "object"],
+     {"email": EMAIL, "password": PASSWORD, "remember_me": "yes"}],
 )
 def test_login_validation(client, payload):
     assert client.post("/api/login", json=payload).status_code == 400
@@ -242,3 +244,36 @@ def test_api_has_no_delete_with_body(app):
     endpoint may expect one."""
 
     assert not any("DELETE" in (rule.methods or ()) for rule in app.url_map.iter_rules())
+
+
+def _session_expiry_days(sessions_repository):
+    (session,) = sessions_repository.sessions.values()
+    return (int(session["expires_at"]) - time.time()) / 86400
+
+
+def test_without_remember_me_the_cookie_ends_with_the_browser(client, signed_up, sessions_repository):
+    response = _login(client)
+
+    cookie = _session_cookie_header(response)
+    assert "Max-Age" not in cookie and "Expires" not in cookie
+    assert 0.4 < _session_expiry_days(sessions_repository) <= 0.5  # 12 hours on the server
+
+
+def test_remember_me_keeps_the_session_for_30_days(client, signed_up, sessions_repository):
+    response = client.post(
+        "/api/login", json={"email": EMAIL, "password": PASSWORD, "remember_me": True}
+    )
+
+    assert response.status_code == 200
+    assert f"Max-Age={30 * 86400}" in _session_cookie_header(response)
+    assert 29.9 < _session_expiry_days(sessions_repository) <= 30
+
+
+def test_sign_up_does_not_remember_the_browser(client):
+    response = client.post(
+        "/api/users",
+        json={"full_name": "New Member", "email": "fresh@example.com",
+              "password": PASSWORD, "accept_terms": True},
+    )
+
+    assert "Max-Age" not in _session_cookie_header(response)

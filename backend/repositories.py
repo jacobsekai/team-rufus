@@ -105,6 +105,21 @@ class UsersRepository:
             ExpressionAttributeValues={":until": locked_until, ":zero": 0},
         )
 
+    def set_saved_items(self, email: str, saved: Dict[str, str], updated_at: str) -> None:
+        """Replace the user's saved items.
+
+        A whole-map write is simple and fine for one person editing their own
+        list; two saves at the same instant from the same user could lose one.
+        """
+
+        _call(
+            self.table.update_item,
+            Key={"email": email},
+            UpdateExpression="SET saved = :saved, updated_at = :updated_at",
+            ConditionExpression="attribute_exists(email)",
+            ExpressionAttributeValues={":saved": saved, ":updated_at": updated_at},
+        )
+
     def clear_failed_logins(self, email: str) -> None:
         _call(
             self.table.update_item,

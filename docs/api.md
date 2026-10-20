@@ -52,6 +52,10 @@ deleting an account is a `POST`.
 | `POST` | `/api/login` | No | Sign in |
 | `POST` | `/api/logout` | No | Sign out |
 | `GET` | `/api/users/me` | Yes | View my account |
+| `GET` | `/api/users/me/saved` | Yes | List my saved subjects and guides |
+| `POST` | `/api/users/me/saved` | Yes | Save a subject or guide |
+| `POST` | `/api/users/me/saved/remove` | Yes | Remove a saved item |
+| `GET` | `/api/subjects` | No | List the placement subject areas |
 | `POST` | `/api/users/me/delete` | Yes | Delete my account |
 | `GET` | `/api/content` | No | List downloadable content |
 | `GET` | `/api/content/<id>/download` | Depends on item | Download a file |
@@ -93,14 +97,17 @@ There is deliberately no endpoint for reading submissions back.
 ## `POST /api/users`
 
 ```json
-{"full_name": "Example Student", "email": "example.student@example.com", "password": "correct horse battery"}
+{"full_name": "Example Student", "email": "example.student@example.com", "password": "correct horse battery 9!", "accept_terms": true}
 ```
 
 | Field | Rules |
 |---|---|
 | `full_name` | Required, 1–100 characters |
 | `email` | Required, valid email; stored lower-case |
-| `password` | Required, 12–128 characters |
+| `password` | Required, 12–128 characters, with at least one number and one symbol (spaces don't count as symbols) |
+| `accept_terms` | Required, must be `true` (the Terms of use / Privacy notice checkbox). The time is stored as evidence. |
+
+The new session is not remembered: it ends when the browser closes.
 
 | Status | Meaning |
 |---|---|
@@ -112,13 +119,15 @@ There is deliberately no endpoint for reading submissions back.
 ## `POST /api/login`
 
 ```json
-{"email": "example.student@example.com", "password": "correct horse battery"}
+{"email": "example.student@example.com", "password": "correct horse battery 9!", "remember_me": false}
 ```
+
+`remember_me` is optional (default `false`). Unticked, the cookie ends when the browser closes and the session expires after 12 hours. Ticked, the session lasts 30 days.
 
 | Status | Meaning |
 |---|---|
 | `200` | Signed in; returns the profile and sets the session cookie |
-| `400` | Missing email or password |
+| `400` | Missing email or password, or `remember_me` not true/false |
 | `401` | `Email or password is incorrect.` (same message whether or not the email exists) |
 | `429` | Locked after 5 wrong passwords in a row; `Retry-After` header gives seconds to wait (up to 15 minutes) |
 | `503` | Temporary problem |
@@ -148,6 +157,36 @@ Confirms the password before deleting.
 | `400` | Password missing |
 | `401` | Not signed in |
 | `400` | `Password is incorrect.` |
+
+## `GET /api/subjects`
+
+The single list of placement subject areas. Use its `id` values for
+`interests` (expression of interest, any letter case) and for saved subjects.
+
+```json
+{"subjects": [{"id": "digital", "name": "Digital"}, {"id": "business", "name": "Business"},
+              {"id": "media", "name": "Media"}, {"id": "finance", "name": "Finance"},
+              {"id": "engineering", "name": "Engineering"}]}
+```
+
+## Saved subjects and guides
+
+All three need sign-in (`401` otherwise) and return the full list, newest first:
+
+```json
+{"items": [{"type": "guide", "id": "parents-guide", "saved_at": "2026-10-20T09:00:00Z"}], "status": "saved"}
+```
+
+| Request | Body | Result |
+|---|---|---|
+| `GET /api/users/me/saved` | none | `200` with `items` |
+| `POST /api/users/me/saved` | `{"type": "subject", "id": "digital"}` | `201` `saved`, or `200` `already_saved` |
+| `POST /api/users/me/saved/remove` | `{"type": "guide", "id": "parents-guide"}` | `200` `removed`, or `200` `not_saved` |
+
+- `type` is `subject` or `guide`.
+- Subject IDs must come from `GET /api/subjects`.
+- Guide IDs are the frontend's page slugs: 1 to 64 lowercase letters, numbers or dashes.
+- Up to 50 saved items per account (`400` beyond that).
 
 ## `GET /api/content`
 

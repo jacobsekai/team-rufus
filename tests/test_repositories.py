@@ -103,3 +103,14 @@ def test_aws_errors_become_repository_errors(call):
 
     with pytest.raises(RepositoryError):
         call(repository)
+
+
+def test_set_saved_items_replaces_the_map():
+    table = StubTable()
+    UsersRepository(table).set_saved_items("a@example.com", {"subject:digital": "t"}, "now")
+
+    name, kwargs = table.calls[0]
+    assert name == "update_item"
+    assert kwargs["UpdateExpression"] == "SET saved = :saved, updated_at = :updated_at"
+    assert kwargs["ExpressionAttributeValues"] == {":saved": {"subject:digital": "t"}, ":updated_at": "now"}
+    assert kwargs["ConditionExpression"] == "attribute_exists(email)"

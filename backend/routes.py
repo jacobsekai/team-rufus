@@ -31,9 +31,13 @@ ALLOWED_FIELDS = {
 # The brief's customers: students, schools, and people around students.
 CUSTOMER_TYPES = ("student", "school", "parent_carer", "other")
 
-# Amazon Emerging Talent placement areas named in the brief.
+# Amazon Emerging Talent placement areas named in the brief. This is the one
+# list the whole backend uses; GET /api/subjects shares it with the frontend.
+# (aboutamazon.co.uk listed only Digital as running on 2026-10-20, with more
+# pathways planned, so update this list as Amazon adds placements.)
 PLACEMENT_AREAS = ("Digital", "Business", "Media", "Finance", "Engineering")
 _PLACEMENT_AREAS_BY_KEY = {area.lower(): area for area in PLACEMENT_AREAS}
+SUBJECT_IDS = tuple(_PLACEMENT_AREAS_BY_KEY)
 
 
 def _normalize_interests(interests: Any, errors: List[str]) -> List[str]:
@@ -109,6 +113,15 @@ def health():
     """Return a non-sensitive liveness response."""
 
     return jsonify({"status": "ok"}), 200
+
+
+@api.get("/api/subjects")
+def list_subjects():
+    """List the placement subject areas (used for interests and saved items)."""
+
+    return jsonify(
+        {"subjects": [{"id": key, "name": name} for key, name in _PLACEMENT_AREAS_BY_KEY.items()]}
+    ), 200
 
 
 @api.post("/api/expressions-of-interest")

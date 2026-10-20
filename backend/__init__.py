@@ -12,6 +12,7 @@ from .repositories import (
     UsersRepository,
 )
 from .routes import api
+from .saved import saved
 
 
 def _settings_from_app(app: Flask) -> Settings:
@@ -25,6 +26,7 @@ def _settings_from_app(app: Flask) -> Settings:
         sessions_table_name=app.config["SESSIONS_TABLE_NAME"],
         content_bucket_name=app.config.get("CONTENT_BUCKET_NAME"),
         session_hours=app.config["SESSION_HOURS"],
+        remember_me_days=app.config["REMEMBER_ME_DAYS"],
         session_cookie_secure=app.config["SESSION_COOKIE_SECURE"],
         aws_endpoint_url=app.config.get("AWS_ENDPOINT_URL"),
         host=app.config["FLASK_HOST"],
@@ -59,6 +61,7 @@ def create_app(
         SESSIONS_TABLE_NAME=settings.sessions_table_name,
         CONTENT_BUCKET_NAME=settings.content_bucket_name,
         SESSION_HOURS=settings.session_hours,
+        REMEMBER_ME_DAYS=settings.remember_me_days,
         SESSION_COOKIE_SECURE=settings.session_cookie_secure,
         AWS_ENDPOINT_URL=settings.aws_endpoint_url,
         FLASK_HOST=settings.host,
@@ -105,4 +108,5 @@ def create_app(
     app.register_blueprint(api)
     app.register_blueprint(accounts)
     app.register_blueprint(content)
+    app.register_blueprint(saved)
     return app

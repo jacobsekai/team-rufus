@@ -43,7 +43,8 @@ def test_signup_through_lambda_event(app, users_repository):
             {
                 "full_name": "Example Student",
                 "email": "student@example.com",
-                "password": "correct horse battery",
+                "password": "correct horse battery 9!",
+                "accept_terms": True,
             },
         ),
         None,
@@ -74,7 +75,8 @@ def test_session_cookie_round_trip_through_lambda_events(app):
             {
                 "full_name": "Example Student",
                 "email": "student@example.com",
-                "password": "correct horse battery",
+                "password": "correct horse battery 9!",
+                "accept_terms": True,
             },
         ),
         None,

@@ -77,6 +77,8 @@ without copying their email address.
 | `id` | String | UUID for referencing the user elsewhere |
 | `full_name` | String | User-provided name |
 | `password_hash` | String | Salted PBKDF2-SHA256 hash, 600,000 iterations |
+| `terms_accepted_at` | String | UTC time the user accepted the Terms of use and Privacy notice |
+| `saved` | Map | Saved items: `"subject:digital"` → UTC time saved (max 50) |
 | `failed_login_count` | Number | Wrong passwords in a row (absent until the first failure) |
 | `locked_until` | Number | Epoch seconds; sign-in refused until then (absent when not locked) |
 | `created_at` | String | UTC creation timestamp |
@@ -114,7 +116,7 @@ so that signing out and deleting an account take effect immediately.
 | `token_hash` | String | Partition key |
 | `email` | String | Which user the session belongs to |
 | `created_at` | String | UTC creation timestamp |
-| `expires_at` | Number | Epoch seconds; DynamoDB time-to-live deletes the item after this |
+| `expires_at` | Number | Epoch seconds; DynamoDB time-to-live deletes the item after this (12 hours, or 30 days with Remember me) |
 
 TTL deletion can take up to a few days, so the application also rejects any
 session whose `expires_at` has passed.
