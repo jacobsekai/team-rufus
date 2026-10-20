@@ -138,9 +138,10 @@ Resources:
       SensitiveInformationPolicyConfig:
         PiiEntitiesConfig:
           - {Type: EMAIL, Action: ANONYMIZE}
-          # Input only: answers include the Childline number.
+          # Input only: answers include the Childline number, and the address
+          # detector also matches place names like "England" in answers.
           - {Type: PHONE, Action: ANONYMIZE, InputEnabled: true, OutputEnabled: false}
-          - {Type: ADDRESS, Action: ANONYMIZE}
+          - {Type: ADDRESS, Action: ANONYMIZE, InputEnabled: true, OutputEnabled: false}
           - {Type: UK_NATIONAL_INSURANCE_NUMBER, Action: ANONYMIZE}
           - {Type: UK_NATIONAL_HEALTH_SERVICE_NUMBER, Action: ANONYMIZE}
           - {Type: CREDIT_DEBIT_CARD_NUMBER, Action: BLOCK}
@@ -157,7 +158,7 @@ Resources:
     Type: AWS::Bedrock::GuardrailVersion
     Properties:
       GuardrailIdentifier: !GetAtt ChatGuardrail.GuardrailId
-      Description: "v1: initial filters and PII masking"
+      Description: "v2: addresses masked in questions only"
 
   # CloudFront signs every origin request; Lambda only accepts those that come
   # from this distribution.
