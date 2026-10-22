@@ -574,6 +574,28 @@ button {
     object-fit: contain;
 }
 
+.subjects-section {
+    min-height: 1200px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    padding: 10px 100px;
+    background-color: #FFF4E2;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.subjects-boxes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 100px;
+    background-color: #FFF4E2;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
 .footer {
     background-color: #232F3E;
     height: 250px;
