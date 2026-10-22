@@ -24,6 +24,11 @@ body {
     font-family: "Amazon Ember", Arial, sans-serif;
 }
 
+.topnav a:hover {
+    text-decoration: underline 3px;
+    text-decoration-color: #FF9900;
+    text-underline-offset: 6px;
+}
 
 .topnav .logo {
     position: absolute;
@@ -52,6 +57,11 @@ button {
     gap: 8px;
     position: absolute;
     right: 184px;
+    transition: transform 0.2s ease;
+}
+
+.login-button:hover {
+    transform: scale(1.1);
 }
 
 .login-arrow {
@@ -69,6 +79,11 @@ button {
     gap: 8px;
     position: absolute;
     right: 64px;
+    transition: transform 0.2s ease;
+}
+
+.signup-button:hover {
+    transform: scale(1.1);
 }
 
 .signup-arrow {
@@ -128,7 +143,12 @@ button {
     width: 170px;
     height: 50px;
     font-size: 14px;
+    transition: transform 0.2s ease;
 }   
+
+.exploresub-button:hover {
+    transform: scale(1.1);
+}
 
 .exploresub-arrow {
     width: 10px;
@@ -146,6 +166,11 @@ button {
     width: 190px;
     height: 50px;
     font-size: 14px;
+    transition: transform 0.2s ease;
+}
+
+.tlvlama-button:hover {
+    transform: scale(1.1);
 }
 
 .tlvlama-arrow {
@@ -163,7 +188,7 @@ button {
 }  
 
 .homepage-section {
-    height: 40px;
+    height: 60px;
     object-fit: cover;
     display: flex;
     flex-direction: row;
@@ -195,7 +220,7 @@ button {
 }
 
 .homepage-section2 {
-    height: 463px;
+    height: 500px;
     box-sizing: border-box;
     object-fit: cover;
     display: flex;
@@ -231,6 +256,13 @@ button {
     justify-content: center;
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.skillsemploy-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
 }
 
 .orangecase-img {
@@ -255,7 +287,15 @@ button {
     justify-content: center;
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
+
+.experience-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
 
 .orangeppl-img {
     position: absolute;
@@ -279,6 +319,13 @@ button {
     justify-content: center;
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.moreway-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
 }
 
 .orangsign-img {
@@ -288,4 +335,286 @@ button {
     width: 35px;
     height: 35px;
     object-fit: contain;
+}
+
+.homepage-section3 {
+    height: 450px;
+    box-sizing: border-box;
+    object-fit: cover;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+    padding: 40px;
+    background-color: #FFF4E2;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.homepage3-copy {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.homepage3-button {
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 6px;
+    color: #232F3E;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 190px;
+    height: 50px;
+    font-size: 14px;
+    transition: transform 0.2s ease;
+}
+
+.homepage3-button:hover {
+    transform: scale(1.1);
+}
+
+.homepage3-arrow {
+    width: 10px;
+    height: 10px;
+    object-fit: contain;
+}
+
+.homepage3-boxes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    flex-shrink: 0;
+    background-color: #FFF4E2;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.percent80-box {
+    position: relative;
+    width: 520px;
+    height: 150px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.percent80-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.percent80-label {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    margin: 0;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.percent80-copy {
+    position: absolute;
+    top: 25px;
+    left: 130px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #566171;
+}
+
+.percent80-copy p {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.percent80-copy p:first-child {
+    color: #131820;
+    font-size: 15px;
+    word-spacing: 1px;
+}
+
+.percent20-box {
+    position: relative;
+    width: 520px;
+    height: 150px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.percent20-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.percent20-label {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    margin: 0;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.percent20-copy {
+    position: absolute;
+    top: 25px;
+    left: 130px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #566171;
+}
+
+.percent20-copy p {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.percent20-copy p:first-child {
+    color: #131820;
+    font-size: 15px;
+    word-spacing: 1px;
+}
+
+.homepage4-section {
+    min-height: 680px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    padding: 10px 100px;
+    background-color: white;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.homepage4-image {
+    width: 50%;
+    max-width: 719px;
+    height: auto;
+    border-radius: 12px;
+}
+
+.homepage4-copy {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.homepage4-copy p,
+.homepage4-heading {
+    margin: 0;
+}
+
+.homepage4-eyebrow {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.homepage4-heading {
+    font-size: 50px;
+    word-spacing: 4px;
+}
+
+.homepage4-description {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #566171;
+}
+
+.homepage4-button{
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    color: #232F3E;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 235px;
+    height: 50px;
+    font-size: 14px;
+    transition: transform 0.2s ease;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    transition: transform 0.2s ease;
+}
+
+.homepage4-button:hover {
+    transform: scale(1.1);
+}
+
+.homepage4-arrow {
+    width: 10px;
+    height: 10px;
+    object-fit: contain;
+}
+
+.footer {
+    background-color: #232F3E;
+    height: 250px;
+    color: white;
+    padding: 40px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.amazon-logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    float: right;
+    color: white;
+    padding-right: 100px;
+}
+
+.footer-links a,
+.footer-links a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+hr.footer-divider {
+    clear: both;
+    border: none;
+    border-top: 1px solid #DCE2EB;
+    margin: 0;
+    padding-top: 10px;
+}
+
+.footer-text {
+    font-size: 12px;
+    color: #DCE2EB;
+    margin-top: 10px;
 }
