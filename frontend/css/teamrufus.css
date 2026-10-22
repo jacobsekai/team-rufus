@@ -179,3 +179,113 @@ button {
     margin-left: 20px;
     margin-top: -15px;
 }
+
+.fraction-text {
+    font-family: "Amazon Ember", Arial, sans-serif;
+    color: #232F3E;
+    margin-left: 300px;
+    margin-top: -15px;
+}
+
+.days-text {
+    font-family: "Amazon Ember", Arial, sans-serif;
+    color: #232F3E;
+    margin-left: 250px;
+    margin-top: -15px;
+}
+
+.homepage-section2 {
+    height: 463px;
+    box-sizing: border-box;
+    object-fit: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 40px;
+    background-color: white;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.homepage-boxes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 100px;
+    background-color: white;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.skillsemploy-box {
+    position: relative;
+    width: 400px;
+    height: 220px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.orangecase-img {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.experience-box {
+    position: relative;
+    width: 400px;
+    height: 220px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.orangeppl-img {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.moreway-box {
+    position: relative;
+    width: 400px;
+    height: 220px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.orangsign-img {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
