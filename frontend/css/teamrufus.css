@@ -575,12 +575,12 @@ button {
 }
 
 .subjects-section {
-    min-height: 1200px;
+    min-height: 2000px;
     box-sizing: border-box;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 64px;
-    padding: 10px 100px;
+    padding: 40px 100px;
     background-color: #FFF4E2;
     color: #232F3E;
     font-family: "Amazon Ember", Arial, sans-serif;
@@ -588,12 +588,157 @@ button {
 
 .subjects-boxes {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 100px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
     background-color: #FFF4E2;
     color: #232F3E;
     font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.digital-box {
+    position: relative;
+    width: 1264px;
+    height: 266px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    padding: 40px;
+    justify-content: center;
+    gap: 40px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.digital-box h3,
+.digital-box p {
+    margin: 0;
+    line-height: 4px;
+}
+
+.digital-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.accounting-box {
+    position: relative;
+    width: 1264px;
+    height: 266px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    padding: 40px;
+    justify-content: center;
+    gap: 8px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.accounting-box h3,
+.accounting-box p {
+    margin: 0;
+    line-height: 2;
+}
+
+.accounting-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.marketing-box {
+    position: relative;
+    width: 1264px;
+    height: 266px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    padding: 40px;
+    justify-content: center;
+    gap: 8px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.marketing-box h3,
+.marketing-box p {
+    margin: 0;
+    line-height: 2;
+}
+
+.marketing-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.business-box {
+    position: relative;
+    width: 1264px;
+    height: 266px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    padding: 40px;
+    justify-content: center;
+    gap: 8px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.business-box h3,
+.business-box p {
+    margin: 0;
+    line-height: 2;
+}
+
+.business-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.engineering-box {
+    position: relative;
+    width: 1264px;
+    height: 266px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+    padding: 40px;
+    justify-content: center;
+    gap: 8px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.engineering-box h3,
+.engineering-box p {    
+    margin: 0;
+    line-height: 2;
+}
+
+.engineering-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
 }
 
 .footer {
