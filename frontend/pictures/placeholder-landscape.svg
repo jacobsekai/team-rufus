@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 804 503" preserveAspectRatio="xMidYMid slice">
+  <!-- Image placeholder from the prototype designs: grey sky, sun, two hills. -->
+  <rect width="804" height="503" fill="#C5CBD2"/>
+  <circle cx="232" cy="222" r="33" fill="#F1F2F4"/>
+  <path d="M0 330 C40 290 80 272 120 278 C185 288 230 372 265 373 C335 376 420 124 535 122 C645 120 740 262 804 348 L804 503 L0 503 Z" fill="#F1F2F4"/>
+</svg>
