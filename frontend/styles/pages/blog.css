@@ -1,0 +1,130 @@
+/* ============================================================
+   Blog list page (blog.html)
+   Design: "T-Level Blog" screenshot. Dark hero with the title,
+   then a cream band with the featured post (image left, text
+   right). The post grid below it is not in the screenshots
+   (they cut off), so it reuses the same card style as the
+   colleague's home page boxes: white, #DCE2EB border, 12px
+   corners, soft shadow that lifts on hover.
+   Shared hero/breadcrumb/image styles: components.css.
+   ============================================================ */
+
+.blog-featured-section {
+  background-color: #FFF4E2;
+  padding: 68px 0 56px;
+}
+
+/* Featured post: two equal columns, text top-aligned with the image. */
+.blog-featured {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 46px;
+  align-items: start;
+}
+.blog-featured-media {
+  display: block;
+  aspect-ratio: 16 / 10;
+}
+.blog-featured-body {
+  padding-top: 4px;
+}
+.blog-featured-body .eyebrow {
+  color: #232F3E;
+  font-size: 12px;
+}
+.blog-featured-body h2 {
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: var(--space-sm) 0 var(--space-md);
+}
+
+/* Titles are links but should look like headings until hovered. */
+.blog-featured-body h2 a,
+.post-card-body h3 a {
+  color: #232F3E;
+}
+.blog-featured-body h2 a:hover,
+.post-card-body h3 a:hover {
+  color: #232F3E;
+  text-decoration: underline 3px;
+  text-decoration-color: #FF9900;
+  text-underline-offset: 6px;
+}
+
+.post-meta {
+  color: #566171;
+  font-size: 15px;
+  margin-bottom: var(--space-md);
+}
+.post-excerpt {
+  color: #566171;
+  font-size: 17px;
+  margin: 0;
+}
+
+/* ---------- Post grid ---------- */
+.blog-list-section {
+  background-color: #FFF4E2;
+  padding: 16px 0 80px;
+}
+
+.post-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.post-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid #DCE2EB;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.post-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.post-card-media {
+  display: block;
+  aspect-ratio: 3 / 2;
+}
+/* The card already rounds and clips its corners. */
+.post-card-media .media-img {
+  border-radius: 0;
+}
+
+.post-card-body {
+  padding: 24px;
+}
+.post-card-body .eyebrow {
+  color: #232F3E;
+}
+.post-card-body h3 {
+  font-size: 22px;
+  margin: var(--space-sm) 0 var(--space-sm);
+}
+.post-card-body .post-meta {
+  font-size: 14px;
+  margin-bottom: var(--space-sm);
+}
+.post-card-body .post-excerpt {
+  font-size: 15px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-card,
+  .post-card:hover {
+    transition: none;
+    transform: none;
+  }
+}

@@ -11,6 +11,14 @@
   padding: 0 var(--space-lg);
 }
 
+/* Full-width container that lines up page content with the nav logo,
+   the same 60px side gutter the colleague's pages use (her hero has
+   100px padding with content pulled back 40px). Narrower screens get
+   smaller gutters in responsive.css. */
+.wrap-wide {
+  padding: 0 60px;
+}
+
 /* ---------- Top navigation bar ----------
    One shared navbar for every page that uses styles/.
    Markup (keep identical on every page; only aria-current changes):

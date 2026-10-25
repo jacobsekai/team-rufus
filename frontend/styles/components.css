@@ -279,3 +279,81 @@ hr.footer-divider {
   color: #DCE2EB;
   margin: 10px 0 0;
 }
+
+/* ---------- Page heroes (dark band at the top of a page) ----------
+   Colours, heading size and hover effects are taken from the
+   colleague's home page (css/teamrufus.css) so every page matches:
+   navy #232F3E, cream #FFF4E2, orange #FF9900, white 70px headings. */
+.page-hero {
+  padding: 80px 0;
+}
+.hero-dark {
+  background-color: #232F3E;
+  color: white;
+}
+.hero-dark h1 {
+  color: white;
+  font-size: 70px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+}
+.hero-dark .eyebrow {
+  color: white;
+}
+
+/* Cream content band used under a dark hero. */
+.section-cream {
+  background-color: #FFF4E2;
+}
+
+.section-heading {
+  color: #232F3E;
+  font-size: 35px;
+  font-weight: 700;
+  margin: 0 0 var(--space-lg);
+}
+
+/* Breadcrumb trail ("Home / Blog / ...") on dark heroes. */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  margin-bottom: var(--space-lg);
+}
+.breadcrumb a,
+.breadcrumb [aria-current="page"] {
+  color: white;
+}
+.breadcrumb-sep {
+  opacity: 0.8;
+}
+
+/* "← Back to ..." link on dark heroes. Underline on hover matches
+   the nav link hover (orange, offset). */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-size: 16px;
+  margin-bottom: var(--space-lg);
+}
+.breadcrumb a:hover,
+.back-link:hover {
+  color: white;
+  text-decoration: underline 3px;
+  text-decoration-color: #FF9900;
+  text-underline-offset: 6px;
+}
+
+/* Placeholder / content images: fill their box and keep rounded
+   corners (12px, as on her home page image). */
+.media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}

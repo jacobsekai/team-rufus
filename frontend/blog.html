@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T-Level Blog | Team Rufus</title>
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/layout.css">
+<link rel="stylesheet" href="styles/components.css">
+<link rel="stylesheet" href="styles/pages/blog.css">
+<link rel="stylesheet" href="styles/responsive.css">
+<script src="chat/chat-widget.js" defer></script>
+<script src="scripts/nav.js" defer></script>
+</head>
+<body>
+
+<nav class="topnav" aria-label="Primary">
+  <a href="index.html" class="logo-link" aria-label="Home">
+    <img class="logo" src="pictures/CTI%20logo.png" alt="CTI logo">
+  </a>
+  <button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+    <img class="menu-icon" src="pictures/menu%20icon.png" alt="">
+  </button>
+  <div class="nav-menu" id="nav-menu">
+    <div class="nav-links">
+      <a href="subjects.html">Subjects</a>
+      <a href="amazon.html">Amazon</a>
+      <a href="blog.html" aria-current="page">Blog</a>
+      <a href="information.html">Information</a>
+    </div>
+    <div class="nav-actions">
+      <a href="Log_in_page.html" class="login-button">
+        <span>Login</span>
+    <img class="nav-arrow" src="pictures/arrow%20point%20right%20up.png" alt="">
+      </a>
+      <a href="Sign_up_page.html" class="signup-button">
+        <span>Sign Up</span>
+    <img class="nav-arrow" src="pictures/arrow%20point%20right%20up.png" alt="">
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- Dark full-bleed hero -->
+  <section class="page-hero hero-dark">
+    <div class="wrap-wide">
+      <h1>T-Level Blog</h1>
+    </div>
+  </section>
+
+  <!-- Featured post -->
+  <section class="blog-featured-section">
+    <div class="wrap-wide">
+      <article class="blog-featured">
+        <a href="blog-post.html" class="blog-featured-media" tabindex="-1" aria-hidden="true">
+          <img class="media-img" src="pictures/placeholder%20image.png" alt="Featured blog image placeholder">
+        </a>
+        <div class="blog-featured-body">
+          <p class="eyebrow">Featured &middot; Blog Category</p>
+          <h2><a href="blog-post.html">Featured Blog</a></h2>
+          <p class="post-meta">12 October 2026 &middot; 6 min read</p>
+          <p class="post-excerpt">Example Blog Description</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Post grid -->
+  <section class="blog-list-section" aria-labelledby="latest-heading">
+    <div class="wrap-wide">
+      <h2 id="latest-heading" class="section-heading">Latest posts</h2>
+      <ul class="post-grid">
+        <li>
+          <article class="post-card">
+            <a href="blog-post.html" class="post-card-media" tabindex="-1" aria-hidden="true">
+              <img class="media-img" src="pictures/placeholder%20image.png" alt="Blog image placeholder">
+            </a>
+            <div class="post-card-body">
+              <p class="eyebrow">Blog Category</p>
+              <h3><a href="blog-post.html">Example Blog Title</a></h3>
+              <p class="post-meta">12 October 2026 &middot; 6 min read</p>
+              <p class="post-excerpt">Example Blog Description</p>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="post-card">
+            <a href="blog-post.html" class="post-card-media" tabindex="-1" aria-hidden="true">
+              <img class="media-img" src="pictures/placeholder%20image.png" alt="Blog image placeholder">
+            </a>
+            <div class="post-card-body">
+              <p class="eyebrow">Blog Category</p>
+              <h3><a href="blog-post.html">Example Blog Title</a></h3>
+              <p class="post-meta">12 October 2026 &middot; 6 min read</p>
+              <p class="post-excerpt">Example Blog Description</p>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="post-card">
+            <a href="blog-post.html" class="post-card-media" tabindex="-1" aria-hidden="true">
+              <img class="media-img" src="pictures/placeholder%20image.png" alt="Blog image placeholder">
+            </a>
+            <div class="post-card-body">
+              <p class="eyebrow">Blog Category</p>
+              <h3><a href="blog-post.html">Example Blog Title</a></h3>
+              <p class="post-meta">12 October 2026 &middot; 6 min read</p>
+              <p class="post-excerpt">Example Blog Description</p>
+            </div>
+          </article>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <img class="amazon-logo" src="pictures/amazon%20logo.png" alt="Amazon logo">
+  <nav class="footer-links" aria-label="Footer">
+    <span class="footer-heading">Explore</span>
+    <span><a href="index.html">Home</a> &middot; <a href="subjects.html">Subjects</a> &middot; <a href="amazon.html">Amazon</a></span>
+    <span><a href="blog.html">Blog</a> &middot; <a href="information.html">Information</a></span>
+    <span><a href="Sign_up_page.html">Sign up</a> &middot; <a href="Log_in_page.html">Log in</a></span>
+  </nav>
+  <hr class="footer-divider">
+  <p class="footer-text">Privacy &middot; Terms &middot; Cookies &middot; Accessibility</p>
+</footer>
+</body>
+</html>

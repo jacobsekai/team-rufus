@@ -71,6 +71,38 @@
   }
 }
 
+/* Blog and shared page sections: tablets. */
+@media (max-width: 960px) {
+  .wrap-wide {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+  .page-hero {
+    padding: 56px 0;
+  }
+  .hero-dark h1 {
+    font-size: 52px;
+  }
+  .blog-featured {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  .blog-featured-body h2 {
+    font-size: 36px;
+  }
+  .post-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+  .post-wrap {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+  .post-hero h1 {
+    font-size: 48px;
+  }
+}
+
 @media (max-width: 720px) {
   /* Footer: let it grow with its content and put the links under the
      logo instead of floating them right. */
@@ -85,6 +117,45 @@
     float: none;
     padding-right: 0;
     gap: 20px;
+  }
+
+  /* Side padding only, so sections keep their own top/bottom spacing. */
+  .wrap-wide,
+  .post-wrap {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+  .post-body {
+    padding-top: 32px;
+    padding-bottom: 56px;
+  }
+  .page-hero {
+    padding: 40px 0;
+  }
+  .hero-dark h1,
+  .post-hero h1 {
+    font-size: 38px;
+  }
+  .blog-featured-section {
+    padding: 40px 0 32px;
+  }
+  .blog-featured-body h2 {
+    font-size: 30px;
+  }
+  .post-grid {
+    grid-template-columns: 1fr;
+  }
+  .post-lede {
+    font-size: 17px;
+  }
+  .post-hero-media .media-img {
+    border-radius: 16px 16px 8px 8px;
+  }
+  .post-body h2 {
+    font-size: 24px;
+  }
+  .post-body p {
+    font-size: 16px;
   }
 
   .wrap {
