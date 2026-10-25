@@ -1,0 +1,98 @@
+/* ============================================================
+   Team Rufus — Base styles
+   Reset, design tokens, typography, links.
+   Loaded on every page, before layout.css and components.css.
+   ============================================================ */
+
+:root {
+  /* Color palette — matches the Figma designs (navy + orange, Amazon-style) */
+  --color-text: #0F1111;
+  --color-text-muted: #565959;
+  --color-background: #ffffff;
+  --color-background-alt: #FDF3E0;
+  --color-border: #D5D9D9;
+  --color-navy: #131A22;
+  --color-primary: #FF9900;
+  --color-primary-dark: #E88B00;
+  --color-danger: #D1393E;
+  --color-success: #1f8a4c;
+  --color-focus: #0073BB;
+
+  /* Spacing scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+
+  /* Typography
+     "Amazon Ember" is Amazon's licensed brand font — it is not
+     bundled here since it isn't freely redistributable. Add an
+     @font-face rule pointing at your licensed font files (or a
+     company font CDN link) when available; browsers will pick
+     it up automatically because it's named first in this list.
+     Until then, every page renders with the closest free system
+     fallback (Helvetica Neue / Arial) so layout and spacing
+     already match what Ember will look like. */
+  --font-base: "Amazon Ember", "Helvetica Neue", Arial, sans-serif;
+  --max-width: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-base);
+  color: var(--color-text);
+  background: var(--color-background);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 var(--space-md);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0 0 var(--space-md);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}

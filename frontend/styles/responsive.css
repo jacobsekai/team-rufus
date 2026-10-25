@@ -1,0 +1,116 @@
+/* ============================================================
+   Team Rufus — Responsive overrides
+   Keep all breakpoint rules here so layout/component files stay
+   readable. Mirror selectors from the other shared files when
+   overriding them for smaller screens.
+   ============================================================ */
+
+/* Top navigation: below 960px the links and buttons no longer fit on
+   one row, so collapse to logo + hamburger. The menu is only hidden
+   when scripts/nav.js has run (it adds .nav-js), so without JavaScript
+   the links still show, stacked, and the site stays usable. */
+@media (max-width: 960px) {
+  .topnav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    height: auto;
+    min-height: 64px;
+    padding: 8px var(--space-md);
+    border-bottom: 1px solid #DCE2EB;
+  }
+  .topnav {
+    overflow: visible;
+  }
+  .topnav .logo-link {
+    align-self: center;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .topnav .logo {
+    height: 48px;
+  }
+  .menu-toggle {
+    position: static;
+    transform: none;
+    margin-left: auto;
+  }
+  .nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    flex-basis: 100%;
+    padding: var(--space-sm) 0 var(--space-md);
+  }
+  .topnav.nav-js .nav-menu {
+    display: none;
+  }
+  .topnav.nav-js.is-open .nav-menu {
+    display: flex;
+  }
+  .nav-links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .nav-links a {
+    padding: 12px 0;
+    border-bottom: 1px solid #DCE2EB;
+  }
+  .nav-actions {
+    flex-direction: column;
+    align-items: stretch;
+    justify-self: auto;
+    margin-right: 0;
+  }
+  /* Full-width buttons in the menu: growing them on hover would push
+     them off the screen edge, so the hover effect is desktop only. */
+  .login-button:hover,
+  .signup-button:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 720px) {
+  /* Footer: let it grow with its content and put the links under the
+     logo instead of floating them right. */
+  .footer {
+    height: auto;
+    padding: 32px var(--space-md);
+  }
+  .amazon-logo {
+    display: block;
+  }
+  .footer-links {
+    float: none;
+    padding-right: 0;
+    gap: 20px;
+  }
+
+  .wrap {
+    padding: 0 var(--space-md);
+  }
+  .site-header .wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+  .primary-nav {
+    gap: var(--space-md);
+  }
+
+  /* Auth card fills the smaller viewport with comfortable padding. */
+  .auth-page {
+    padding: var(--space-lg) var(--space-md);
+  }
+  .auth-card {
+    padding: var(--space-lg);
+  }
+  .auth-card h1 {
+    font-size: 30px;
+  }
+  .auth-row {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+}

@@ -1,0 +1,281 @@
+/* ============================================================
+   Team Rufus — Components
+   Reusable UI pieces: buttons, form fields, cards, alerts.
+   If a style is used on more than one page, it belongs here,
+   not in a page-specific file.
+   ============================================================ */
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-text);
+  border-color: var(--color-primary-dark);
+}
+.btn-primary:hover {
+  background: #FFA826;
+}
+.btn-outline {
+  background: var(--color-background);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+.btn-outline:hover {
+  background: var(--color-background-alt);
+}
+
+/* ---------- Form fields ---------- */
+.field {
+  margin-bottom: var(--space-lg);
+  position: relative;
+}
+.field label {
+  display: block;
+  margin-bottom: var(--space-sm);
+  font-weight: 600;
+  font-size: 14.5px;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-family: inherit;
+  border: 1px solid #D5D9D9;
+  border-radius: var(--radius-md);
+  background: var(--color-background);
+  color: var(--color-text);
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(255,153,0,0.25);
+}
+.field-error {
+  color: var(--color-danger);
+  font-size: 13px;
+  margin-top: var(--space-xs);
+}
+
+/* Password visibility toggle (the eye icon docked inside the
+   right edge of password fields). Markup: wrap the input and a
+   <button class="field-toggle"> inside a .field-with-toggle. */
+.field-with-toggle input {
+  padding-right: 46px;
+}
+.field-toggle {
+  position: absolute;
+  right: 12px;
+  top: 38px;
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  display: flex;
+}
+.field-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+}
+
+/* ---------- Alerts ---------- */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: 14.5px;
+  line-height: 1.4;
+  margin-bottom: var(--space-lg);
+}
+.alert-error {
+  background: #FDECEC;
+  border: 1px solid #F5C6C6;
+  color: var(--color-danger);
+}
+.alert-success {
+  background: #e9f7ef;
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
+}
+.alert-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+/* Allow JS to hide/show the alert via the `hidden` attribute even though
+   .alert sets display:flex (which would otherwise override it). */
+.alert[hidden] {
+  display: none;
+}
+
+/* ---------- Auth pages (sign in / sign up) ----------
+   Shared shell used by both Log_in_page.html and
+   Sign_up_page.html so the two stay visually identical
+   without duplicating CSS. Page files only add what's
+   actually different (e.g. signup's field hints). */
+.auth-page {
+  background: var(--color-background-alt);
+  min-height: calc(100vh - 86px); /* fills the viewport below the 86px topnav */
+  display: flex;
+  justify-content: center;
+  padding: 56px var(--space-lg);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 44px;
+  align-self: flex-start;
+  border: none;
+  box-shadow: 0 1px 2px rgba(15,17,17,0.04), 0 8px 24px rgba(15,17,17,0.08);
+}
+
+/* Logo sitting at the top of the auth card (above the eyebrow). */
+.auth-logo-link {
+  display: inline-flex;
+  margin-bottom: var(--space-lg);
+}
+.auth-logo {
+  height: 30px;
+  width: auto;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: var(--color-text);
+  margin: 0 0 var(--space-sm);
+}
+
+.auth-card h1 {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: var(--space-sm);
+}
+
+.auth-subtext {
+  color: var(--color-text-muted);
+  font-size: 15.5px;
+  margin-bottom: var(--space-lg);
+}
+
+.auth-submit {
+  width: 100%;
+  margin-bottom: var(--space-lg);
+  padding: 12px 18px;
+}
+
+/* Tick boxes on the auth pages (Remember me, accept terms). */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+.checkbox-label input {
+  accent-color: var(--color-primary);
+  width: 16px;
+  height: 16px;
+}
+
+.auth-note {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ---------- Footer ----------
+   Copied from the colleague's home page footer (css/teamrufus.css,
+   .footer and friends) so every page has the same footer. Kept as a
+   separate copy because the two CSS systems are not merged yet: if
+   her footer changes, update this to match.
+   Differences on purpose:
+   - box-sizing: content-box, because base.css makes everything
+     border-box; her 250px height + 40px padding needs content-box to
+     come out the same size (330px).
+   - Her links all point to "#". Here each page name is its own working
+     link, styled so it looks identical. "Explore" is a label, not a link.
+   - Mobile rules in responsive.css (her fixed height and floated
+     link column don't fit narrow screens). */
+.footer {
+  box-sizing: content-box;
+  background-color: #232F3E;
+  height: 250px;
+  color: white;
+  padding: 40px;
+  font-family: "Amazon Ember", Arial, sans-serif;
+  line-height: normal;
+}
+
+.amazon-logo {
+  display: inline;
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 30px;
+  overflow: hidden;
+  float: right;
+  color: white;
+  padding-right: 100px;
+}
+
+.footer-links a,
+.footer-links a:visited {
+  color: white;
+  text-decoration: none;
+}
+.footer-links a:hover {
+  color: white;
+  text-decoration: underline 3px;
+  text-decoration-color: #FF9900;
+  text-underline-offset: 6px;
+}
+
+hr.footer-divider {
+  clear: both;
+  border: none;
+  border-top: 1px solid #DCE2EB;
+  margin: 0;
+  padding-top: 10px;
+}
+
+.footer-text {
+  font-size: 12px;
+  color: #DCE2EB;
+  margin: 10px 0 0;
+}

@@ -1,0 +1,20 @@
+/* ============================================================
+   Sign up page — the few things unique to THIS page only.
+   Shared auth-page/auth-card/auth-logo/eyebrow/etc. shell lives
+   in components.css under "Auth pages" so sign-in and sign-up
+   don't duplicate the same rules.
+   ============================================================ */
+
+.field-hint {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  margin: var(--space-xs) 0 0;
+}
+
+.auth-submit {
+  margin-top: var(--space-sm);
+}
+
+.auth-note {
+  text-align: center;
+}

@@ -1,0 +1,31 @@
+/* ============================================================
+   Sign in page — the few things unique to THIS page only.
+   Shared auth-page/auth-card/auth-logo/eyebrow/etc. shell lives
+   in components.css under "Auth pages" so sign-in and sign-up
+   don't duplicate the same rules.
+   ============================================================ */
+
+.auth-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+  font-size: 14px;
+}
+
+/* "Forgot password?" is a muted link, not the bright-orange default. */
+.auth-row a {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.auth-note {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+}
+.note-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--color-text-muted);
+}
