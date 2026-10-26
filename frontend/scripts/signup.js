@@ -139,6 +139,8 @@
 
     // 201: account saved and the user is signed in.
     if (result && result.status === 201) {
+      // So the next page shows the name straight away (account-nav.js).
+      if (result.body) rememberFirstName(result.body.full_name);
       window.location.href = "index.html";
       return;
     }

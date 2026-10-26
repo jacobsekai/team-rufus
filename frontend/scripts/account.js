@@ -89,7 +89,8 @@
     document.getElementById("edit-name").value = profile.full_name;
     document.getElementById("edit-email").value = profile.email;
     const navName = document.querySelector(".topnav .account-name");
-    if (navName) navName.textContent = profile.full_name.trim().split(/\s+/)[0];
+    const firstName = rememberFirstName(profile.full_name);
+    if (navName && firstName) navName.textContent = firstName;
   }
 
   // ---- Saved subjects and guides ------------------------------------------
