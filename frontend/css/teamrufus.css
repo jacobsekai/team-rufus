@@ -142,7 +142,7 @@ button {
 .back-to-subjects {
     margin: 0;
     color: white;
-    font-size: 15px;
+    font-size: 0.9375rem;
     cursor: pointer;
 }
 
@@ -883,13 +883,13 @@ button {
 
 .learning-card-title {
     margin: 50px 0 12px;
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
 .learning-card-description {
     margin: 0;
     color: #566171;
-    font-size: 15px;
+    font-size: 0.9375rem;
     line-height: 1.5;
 }
 

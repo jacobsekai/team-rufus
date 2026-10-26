@@ -35,7 +35,7 @@ html[data-text-size="largest"] body {
   overflow-wrap: break-word;
 }
 
-/* Boxes with a fixed height (mainly the home and subjects pages, in
+/* Boxes with a fixed height (mainly the home, subjects and digital pages, in
    css/teamrufus.css, plus the shared footer) would let larger text
    spill out. With larger text they grow instead; the original height
    stays as the minimum so the layout looks the same when text fits. */
@@ -68,6 +68,22 @@ html:is([data-text-size="large"], [data-text-size="largest"]) :is(
 ) {
   height: auto;
   min-height: 266px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .mini-box {
+  height: auto;
+  min-height: 203px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) :is(.one-box, .two-box, .three-box) {
+  height: auto;
+  min-height: 414px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .learnings-section {
+  height: auto;
+  min-height: 600px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .subjectinfo-section {
+  height: auto;
+  min-height: 1050px;
 }
 html:is([data-text-size="large"], [data-text-size="largest"]) .homepage-section3 {
   height: auto;
