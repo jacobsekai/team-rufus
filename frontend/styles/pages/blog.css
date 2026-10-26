@@ -38,12 +38,12 @@
 .blog-featured-body .eyebrow,
 .post-card-body .eyebrow {
   color: #0F1111;
-  font-size: 13.5px;
+  font-size: 0.8438rem;
   text-transform: none;
   letter-spacing: 0;
 }
 .blog-featured-body h2 {
-  font-size: 46px;
+  font-size: 2.875rem;
   font-weight: 700;
   line-height: 1.15;
   margin: 26px 0 22px;
@@ -64,12 +64,12 @@
 
 .post-meta {
   color: #566171;
-  font-size: 15px;
+  font-size: 0.9375rem;
   margin-bottom: var(--space-md);
 }
 .post-excerpt {
   color: #566171;
-  font-size: 17px;
+  font-size: 1.0625rem;
   margin: 0;
 }
 
@@ -117,15 +117,15 @@
   padding: 24px;
 }
 .post-card-body h3 {
-  font-size: 22px;
+  font-size: 1.375rem;
   margin: var(--space-sm) 0 var(--space-sm);
 }
 .post-card-body .post-meta {
-  font-size: 14px;
+  font-size: 0.875rem;
   margin-bottom: var(--space-sm);
 }
 .post-card-body .post-excerpt {
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -50,6 +50,9 @@ frontend/
   debug/index.html            Debug panel at /debug: try every endpoint
   debug/signin-tests.js       "Run sign-in tests": end-to-end sign-in checks
   chat/chat-widget.js         "Ask about T Levels" chat panel for every page
+  accessibility.html          Text size and colour contrast settings
+  scripts/display-settings.js Applies the saved settings (in <head> on every page)
+  styles/display-settings.css Text sizes and the high contrast / dark themes
 infra/
   dynamodb-table.yaml         Development table definitions
 deploy/

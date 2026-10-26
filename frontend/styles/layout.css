@@ -87,7 +87,7 @@
   padding: 14px 16px;
   color: #131820;
   font-family: var(--nav-font);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
   text-decoration: none;
 }
@@ -117,7 +117,7 @@
   padding: 10px 22px;
   border-radius: 4px;
   font-family: var(--nav-font);
-  font-size: 13.333px;
+  font-size: 0.8333rem;
   font-weight: 400;
   line-height: normal;
   text-decoration: none;
@@ -161,7 +161,7 @@
 
 .logo {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 1.125rem;
   color: var(--color-text);
 }
 
@@ -185,5 +185,5 @@
   margin-top: var(--space-xl);
   padding: var(--space-lg) 0;
   color: var(--color-text-muted);
-  font-size: 14px;
+  font-size: 0.875rem;
 }

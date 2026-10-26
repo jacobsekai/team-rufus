@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-lg);
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /* "Forgot password?" is a muted link, not the bright-orange default. */
