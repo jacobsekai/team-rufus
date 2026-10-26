@@ -66,6 +66,12 @@
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(255,153,0,0.25);
 }
+/* Help text under a field (sign up, account). */
+.field-hint {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  margin: var(--space-xs) 0 0;
+}
 .field-error {
   color: var(--color-danger);
   font-size: 13px;
@@ -300,6 +306,19 @@ hr.footer-divider {
 }
 .hero-dark .eyebrow {
   color: white;
+}
+/* Orange label and intro text on dark heroes (information, account). */
+.hero-dark .eyebrow-accent {
+  color: #FF9900;
+  font-size: 13.5px;
+  margin-bottom: 28px;
+}
+.hero-lede {
+  color: white;
+  font-size: 20px;
+  line-height: 1.5;
+  max-width: 740px;
+  margin: 28px 0 0;
 }
 
 /* Cream content band used under a dark hero. */

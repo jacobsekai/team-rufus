@@ -6,11 +6,14 @@
 <title>Information &amp; Advice | Team Rufus</title>
 <link rel="stylesheet" href="styles/base.css">
 <link rel="stylesheet" href="styles/layout.css">
+<link rel="stylesheet" href="styles/menu.css">
 <link rel="stylesheet" href="styles/components.css">
 <link rel="stylesheet" href="styles/pages/information.css">
 <link rel="stylesheet" href="styles/responsive.css">
 <script src="chat/chat-widget.js" defer></script>
 <script src="scripts/nav.js" defer></script>
+<script src="scripts/api.js" defer></script>
+<script src="scripts/account-nav.js" defer></script>
 </head>
 <body>
 
@@ -20,6 +23,10 @@
   </a>
   <button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
     <img class="menu-icon" src="pictures/menu%20icon.png" alt="">
+    <span class="account-name"></span>
+    <svg class="account-chevron" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+      <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
   </button>
   <div class="nav-menu" id="nav-menu">
     <div class="nav-links">
@@ -27,6 +34,11 @@
       <a href="amazon.html">Amazon</a>
       <a href="blog.html">Blog</a>
       <a href="information.html" aria-current="page">Information</a>
+    </div>
+    <div class="nav-extra">
+      <a href="account.html">Account</a>
+      <a href="accessibility.html">Accessibility</a>
+      <button type="button" class="nav-logout" hidden>Log out</button>
     </div>
     <div class="nav-actions">
       <a href="Log_in_page.html" class="login-button">
@@ -43,26 +55,25 @@
 
 <main>
 
-  <!-- Dark full-bleed hero -->
-  <section class="page-hero hero-dark">
-    <div class="wrap">
+  <!-- Dark hero -->
+  <section class="page-hero hero-dark info-hero">
+    <div class="wrap-wide">
       <p class="eyebrow eyebrow-accent">Information &amp; Advice</p>
       <h1>Your questions, made clearer.</h1>
       <p class="hero-lede">The practical details on eligibility, applications and life after a T Level. A useful place to start for students, parents and educators.</p>
     </div>
   </section>
 
-  <!-- FAQ section -->
-  <section class="faq-section">
-    <div class="wrap faq-layout">
-
+  <!-- Questions: heading left, cards right. Native <details> so each
+       card opens and closes without JavaScript; all start closed. -->
+  <section class="info-section section-cream" aria-labelledby="faq-heading">
+    <div class="wrap-wide faq-layout">
       <div class="faq-intro">
         <p class="eyebrow">The essentials</p>
-        <h2>Good to know before you start.</h2>
+        <h2 id="faq-heading" class="info-heading">Good to know before you start.</h2>
       </div>
-
       <div class="faq">
-        <details class="faq-item" open>
+        <details class="faq-item">
           <summary>
             <span class="faq-question">Who can study a T Level?</span>
             <span class="faq-icon" aria-hidden="true"></span>
@@ -71,7 +82,6 @@
             <p>T Levels are primarily for 16&ndash;19 year olds in England after GCSEs. Entry requirements are set by each school or college and may vary by course. Ask your provider about the grades and subjects you need.</p>
           </div>
         </details>
-
         <details class="faq-item">
           <summary>
             <span class="faq-question">How do I apply?</span>
@@ -81,38 +91,119 @@
             <p>Choose a subject, find a provider and apply directly to that school or college. Check their deadlines, attend an open day and ask how they organise industry placements. You do not apply for a T Level through UCAS.</p>
           </div>
         </details>
-
         <details class="faq-item">
           <summary>
             <span class="faq-question">Is a T Level the same as an apprenticeship?</span>
             <span class="faq-icon" aria-hidden="true"></span>
           </summary>
           <div class="faq-answer">
-            <p>No. A T Level is a classroom-based course with an industry placement, split roughly 80% study and 20% placement. An apprenticeship is mostly paid work with some study. Both lead to skilled careers.</p>
+            <p>No. A T Level is mainly college- or school-based and includes an industry placement. An apprenticeship is a paid job with training. They are different routes to developing technical skills.</p>
           </div>
         </details>
-
         <details class="faq-item">
           <summary>
-            <span class="faq-question">How long is a T Level?</span>
+            <span class="faq-question">How long is the industry placement?</span>
             <span class="faq-icon" aria-hidden="true"></span>
           </summary>
           <div class="faq-answer">
-            <p>A T Level takes two years to complete and is a Level 3 qualification, equivalent in size to three A Levels.</p>
+            <p>Most T Levels include at least 315 hours of industry placement, around 45 days. Early Years Educator placements require at least 750 hours. Your provider will explain the requirements for your course.</p>
           </div>
         </details>
-
         <details class="faq-item">
           <summary>
-            <span class="faq-question">What can I do after a T Level?</span>
+            <span class="faq-question">Do I get paid on placement?</span>
             <span class="faq-icon" aria-hidden="true"></span>
           </summary>
           <div class="faq-answer">
-            <p>You can move into skilled employment, a higher or degree apprenticeship, or university. T Levels carry UCAS points, so they are recognised by many higher education providers.</p>
+            <p>Payment is not compulsory for an industry placement. Some employers may offer pay or help with costs. Ask your provider about travel, meals and any financial support before you start.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>
+            <span class="faq-question">What if I am not ready for a T Level yet?</span>
+            <span class="faq-icon" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-answer">
+            <p>Ask a provider about the T Level Foundation Year. It is a one-year study programme that can help you prepare for a T Level, where available.</p>
           </div>
         </details>
       </div>
+    </div>
+  </section>
 
+  <!-- UCAS Tariff points: text left, points table right -->
+  <section class="info-section ucas-section" aria-labelledby="ucas-heading">
+    <div class="wrap-wide ucas-layout">
+      <div class="ucas-copy">
+        <p class="eyebrow">UCAS Tariff points</p>
+        <h2 id="ucas-heading" class="info-heading">A qualification that can take you further.</h2>
+        <p>T Levels attract UCAS Tariff points. The number depends on your overall grade, including the core and occupational specialism.</p>
+        <p>University entry requirements vary. Check that your chosen course accepts your specific T Level and any required subjects.</p>
+        <a class="outline-button" href="https://www.ucas.com/ucas/tariff-calculator" target="_blank" rel="noopener noreferrer">
+          <span>Check UCAS guidance</span>
+          <img class="nav-arrow" src="pictures/arrow%20point%20right%20up.png" alt="">
+          <span class="visually-hidden">(opens in a new tab)</span>
+        </a>
+      </div>
+      <div class="tariff-card">
+        <table class="tariff-table">
+          <caption class="visually-hidden">UCAS Tariff points for each overall T Level grade</caption>
+          <thead>
+            <tr>
+              <th scope="col">Overall T Level grade</th>
+              <th scope="col">Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Distinction*</th>
+              <td>168</td>
+            </tr>
+            <tr>
+              <th scope="row">Distinction</th>
+              <td>144</td>
+            </tr>
+            <tr>
+              <th scope="row">Merit</th>
+              <td>120</td>
+            </tr>
+            <tr>
+              <th scope="row">Pass (core C or above)</th>
+              <td>96</td>
+            </tr>
+            <tr>
+              <th scope="row">Pass (core D or E)</th>
+              <td>72</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="tariff-note">Check the current UCAS Tariff and individual course requirements before applying.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- After your T Level: three option cards -->
+  <section class="info-section section-cream" aria-labelledby="options-heading">
+    <div class="wrap-wide">
+      <p class="eyebrow">After your T Level</p>
+      <h2 id="options-heading" class="info-heading options-heading">Your next chapter has options.</h2>
+      <ul class="option-grid">
+        <li class="option-card">
+          <svg class="option-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/><path d="M12 12v1.5"/></svg>
+          <h3>Skilled employment</h3>
+          <p>Use your technical knowledge and placement experience to apply for relevant entry-level roles.</p>
+        </li>
+        <li class="option-card">
+          <svg class="option-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9.5 12 5l10 4.5-10 4.5L2 9.5Z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/></svg>
+          <h3>Higher education</h3>
+          <p>Explore degrees and higher technical qualifications. Acceptance depends on the course and provider.</p>
+        </li>
+        <li class="option-card">
+          <svg class="option-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 17 9 10l4 4 8-8"/><path d="M15 6h6v6"/></svg>
+          <h3>Apprenticeships</h3>
+          <p>Consider a higher or degree apprenticeship, subject to the employer&rsquo;s entry and recruitment requirements.</p>
+        </li>
+      </ul>
     </div>
   </section>
 

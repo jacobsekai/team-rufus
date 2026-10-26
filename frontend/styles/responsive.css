@@ -25,7 +25,7 @@
   .topnav .logo-link {
     align-self: center;
     margin-top: 0;
-    margin-bottom: 0;
+    height: auto;
   }
   .topnav .logo {
     height: 48px;
@@ -56,6 +56,26 @@
   .nav-links a {
     padding: 12px 0;
     border-bottom: 1px solid #DCE2EB;
+  }
+  .nav-extra,
+  .topnav.is-open .nav-extra {
+    display: flex;
+    flex-direction: column;
+    position: static;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .nav-extra a,
+  .nav-logout {
+    padding: 12px 0;
+    border-bottom: 1px solid #DCE2EB;
+  }
+  .nav-extra a:hover,
+  .nav-logout:hover {
+    background: none;
   }
   .nav-actions {
     flex-direction: column;
@@ -103,7 +123,74 @@
   }
 }
 
+/* Information page: tablets. Two-column sections stack. */
+@media (max-width: 960px) {
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+  .faq-layout,
+  .ucas-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .faq-intro .info-heading {
+    max-width: none;
+  }
+  .option-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  .info-heading {
+    font-size: 38px;
+  }
+}
+
 @media (max-width: 720px) {
+  /* Account page: phones. */
+  .account-hero {
+    padding: 48px 0;
+  }
+  .account-section {
+    padding: 40px 0 56px;
+  }
+  .account-card {
+    padding: 24px 20px;
+  }
+
+  /* Information page: phones. */
+  .info-hero {
+    padding: 48px 0 44px;
+  }
+  .hero-lede {
+    font-size: 17px;
+  }
+  .info-section {
+    padding: 48px 0;
+  }
+  .info-heading {
+    font-size: 30px;
+  }
+  .faq-item summary {
+    padding: 20px 18px 0;
+  }
+  .faq-item:not([open]) summary {
+    padding-bottom: 20px;
+  }
+  .faq-answer {
+    padding: 14px 18px 22px;
+  }
+  .faq-question {
+    font-size: 18px;
+  }
+  .tariff-table th,
+  .tariff-table td,
+  .tariff-note {
+    padding: 16px;
+  }
+  .option-card {
+    padding: 24px 24px 32px;
+  }
+
   /* Footer: let it grow with its content and put the links under the
      logo instead of floating them right. */
   .footer {

@@ -24,7 +24,7 @@
    Markup (keep identical on every page; only aria-current changes):
      nav.topnav
        a.logo-link > img.logo
-       button.menu-toggle        (mobile only)
+       button.menu-toggle        (styles in menu.css)
        div.nav-menu#nav-menu
          div.nav-links  > 4 links
          div.nav-actions > a.login-button, a.signup-button
@@ -51,7 +51,6 @@
   /* Her logo starts 62px from the left and her Sign up button ends
      64px from the right; near-equal padding keeps the links centred. */
   padding: 0 64px 0 62px;
-  overflow: hidden;
   background-color: white;
   box-sizing: border-box;
 }
@@ -61,14 +60,14 @@
   justify-self: start;
   flex-shrink: 0;
 }
-/* Same as hers: 84px tall, 6px down from the top (her 10px padding, centred in the bar), bottom clipped
-   by the 86px bar (overflow: hidden above). */
+/* Same as hers: 84px tall, 6px down from the top, with the bottom 4px
+   trimmed so it fits the 86px bar. The trim is on the logo link (not the
+   whole bar) so the menu dropdown can show below the bar. */
 .topnav .logo-link {
   align-self: start;
   margin-top: 6px;
-  /* Negative bottom margin keeps the row at 86px (6 + 84 - 4) so the
-     logo does not push the links and buttons down. */
-  margin-bottom: -4px;
+  height: 80px;
+  overflow: hidden;
 }
 .topnav .logo {
   height: 84px;
@@ -146,27 +145,6 @@
   width: 10px;
   height: 10px;
   flex-shrink: 0;
-}
-
-/* Menu icon, far right, like hers: 35px image, 20px from the edge.
-   On desktop it does nothing yet (same as hers); on small screens it
-   opens the mobile menu (responsive.css + scripts/nav.js). */
-.menu-toggle {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-.menu-icon {
-  width: 35px;
-  height: 35px;
 }
 
 .site-header {

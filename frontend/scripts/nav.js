@@ -1,9 +1,11 @@
-// Top navigation: mobile menu.
+// Top navigation: the menu button.
 //
-// On small screens (see responsive.css) the nav links and the
-// Log in / Sign up buttons are hidden behind the hamburger button.
-// This script opens and closes that menu and keeps the button's
-// accessible state (aria-expanded, label) in sync.
+// Desktop: opens a small dropdown with Account, Accessibility and (when
+// logged in) Log out.
+// Small screens (see responsive.css): opens the stacked menu with the
+// nav links, Account, Accessibility and the Log in / Sign up buttons.
+// Either way this script toggles .is-open on the nav and keeps the
+// button's accessible state (aria-expanded, label) in sync.
 //
 // The menu is only hidden once this script has run (it adds the
 // .nav-js class), so the links still work if JavaScript fails.
@@ -24,11 +26,20 @@
   function setOpen(open) {
     nav.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    // When logged in, the button shows the person's name, which is its
+    // label (scripts/account-nav.js), so only label the icon version.
+    if (!nav.classList.contains("is-signed-in")) {
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
   }
 
   toggle.addEventListener("click", function () {
     setOpen(!nav.classList.contains("is-open"));
+  });
+
+  // Clicking anywhere outside the nav closes the menu.
+  document.addEventListener("click", function (event) {
+    if (nav.classList.contains("is-open") && !nav.contains(event.target)) setOpen(false);
   });
 
   // Escape closes the menu and returns focus to the button.
