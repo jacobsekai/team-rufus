@@ -43,6 +43,12 @@
 
 <h2>My account</h2>
 <p><button id="me-button">GET /api/users/me</button> <button id="logout-button">POST /api/logout</button></p>
+<form id="update-form">
+<p>Edit my details (POST /api/users/me/update). Full name: <input name="full_name"> Email: <input name="email" type="email"> Current password: <input name="current_password" type="password"> <button>Save details</button></p>
+</form>
+<form id="password-form">
+<p>Change my password (POST /api/users/me/password). Current password: <input name="current_password" type="password"> New password: <input name="new_password" type="password"> <button>Change password</button></p>
+</form>
 <form id="delete-form">
 <p>Delete my account (POST /api/users/me/delete). Confirm password: <input name="password" type="password"> <button>Delete account</button></p>
 </form>
@@ -182,6 +188,16 @@ document.getElementById("me-button").addEventListener("click", function () {
 
 document.getElementById("logout-button").addEventListener("click", function () {
     send("POST", "/api/logout");
+});
+
+document.getElementById("update-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    send("POST", "/api/users/me/update", fields(event.target));
+});
+
+document.getElementById("password-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    send("POST", "/api/users/me/password", fields(event.target));
 });
 
 document.getElementById("delete-form").addEventListener("submit", function (event) {

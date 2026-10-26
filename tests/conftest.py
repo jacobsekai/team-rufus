@@ -34,6 +34,25 @@ class InMemoryUsersRepository:
     def delete_user(self, email):
         self.users.pop(email, None)
 
+    def update_full_name(self, email, full_name, updated_at):
+        self.users[email]["full_name"] = full_name
+        self.users[email]["updated_at"] = updated_at
+
+    def change_email(self, user, new_email, full_name, updated_at):
+        if new_email in self.users:
+            raise DuplicateRecordError("An account with this email already exists.")
+        new_user = {**self.users.pop(user["email"]), "email": new_email,
+                    "full_name": full_name, "updated_at": updated_at}
+        self.users[new_email] = new_user
+        return dict(new_user)
+
+    def change_password(self, email, password_hash, updated_at):
+        user = self.users[email]
+        user["password_hash"] = password_hash
+        user["updated_at"] = updated_at
+        user["session_version"] = user.get("session_version", 0) + 1
+        return user["session_version"]
+
     def record_failed_login(self, email):
         user = self.users[email]
         user["failed_login_count"] = user.get("failed_login_count", 0) + 1
@@ -65,6 +84,12 @@ class InMemorySessionsRepository:
 
     def delete_session(self, token_hash):
         self.sessions.pop(token_hash, None)
+
+    def set_email(self, token_hash, email):
+        self.sessions[token_hash]["email"] = email
+
+    def set_session_version(self, token_hash, session_version):
+        self.sessions[token_hash]["session_version"] = session_version
 
 
 class FakeContentStore:

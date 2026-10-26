@@ -6,9 +6,9 @@
 | `t-level-users-dev` | `email` | User accounts |
 | `t-level-sessions-dev` | `token_hash` | Sign-in sessions |
 
-Every operation is a single-item read or write by partition key, so no
-secondary indexes or scans are needed and response times stay constant as the
-tables grow.
+Every operation reads or writes items by partition key, so no secondary
+indexes or scans are needed and response times stay constant as the tables
+grow. The only multi-item write is changing an email address (see below).
 
 ## Expressions of interest table
 
@@ -81,12 +81,23 @@ without copying their email address.
 | `saved` | Map | Saved items: `"subject:digital"` → UTC time saved (max 50) |
 | `failed_login_count` | Number | Wrong passwords in a row (absent until the first failure) |
 | `locked_until` | Number | Epoch seconds; sign-in refused until then (absent when not locked) |
+| `session_version` | Number | Increased on every password change; ends older sessions (absent until the first change) |
 | `created_at` | String | UTC creation timestamp |
 | `updated_at` | String | UTC update timestamp |
 
 The plain-text password is never stored, logged, or returned by the API.
 `failed_login_count` is increased with an atomic `ADD` update, so two wrong
 passwords submitted at the same moment are both counted.
+
+### Changing the email address
+
+Because the email is the partition key, `UsersRepository.change_email` moves
+the account with one `TransactWriteItems` call: a `Put` of the whole item under
+the new email (condition `attribute_not_exists(email)`) and a `Delete` of the
+old one. Either both happen or neither does, and DynamoDB still guarantees the
+new email is not already registered (HTTP 409 if it is). The `id`,
+`created_at`, saved items and password hash move with it. Transactions need no
+extra IAM permission; they use the Lambda's existing `PutItem` and `DeleteItem`.
 
 ## Sessions table
 
@@ -115,11 +126,25 @@ so that signing out and deleting an account take effect immediately.
 |---|---|---|
 | `token_hash` | String | Partition key |
 | `email` | String | Which user the session belongs to |
+| `user_id` | String | The user's `id`; the session is refused if it does not match |
+| `session_version` | Number | The user's `session_version` when the session started; refused if it no longer matches |
 | `created_at` | String | UTC creation timestamp |
 | `expires_at` | Number | Epoch seconds; DynamoDB time-to-live deletes the item after this (12 hours, or 30 days with Remember me) |
 
 TTL deletion can take up to a few days, so the application also rejects any
 session whose `expires_at` has passed.
+
+Sessions cannot be listed per user without a scan or an index, so instead of
+deleting a user's other sessions the application makes them stop matching:
+
+- **Password change:** the user's `session_version` goes up by one and the
+  current session is updated to match, so only that browser stays signed in.
+- **Email change, account deletion:** other sessions still point at the old
+  email. If someone later registers that email, the `user_id` check stops the
+  old sessions opening the new account.
+
+Sessions created before `user_id` was added are refused, which signs everyone
+out once when this change is deployed.
 
 ## Security decisions
 
@@ -135,8 +160,9 @@ session whose `expires_at` has passed.
 - The session cookie is `HttpOnly` (JavaScript cannot read it), `Secure`
   (HTTPS only), and `SameSite=Strict` (not sent with requests started by other
   websites, which prevents cross-site request forgery).
-- Deleting an account requires the password again, so a session left open on
-  a shared computer cannot be used to delete it.
+- Deleting an account, changing the name or email, and changing the password
+  all require the current password again, so a session left open on a shared
+  computer cannot be used to take the account over.
 - Deleting an account removes the user item and the current session. Any
   other sessions stop working at once because their user no longer exists.
   Expressions of interest are separate submissions and are not deleted.

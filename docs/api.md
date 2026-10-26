@@ -52,6 +52,8 @@ deleting an account is a `POST`.
 | `POST` | `/api/login` | No | Sign in |
 | `POST` | `/api/logout` | No | Sign out |
 | `GET` | `/api/users/me` | Yes | View my account |
+| `POST` | `/api/users/me/update` | Yes | Change my name and email |
+| `POST` | `/api/users/me/password` | Yes | Change my password |
 | `GET` | `/api/users/me/saved` | Yes | List my saved subjects and guides |
 | `POST` | `/api/users/me/saved` | Yes | Save a subject or guide |
 | `POST` | `/api/users/me/saved/remove` | Yes | Remove a saved item |
@@ -143,6 +145,49 @@ No body needed. Always `200` `{"status": "signed_out"}` and clears the cookie.
 |---|---|
 | `200` | `{"id", "email", "full_name", "created_at"}` |
 | `401` | `You need to sign in.` |
+
+## `POST /api/users/me/update`
+
+Send both fields, changed or not. The current password is required.
+
+```json
+{"full_name": "Example Student", "email": "new.address@example.com", "current_password": "correct horse battery 9!"}
+```
+
+| Field | Rules |
+|---|---|
+| `full_name` | Required, 1–100 characters |
+| `email` | Required, valid email; stored lower-case |
+| `current_password` | Required |
+
+| Status | Meaning |
+|---|---|
+| `200` | The updated profile `{"id", "email", "full_name", "created_at"}` |
+| `400` | `Validation failed.` with `details`, or `Password is incorrect.` |
+| `401` | Not signed in |
+| `409` | `An account with this email already exists.` |
+| `503` | Temporary problem; nothing changed |
+
+Changing the email moves the account (with its saved items) to the new
+address. This browser stays signed in; other devices are signed out.
+
+## `POST /api/users/me/password`
+
+```json
+{"current_password": "correct horse battery 9!", "new_password": "a brand new password 7?"}
+```
+
+`new_password` follows the sign-up rule (12–128 characters, a number and a
+symbol) and must differ from the current password.
+
+| Status | Meaning |
+|---|---|
+| `200` | `{"status": "updated"}` |
+| `400` | `Validation failed.` with `details`, `Password is incorrect.`, or `Your new password must be different from your current one.` |
+| `401` | Not signed in |
+| `503` | Temporary problem; password not changed |
+
+This browser stays signed in; every other session ends.
 
 ## `POST /api/users/me/delete`
 

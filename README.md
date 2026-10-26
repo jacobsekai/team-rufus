@@ -124,6 +124,8 @@ The full request and response contract for the frontend team is in
 | `POST` | `/api/users` | Create an account |
 | `POST` | `/api/login` / `/api/logout` | Sign in / sign out |
 | `GET` | `/api/users/me` | View my account |
+| `POST` | `/api/users/me/update` | Change my name and email (password required) |
+| `POST` | `/api/users/me/password` | Change my password |
 | `POST` | `/api/users/me/delete` | Delete my account (password required) |
 | `GET` / `POST` | `/api/users/me/saved` | List / add saved subjects and guides |
 | `POST` | `/api/users/me/saved/remove` | Remove a saved item |
@@ -171,8 +173,9 @@ Bedrock Guardrail. Design, safety rules and test prompts are in
 
 `/debug` on the deployed site is an unstyled page for trying every backend
 endpoint by hand. Its **Run sign-in tests** button signs up a new made-up
-account and checks 44 steps of the sign-in journey against the live backend
-(password rules, terms, sign-in, Remember me, saved items, wrong passwords,
+account and checks 58 steps of the sign-in journey against the live backend
+(password rules, terms, sign-in, Remember me, saved items, editing details,
+changing the password, wrong passwords,
 lockout, sign-out, members-only download, account deletion), printing PASS or FAIL for each. The test account is deleted at the
 end.
 
