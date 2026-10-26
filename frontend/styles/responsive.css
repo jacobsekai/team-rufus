@@ -1,0 +1,274 @@
+/* ============================================================
+   Team Rufus — Responsive overrides
+   Keep all breakpoint rules here so layout/component files stay
+   readable. Mirror selectors from the other shared files when
+   overriding them for smaller screens.
+   ============================================================ */
+
+/* Top navigation: below 960px the links and buttons no longer fit on
+   one row, so collapse to logo + hamburger. The menu is only hidden
+   when scripts/nav.js has run (it adds .nav-js), so without JavaScript
+   the links still show, stacked, and the site stays usable. */
+@media (max-width: 960px) {
+  .topnav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    height: auto;
+    min-height: 64px;
+    padding: 8px var(--space-md);
+    border-bottom: 1px solid #DCE2EB;
+  }
+  .topnav {
+    overflow: visible;
+  }
+  .topnav .logo-link {
+    align-self: center;
+    margin-top: 0;
+    height: auto;
+  }
+  .topnav .logo {
+    height: 48px;
+  }
+  .menu-toggle {
+    position: static;
+    transform: none;
+    margin-left: auto;
+  }
+  .nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    flex-basis: 100%;
+    padding: var(--space-sm) 0 var(--space-md);
+  }
+  .topnav.nav-js .nav-menu {
+    display: none;
+  }
+  .topnav.nav-js.is-open .nav-menu {
+    display: flex;
+  }
+  .nav-links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .nav-links a {
+    padding: 12px 0;
+    border-bottom: 1px solid #DCE2EB;
+  }
+  .nav-extra,
+  .topnav.is-open .nav-extra {
+    display: flex;
+    flex-direction: column;
+    position: static;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .nav-extra a,
+  .nav-logout {
+    padding: 12px 0;
+    border-bottom: 1px solid #DCE2EB;
+  }
+  .nav-extra a:hover,
+  .nav-logout:hover {
+    background: none;
+  }
+  .nav-actions {
+    flex-direction: column;
+    align-items: stretch;
+    justify-self: auto;
+    margin-right: 0;
+  }
+  /* Full-width buttons in the menu: growing them on hover would push
+     them off the screen edge, so the hover effect is desktop only. */
+  .login-button:hover,
+  .signup-button:hover {
+    transform: none;
+  }
+}
+
+/* Blog and shared page sections: tablets. */
+@media (max-width: 960px) {
+  .wrap-wide {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+  .page-hero {
+    padding: 56px 0;
+  }
+  .hero-dark h1 {
+    font-size: 52px;
+  }
+  .blog-featured {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  .blog-featured-body h2 {
+    font-size: 36px;
+  }
+  .post-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+  .post-wrap {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+  .post-hero h1 {
+    font-size: 48px;
+  }
+}
+
+/* Information page: tablets. Two-column sections stack. */
+@media (max-width: 960px) {
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+  .faq-layout,
+  .ucas-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .faq-intro .info-heading {
+    max-width: none;
+  }
+  .option-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  .info-heading {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 720px) {
+  /* Account page: phones. */
+  .account-hero {
+    padding: 48px 0;
+  }
+  .account-section {
+    padding: 40px 0 56px;
+  }
+  .account-card {
+    padding: 24px 20px;
+  }
+
+  /* Information page: phones. */
+  .info-hero {
+    padding: 48px 0 44px;
+  }
+  .hero-lede {
+    font-size: 17px;
+  }
+  .info-section {
+    padding: 48px 0;
+  }
+  .info-heading {
+    font-size: 30px;
+  }
+  .faq-item summary {
+    padding: 20px 18px 0;
+  }
+  .faq-item:not([open]) summary {
+    padding-bottom: 20px;
+  }
+  .faq-answer {
+    padding: 14px 18px 22px;
+  }
+  .faq-question {
+    font-size: 18px;
+  }
+  .tariff-table th,
+  .tariff-table td,
+  .tariff-note {
+    padding: 16px;
+  }
+  .option-card {
+    padding: 24px 24px 32px;
+  }
+
+  /* Footer: let it grow with its content and put the links under the
+     logo instead of floating them right. */
+  .footer {
+    height: auto;
+    padding: 32px var(--space-md);
+  }
+  .amazon-logo {
+    display: block;
+  }
+  .footer-links {
+    float: none;
+    padding-right: 0;
+    gap: 20px;
+  }
+
+  /* Side padding only, so sections keep their own top/bottom spacing. */
+  .wrap-wide,
+  .post-wrap {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+  .post-body {
+    padding-top: 32px;
+    padding-bottom: 56px;
+  }
+  .page-hero {
+    padding: 40px 0;
+  }
+  .hero-dark h1,
+  .post-hero h1 {
+    font-size: 38px;
+  }
+  .blog-featured-section {
+    padding: 40px 0 32px;
+  }
+  .blog-featured-body h2 {
+    font-size: 30px;
+  }
+  .post-grid {
+    grid-template-columns: 1fr;
+  }
+  .post-lede {
+    font-size: 17px;
+  }
+  .post-hero-media .media-img {
+    border-radius: 16px 16px 8px 8px;
+  }
+  .post-body h2 {
+    font-size: 24px;
+  }
+  .post-body p {
+    font-size: 16px;
+  }
+
+  .wrap {
+    padding: 0 var(--space-md);
+  }
+  .site-header .wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+  .primary-nav {
+    gap: var(--space-md);
+  }
+
+  /* Auth card fills the smaller viewport with comfortable padding. */
+  .auth-page {
+    padding: var(--space-lg) var(--space-md);
+  }
+  .auth-card {
+    padding: var(--space-lg);
+  }
+  .auth-card h1 {
+    font-size: 30px;
+  }
+  .auth-row {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+}

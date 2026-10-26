@@ -4,7 +4,11 @@
     <meta charset="utf-8">
     <title>Team Rufus</title>
     <script src="chat/chat-widget.js" defer></script>
+    <script src="scripts/api.js" defer></script>
+    <script src="scripts/nav.js" defer></script>
+    <script src="scripts/account-nav.js" defer></script>
     <link rel="stylesheet" type="text/css" href="css/teamrufus.css">
+    <link rel="stylesheet" type="text/css" href="styles/menu.css">
 </head>
 </head>
 <body>
@@ -15,15 +19,26 @@
         <a href="amazon.html">Amazon</a>
         <a href="blog.html">Blog</a>
         <a href="information.html">Information</a>
-        <button class="login-button">
+        <button class="login-button" onclick="window.location.href='Log_in_page.html'">
             <span>Login</span>
             <img class="login-arrow" src="pictures/arrow point right up.png" alt="Login arrow">
         </button>
-        <button class="signup-button">
+        <button class="signup-button" onclick="window.location.href='Sign_up_page.html'">
             <span>Sign Up</span>
             <img class="signup-arrow" src="pictures/arrow point right up.png" alt="Sign Up arrow">
         </button>
-        <img class="menu-icon" src="pictures/menu icon.png" alt="Menu icon">
+        <button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-dropdown">
+            <img class="menu-icon" src="pictures/menu icon.png" alt="">
+            <span class="account-name"></span>
+            <svg class="account-chevron" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+                <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <div class="nav-extra" id="nav-dropdown">
+            <a href="account.html">Account</a>
+            <a href="accessibility.html">Accessibility</a>
+            <button type="button" class="nav-logout" hidden>Log out</button>
+        </div>
     </nav>
 
     <div class="content">

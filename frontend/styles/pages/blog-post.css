@@ -1,0 +1,67 @@
+/* ============================================================
+   Single blog post page (blog-post.html)
+   Design: "Example Blog Page" screenshot. Content sits in a
+   narrower centred column (about 1000px), set in from the nav
+   on both sides. Dark hero with breadcrumb, back link, white
+   eyebrow, title and intro; the lead image starts right where
+   the hero ends. The article text is below the screenshot's
+   cut-off, so it uses a simple readable style in the same
+   colours as the rest of the site.
+   Shared hero/breadcrumb/back-link/image styles: components.css.
+   ============================================================ */
+
+.post-wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.post-hero {
+  padding: 48px 0 56px;
+}
+.post-hero .eyebrow {
+  margin-top: var(--space-sm);
+}
+.post-hero h1 {
+  font-size: 64px;
+  margin: var(--space-md) 0 var(--space-lg);
+}
+.post-lede {
+  color: white;
+  font-size: 20px;
+  line-height: 1.5;
+  max-width: 860px;
+  margin: 0;
+}
+
+/* Lead image: flush with the bottom of the hero, rounded on top only
+   (as in the design). */
+.post-hero-media {
+  aspect-ratio: 16 / 9;
+}
+.post-hero-media .media-img {
+  border-radius: 24px 24px 12px 12px;
+}
+
+/* ---------- Article text ---------- */
+.post-body {
+  padding-top: 48px;
+  padding-bottom: 80px;
+  color: #232F3E;
+}
+.post-body p,
+.post-body h2 {
+  /* About 75 characters per line, for comfortable reading. */
+  max-width: 760px;
+}
+.post-body p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #566171;
+  margin-bottom: var(--space-lg);
+}
+.post-body h2 {
+  font-size: 30px;
+  margin: 40px 0 var(--space-md);
+  color: #232F3E;
+}

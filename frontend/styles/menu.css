@@ -1,0 +1,138 @@
+/* ============================================================
+   Team Rufus — Menu button and dropdown
+   Loaded on EVERY page: the styles/ pages (after layout.css) and the
+   colleague's pages (after css/teamrufus.css), so the menu is one
+   implementation everywhere. Covers the menu button, the dropdown
+   (Account, Accessibility, Log out) and the logged-in name button
+   (scripts/nav.js and scripts/account-nav.js).
+   ============================================================ */
+
+/* The dropdown hangs below the nav bar, so the bar must not clip it.
+   The colleague's nav uses overflow: hidden to trim the bottom 8px of
+   her logo (84px + 10px padding in an 86px bar); clip-path trims it the
+   same way without clipping the dropdown. Her logo is the <img> directly
+   inside the nav; the styles/ pages trim theirs in layout.css. */
+.topnav {
+  overflow: visible;
+}
+.topnav > img.logo {
+  clip-path: inset(0 0 8px 0);
+}
+
+/* Her stylesheet positions .menu-icon absolutely and styles every
+   <button>; inside the menu button the icon just sits in place. */
+.menu-toggle .menu-icon {
+  position: static;
+}
+
+/* Logged-in first name (scripts/account-nav.js). Uses the Login button
+   look; very long names are cut short with "...". */
+.account-name {
+  max-width: 14ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Menu dropdown (desktop): Account and Accessibility, opened by the
+   menu icon (scripts/nav.js toggles .is-open). On small screens these
+   links join the stacked menu instead (responsive.css). */
+.nav-extra {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 20px;
+  z-index: 20;
+  min-width: 220px;
+  padding: 8px 0;
+  background-color: white;
+  border: 1px solid #DCE2EB;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.topnav.is-open .nav-extra {
+  display: block;
+}
+.nav-extra a {
+  display: block;
+  padding: 12px 20px;
+  color: #131820;
+  font-family: "Amazon Ember", Arial, sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+}
+.nav-extra a,
+.nav-logout {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  color: #131820;
+  font-family: "Amazon Ember", Arial, sans-serif;
+  font-size: 16px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.nav-extra a:hover,
+.nav-logout:hover {
+  background-color: #FFF4E2;
+  color: #131820;
+  text-decoration: none;
+}
+.nav-logout[hidden] {
+  display: none;
+}
+
+/* ---------- Logged in (scripts/account-nav.js adds .is-signed-in) ----------
+   The Login / Sign up buttons and the menu icon are hidden; the menu
+   button shows the person's first name instead (styled like the Login
+   button) and still opens the dropdown. */
+.menu-toggle .account-name,
+.menu-toggle .account-chevron {
+  display: none;
+}
+.topnav.is-signed-in .login-button,
+.topnav.is-signed-in .signup-button,
+.topnav.is-signed-in .menu-icon {
+  display: none;
+}
+.topnav.is-signed-in .menu-toggle {
+  gap: 8px;
+  padding: 10px 22px;
+  background-color: white;
+  border: 1px solid #DCE2EB;
+  border-radius: 4px;
+  color: #131820;
+  font-family: "Amazon Ember", Arial, sans-serif;
+  font-size: 13.333px;
+}
+.topnav.is-signed-in .menu-toggle .account-name,
+.topnav.is-signed-in .menu-toggle .account-chevron {
+  display: block;
+}
+.topnav.is-open .account-chevron {
+  transform: rotate(180deg);
+}
+
+/* Menu button, far right, like her menu icon: 35px image, 20px from the
+   edge. Opens the dropdown (scripts/nav.js); on small screens on the
+   styles/ pages it opens the stacked menu instead (responsive.css). */
+.menu-toggle {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.menu-icon {
+  width: 35px;
+  height: 35px;
+}

@@ -1,0 +1,247 @@
+/* ============================================================
+   Information page (information.html)
+   Design: the four "Information page" screenshots. Sections:
+   dark hero, cream FAQ (heading left, cards right), white UCAS
+   Tariff points (text left, points table right), cream "After your
+   T Level" option cards. Colours match the rest of the site
+   (navy #232F3E, cream #FFF4E2, orange #FF9900, border #DCE2EB).
+   Shared hero / section styles: components.css.
+   Phone and tablet rules: responsive.css.
+   ============================================================ */
+
+/* ---------- Hero ---------- */
+.info-hero {
+  padding: 84px 0 80px;
+}
+
+/* ---------- Shared section pieces ---------- */
+.info-section {
+  padding: 76px 0;
+}
+.ucas-section {
+  background-color: white;
+}
+.info-section .eyebrow {
+  color: #0F1111;
+  font-size: 13.5px;
+  margin-bottom: 28px;
+}
+.info-heading {
+  color: #0F1111;
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1.12;
+  margin: 0;
+}
+
+/* ---------- FAQ ---------- */
+.faq-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr);
+  gap: 52px;
+  align-items: start;
+}
+.faq-intro .info-heading {
+  max-width: 380px;
+}
+.faq {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.faq-item {
+  background-color: white;
+  border: 1px solid #ECE6DC;
+  border-radius: 18px;
+  /* Same hover as the colleague's subject boxes (css/teamrufus.css):
+     soft shadow at rest, lifts 2px with a deeper shadow on hover. */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.faq-item:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+}
+.faq-item summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding: 26px 26px 0 25px;
+  cursor: pointer;
+  list-style: none;
+  border-radius: 18px;
+}
+.faq-item:not([open]) summary {
+  padding-bottom: 26px;
+}
+/* Hide the browser's own arrow; the orange icon replaces it. */
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-question {
+  color: #0F1111;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+/* Orange minus when open, plus when closed. */
+.faq-icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 6px;
+}
+.faq-icon::before,
+.faq-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 16px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: #FF9900;
+}
+.faq-icon::after {
+  transform: rotate(90deg);
+}
+.faq-item[open] .faq-icon::after {
+  display: none;
+}
+
+.faq-answer {
+  padding: 18px 26px 28px 25px;
+}
+.faq-answer p {
+  color: #566171;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ---------- UCAS Tariff points ---------- */
+.ucas-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 96px;
+  align-items: start;
+}
+.ucas-copy .info-heading {
+  margin-bottom: 36px;
+}
+.ucas-copy p:not(.eyebrow) {
+  color: #566171;
+  font-size: 17.5px;
+  line-height: 1.5;
+  max-width: 600px;
+  margin: 0 0 24px;
+}
+
+/* White outline button, same look as the colleague's outline buttons
+   (white, #DCE2EB border, grows slightly on hover). */
+.outline-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  padding: 15px 24px;
+  background-color: white;
+  border: 1px solid #DCE2EB;
+  border-radius: 8px;
+  color: #232F3E;
+  font-size: 15px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+.outline-button:hover {
+  color: #232F3E;
+  text-decoration: none;
+  transform: scale(1.05);
+}
+
+.tariff-card {
+  border: 1px solid #DCE2EB;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.tariff-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.tariff-table th,
+.tariff-table td {
+  padding: 22px 21px;
+  border-bottom: 1px solid #E8EBEE;
+  color: #0F1111;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+}
+.tariff-table thead th {
+  background-color: #FFF4E2;
+  border-bottom: none;
+}
+.tariff-table th:last-child,
+.tariff-table td {
+  text-align: right;
+}
+.tariff-table td {
+  color: #232F3E;
+  font-size: 20px;
+  font-weight: 700;
+}
+.tariff-note {
+  color: #566171;
+  font-size: 13.5px;
+  margin: 0;
+  padding: 22px 21px;
+}
+
+/* ---------- After your T Level ---------- */
+.options-heading {
+  margin-bottom: 40px;
+}
+.option-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 27px;
+}
+.option-card {
+  background-color: white;
+  border: 1px solid #ECE6DC;
+  border-radius: 20px;
+  padding: 30px 30px 48px;
+}
+.option-icon {
+  color: #FF9900;
+  margin-bottom: 26px;
+}
+.option-card h3 {
+  color: #0F1111;
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0 0 20px;
+}
+.option-card p {
+  color: #566171;
+  font-size: 17.5px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-item,
+  .faq-item:hover,
+  .outline-button,
+  .outline-button:hover {
+    transition: none;
+    transform: none;
+  }
+}

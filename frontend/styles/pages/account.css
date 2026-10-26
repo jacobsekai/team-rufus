@@ -1,0 +1,124 @@
+/* ============================================================
+   Account page (account.html)
+   No design screenshot for this page, so it reuses the site's
+   pieces: dark hero, cream section, white rounded cards (as on the
+   information page), the form fields and buttons from the log in /
+   sign up pages. Phone rules: responsive.css.
+   ============================================================ */
+
+.account-hero {
+  padding: 72px 0;
+}
+
+.account-section {
+  padding: 64px 0 80px;
+}
+
+.account-status {
+  color: #566171;
+  font-size: 17px;
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 27px;
+  align-items: start;
+}
+.account-column {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+
+.account-card {
+  background-color: white;
+  border: 1px solid #ECE6DC;
+  border-radius: 20px;
+  padding: 32px;
+}
+.account-card h2 {
+  color: #0F1111;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 24px;
+}
+
+/* Details list */
+.account-details {
+  margin: 0;
+}
+.account-details div {
+  padding: 14px 0;
+  border-bottom: 1px solid #E8EBEE;
+}
+.account-details div:first-child {
+  padding-top: 0;
+}
+.account-details div:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.account-details dt {
+  color: #566171;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.account-details dd {
+  margin: 0;
+  color: #0F1111;
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+
+/* Saved subjects and guides */
+.saved-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.saved-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid #E8EBEE;
+}
+.saved-item:last-child {
+  border-bottom: none;
+}
+.saved-type {
+  display: block;
+  color: #566171;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.saved-name {
+  color: #0F1111;
+  font-size: 17px;
+}
+.saved-remove {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  background: white;
+  border: 1px solid #DCE2EB;
+  border-radius: 4px;
+  color: #232F3E;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.saved-remove:hover {
+  background-color: #FFF4E2;
+}
+.account-muted {
+  color: #566171;
+  margin: 0;
+}
+.account-muted a {
+  color: #232F3E;
+  text-decoration: underline;
+}

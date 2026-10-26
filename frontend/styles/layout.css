@@ -1,0 +1,189 @@
+/* ============================================================
+   Team Rufus — Layout
+   Page shell: header, nav, footer, grid containers.
+   Anything that defines page structure (not individual widgets)
+   belongs here.
+   ============================================================ */
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* Full-width container that lines up page content with the nav logo,
+   the same 60px side gutter the colleague's pages use (her hero has
+   100px padding with content pulled back 40px). Narrower screens get
+   smaller gutters in responsive.css. */
+.wrap-wide {
+  padding: 0 60px;
+}
+
+/* ---------- Top navigation bar ----------
+   One shared navbar for every page that uses styles/.
+   Markup (keep identical on every page; only aria-current changes):
+     nav.topnav
+       a.logo-link > img.logo
+       button.menu-toggle        (styles in menu.css)
+       div.nav-menu#nav-menu
+         div.nav-links  > 4 links
+         div.nav-actions > a.login-button, a.signup-button
+
+   Visual values (colours, sizes, spacing, hover effects) are copied
+   from the colleague's nav in css/teamrufus.css so both sets of pages
+   look the same. The two CSS systems are deliberately kept separate:
+   if her nav changes, update the values here to match.
+
+   Layout differs on purpose: her file positions the logo and buttons
+   with position: absolute, which overlaps the links on narrower
+   screens. Here a 3-column grid (logo | links | buttons) gives the
+   same look with the links in the true centre, and collapses cleanly
+   into the mobile menu (rules in responsive.css). */
+.topnav {
+  --nav-font: "Amazon Ember", Arial, sans-serif;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  column-gap: var(--space-md);
+  width: 100%;
+  height: 86px;
+  /* Her logo starts 62px from the left and her Sign up button ends
+     64px from the right; near-equal padding keeps the links centred. */
+  padding: 0 64px 0 62px;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.topnav .logo-link {
+  display: flex;
+  justify-self: start;
+  flex-shrink: 0;
+}
+/* Same as hers: 84px tall, 6px down from the top, with the bottom 4px
+   trimmed so it fits the 86px bar. The trim is on the logo link (not the
+   whole bar) so the menu dropdown can show below the bar. */
+.topnav .logo-link {
+  align-self: start;
+  margin-top: 6px;
+  height: 80px;
+  overflow: hidden;
+}
+.topnav .logo {
+  height: 84px;
+  width: auto;
+}
+
+.nav-menu {
+  display: contents;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+.nav-links a {
+  display: block;
+  padding: 14px 16px;
+  color: #131820;
+  font-family: var(--nav-font);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+}
+.nav-links a:hover {
+  color: #131820;
+  text-decoration: underline 3px;
+  text-decoration-color: #FF9900;
+  text-underline-offset: 6px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 8px;
+}
+
+/* Login / Sign up are links styled to look exactly like her <button>
+   elements (13.333px is the browser's default button text size, which
+   her buttons use). */
+.login-button,
+.signup-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 4px;
+  font-family: var(--nav-font);
+  font-size: 13.333px;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.login-button:hover,
+.signup-button:hover {
+  transform: scale(1.1);
+  text-decoration: none;
+}
+.login-button,
+.login-button:hover {
+  background-color: white;
+  border: 1px solid #DCE2EB;
+  color: #131820;
+}
+.signup-button,
+.signup-button:hover {
+  background-color: #FF9900;
+  border: 1px solid #FF9900;
+  color: #232F3E;
+}
+.nav-arrow {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-background);
+}
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-md);
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-text);
+}
+
+.primary-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+}
+.primary-nav a {
+  color: var(--color-text);
+  font-weight: 500;
+}
+.primary-nav a[aria-current="page"] {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-background-alt);
+  margin-top: var(--space-xl);
+  padding: var(--space-lg) 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
