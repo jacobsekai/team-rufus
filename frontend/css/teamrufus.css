@@ -133,6 +133,19 @@ button {
     margin-top: 2px;
 }
 
+.digital-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.back-to-subjects {
+    margin: 0;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
 .exploresub-button {
     background-color: #FF9900;
     border: 1px solid #FF9900;
@@ -144,6 +157,7 @@ button {
     height: 50px;
     font-size: 0.875rem;
     transition: transform 0.2s ease;
+    cursor: pointer;
 }   
 
 .exploresub-button:hover {
@@ -167,6 +181,7 @@ button {
     height: 50px;
     font-size: 0.875rem;
     transition: transform 0.2s ease;
+    cursor: pointer;
 }
 
 .tlvlama-button:hover {
@@ -372,6 +387,7 @@ button {
     height: 50px;
     font-size: 0.875rem;
     transition: transform 0.2s ease;
+    cursor: pointer;
 }
 
 .homepage3-button:hover {
@@ -562,6 +578,7 @@ button {
     transition: transform 0.2s ease;
     font-family: "Amazon Ember", Arial, sans-serif;
     transition: transform 0.2s ease;
+    cursor: pointer;
 }
 
 .homepage4-button:hover {
@@ -612,6 +629,7 @@ button {
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
 
 .digital-box h3,
@@ -641,6 +659,7 @@ button {
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
 
 .accounting-box h3,
@@ -670,6 +689,7 @@ button {
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
 
 .marketing-box h3,
@@ -699,6 +719,7 @@ button {
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
 
 .business-box h3,
@@ -728,6 +749,7 @@ button {
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
 
 .engineering-box h3,
@@ -737,6 +759,181 @@ button {
 }
 
 .engineering-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.learnings-section {
+    height: 600px;
+    object-fit: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 48px;
+    padding: 40px 100px;
+    background-color: #FFF4E2;
+    font-family: "Amazon Ember", Arial, sans-serif
+}
+
+.learnings-section h1 {
+    margin: 0;
+}
+
+.learnings-section .orangeppl-img {
+    width: 60px;
+    height: 60px;
+}
+
+.learnings-boxes{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+    background-color: #FFF4E2;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.one-box {
+    position: relative;
+    box-sizing: border-box;
+    width: 405px;
+    height: 414px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    justify-content: flex-start;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.one-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.two-box {
+    position: relative;
+    box-sizing: border-box;
+    width: 405px;
+    height: 414px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    justify-content: flex-start;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.two-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.three-box {
+    position: relative;
+    box-sizing: border-box;
+    width: 405px;
+    height: 414px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    justify-content: flex-start;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.three-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.code-img {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.check-img {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.learning-card-title {
+    margin: 50px 0 12px;
+    font-size: 20px;
+}
+
+.learning-card-description {
+    margin: 0;
+    color: #566171;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.subjectinfo-section {
+    height: 1050px;
+    object-fit: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 48px;
+    padding: 40px 100px;
+    background-color: white;
+    font-family: "Amazon Ember", Arial, sans-serif
+}
+
+.subjectinfo-group {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.subjectinfo-group h1,
+.subjectinfo-group p {
+    margin: 0;
+}
+
+.mini-box{
+    position: relative;
+    box-sizing: border-box;
+    width: 1264px;
+    height: 203px;
+    background-color: #FFF4E2;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    justify-content: flex-start;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;   
+}
+
+.mini-box:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
     transform: translateY(-2px);
 }
