@@ -173,6 +173,11 @@ button {
 .amazon-apply-button {
     box-sizing: border-box;
     width: 100px;
+    height: 50px;
+    border-radius: 8px;
+    justify-content: center;
+    padding: 10px 12px;
+    text-decoration: none;
     transition: transform 0.2s ease;
     cursor: pointer;
 }
