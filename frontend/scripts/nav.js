@@ -28,7 +28,7 @@
     toggle.setAttribute("aria-expanded", String(open));
     // When logged in, the button shows the person's name, which is its
     // label (scripts/account-nav.js), so only label the icon version.
-    if (!nav.classList.contains("is-signed-in")) {
+    if (!document.documentElement.classList.contains("signed-in")) {
       toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     }
   }

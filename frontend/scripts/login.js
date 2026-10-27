@@ -122,6 +122,8 @@
     submitButton.disabled = false;
 
     if (result && result.status === 200) {
+      // So the next page shows the name straight away (account-nav.js).
+      if (result.body) rememberFirstName(result.body.full_name);
       window.location.href = "index.html";
       return;
     }
