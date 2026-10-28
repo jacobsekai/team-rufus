@@ -86,6 +86,7 @@
     document.getElementById("detail-created").textContent = formatDate(profile.created_at);
     document.getElementById("edit-name").value = profile.full_name;
     document.getElementById("edit-email").value = profile.email;
+    document.getElementById("pw-username").value = profile.email;
     const navName = document.querySelector(".topnav .account-name");
     const firstName = rememberFirstName(profile.full_name);
     if (navName && firstName) navName.textContent = firstName;

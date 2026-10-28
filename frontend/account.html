@@ -124,6 +124,8 @@
             <form id="password-form" novalidate>
               <div class="alert alert-error" role="alert" hidden><span></span></div>
               <div class="alert alert-success" role="status" hidden><span></span></div>
+              <!-- Lets password managers know which account this password belongs to. -->
+              <input type="email" id="pw-username" name="username" autocomplete="username" hidden readonly>
               <div class="field">
                 <label for="pw-current">Current password</label>
                 <input type="password" id="pw-current" name="current-password" autocomplete="current-password" required>
