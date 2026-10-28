@@ -215,6 +215,16 @@ button {
     object-fit: contain;
 }
 
+/* Save subject (scripts/saved-items.js): orange edge once saved. */
+.save-subject-button {
+    justify-content: center;
+    width: 150px;
+}
+.save-subject-button.is-saved {
+    border: 2px solid #FF9900;
+    font-weight: bold;
+}
+
 .tlvlama-button {
     background-color: white;
     border: 1px solid white;
@@ -317,12 +327,6 @@ button {
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.skillsemploy-box:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px);
 }
 
 .orangecase-img {
@@ -348,14 +352,7 @@ button {
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
-
-.experience-box:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px);
-}
-
 
 .orangeppl-img {
     position: absolute;
@@ -380,12 +377,6 @@ button {
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.moreway-box:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px);
 }
 
 .orangsign-img {
@@ -469,12 +460,6 @@ button {
     justify-content: center;
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.percent80-box:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px);
 }
 
 .percent80-label {
@@ -522,12 +507,6 @@ button {
     justify-content: center;
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.percent20-box:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px);
 }
 
 .percent20-label {
@@ -854,12 +833,6 @@ button {
     justify-content: flex-start;
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.one-box:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px);
 }
 
 .two-box {
@@ -877,12 +850,6 @@ button {
     justify-content: flex-start;
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.two-box:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px);
 }
 
 .three-box {
@@ -900,12 +867,6 @@ button {
     justify-content: flex-start;
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.three-box:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px);
 }
 
 .code-img {
@@ -976,11 +937,6 @@ button {
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.2s ease, transform 0.2s ease;   
-}
-
-.mini-box:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px);
 }
 
 .application-section {
@@ -1121,13 +1077,6 @@ button {
     transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.application-section .application-box1:hover,
-.application-section .application-box2:hover,
-.application-section .application-box3:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px);
-}
-
 .location-section {
     position: relative;
     min-height: 309px;
@@ -1218,6 +1167,11 @@ hr.footer-divider {
    navy footer (#232F3E) has a 6.3:1 contrast ratio, which passes WCAG AA. */
 .footer-text a,
 .footer-text a:visited {
+    color: #DCE2EB;
+    text-decoration: underline;
+}
+.footer-text .footer-a11y-link,
+.footer-text .footer-a11y-link:visited {
     color: #FF9900;
     font-size: 0.9375rem;
     font-weight: bold;
@@ -1225,7 +1179,9 @@ hr.footer-divider {
     text-underline-offset: 3px;
 }
 .footer-text a:hover,
-.footer-text a:focus-visible {
+.footer-text a:focus-visible,
+.footer-text .footer-a11y-link:hover,
+.footer-text .footer-a11y-link:focus-visible {
     color: white;
 }
 .footer-text a:focus-visible {

@@ -8,6 +8,7 @@
     <script src="scripts/api.js" defer></script>
     <script src="scripts/nav.js" defer></script>
     <script src="scripts/account-nav.js" defer></script>
+    <script src="scripts/saved-items.js" defer></script>
     <link rel="stylesheet" type="text/css" href="css/teamrufus.css">
     <link rel="stylesheet" type="text/css" href="styles/people-photos.css">
     <link rel="stylesheet" type="text/css" href="styles/menu.css">
@@ -57,57 +58,62 @@
                         <span>Find a provider</span>
                         <img class="exploresub-arrow" src="pictures/arrow point right up.png" alt="Explore Subjects arrow">
                     </button>
+                    <button type="button" class="tlvlama-button save-subject-button" data-save-type="subject" data-save-id="finance" aria-pressed="false">
+                        <span>Save subject</span>
+                    </button>
                     <a class="back-to-subjects" href="subjects.html">← Back to Subjects</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Draft text, AI-assisted, written from https://www.tlevels.gov.uk/students/subjects/accounting and https://www.tlevels.gov.uk/students/subjects/finance and https://www.gov.uk/government/publications/introduction-of-t-levels/introduction-of-t-levels (checked 28 Oct 2026). Rewrite it in your own words; see docs/development-log.md. -->
     <div class="learnings-section">
         <h1 style="color: #131820; font-size: 3.125rem;">What will you learn to do?</h1>
         <div class="learnings-boxes">
             <div class="one-box">
                 <img class="orangeppl-img" src="pictures/orange people.png" alt="Orange people image">
-                <p class="learning-card-title">Heading 1</p>
-                <p class="learning-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quos a possimus quas sit incidunt nemo, nam, corporis nulla quibusdam voluptatibus accusantium aspernatur amet adipisci perspiciatis, culpa voluptates tempore maxime.</p>
+                <p class="learning-card-title">Understand the numbers</p>
+                <p class="learning-card-description">Learn the basics of financial accounting, bookkeeping and business maths.</p>
             </div>
             <div class="two-box">
                 <img class="code-img" src="pictures/code sign.png" alt="Orange code image">
-                <p class="learning-card-title">Heading 1</p>
-                <p class="learning-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quos a possimus quas sit incidunt nemo, nam, corporis nulla quibusdam voluptatibus accusantium aspernatur amet adipisci perspiciatis, culpa voluptates tempore maxime.</p>
+                <p class="learning-card-title">Work ethically</p>
+                <p class="learning-card-description">Find out what professional behaviour looks like and how to handle ethical problems at work.</p>
             </div>
             <div class="three-box">
                 <img class="check-img" src="pictures/orange check.png" alt="Orange check image">
-                <p class="learning-card-title">Heading 1</p>
-                <p class="learning-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quos a possimus quas sit incidunt nemo, nam, corporis nulla quibusdam voluptatibus accusantium aspernatur amet adipisci perspiciatis, culpa voluptates tempore maxime.</p>
+                <p class="learning-card-title">Use data to decide</p>
+                <p class="learning-card-description">Use data and visualisation tools to help organisations make decisions.</p>
             </div>
         </div>
     </div>
 
+    <!-- Draft text, AI-assisted, written from https://www.tlevels.gov.uk/students/subjects/accounting and https://www.tlevels.gov.uk/students/subjects/finance and https://www.gov.uk/government/publications/introduction-of-t-levels/introduction-of-t-levels (checked 28 Oct 2026). Rewrite it in your own words; see docs/development-log.md. -->
     <div class="subjectinfo-section">
         <div class="subjectinfo-group">
             <h1 style="color: #131820; font-size: 1.875rem;">What you could learn</h1>
-            <p style="color: #566171; font-size: 0.9375rem;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro ut magni modi a consequatur ipsum facere, reprehenderit debitis, quisquam, optio eaque deserunt. Provident enim magnam deserunt commodi iste obcaecati porro.</p>
+            <p style="color: #566171; font-size: 0.9375rem;">Accounting and Finance are two separate T Levels that share core topics: financial accounting, professionalism and ethics, and data, analytics and design thinking. Finance also covers the business environment, including business models and tax laws. In Accounting you specialise as an assistant accountant; Finance specialisms include banking, insurance, and compliance and risk. The last enrolments for the Finance T Level are in September 2026.</p>
         </div>
         <div class="subjectinfo-group" style="margin-top: 20px;">
             <h1 style="color: #131820; font-size: 1.875rem;">Projects that you may do</h1>
-            <p style="color: #566171; font-size: 0.9375rem;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro ut magni modi a consequatur ipsum facere, reprehenderit debitis, quisquam, optio eaque deserunt. Provident enim magnam deserunt commodi iste obcaecati porro.</p>
+            <p style="color: #566171; font-size: 0.9375rem;">Each school or college plans its own projects, so ask the one you're interested in what you would work on and how it is assessed.</p>
         </div>
         <div class="subjectinfo-group" style="margin-top: 20px;">
             <h1 style="color: #131820; font-size: 1.875rem;">Classroom & Workplace</h1>
-            <p style="color: #566171; font-size: 0.9375rem;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro ut magni modi a consequatur ipsum facere, reprehenderit debitis, quisquam, optio eaque deserunt. Provident enim magnam deserunt commodi iste obcaecati porro.</p>           
+            <p style="color: #566171; font-size: 0.9375rem;">About 80% of your time is in the classroom and 20% is on an industry placement with an employer. The placement lasts at least 315 hours, which is about 45 days. It can be one block, a day a week, or a mix of both.</p>           
         </div>
         <div class="subjectinfo-group" style="margin-top: 20px;">
             <h1 style="color: #131820; font-size: 1.875rem;">Entry requirements and assessment</h1>
-            <p style="color: #566171; font-size: 0.9375rem;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro ut magni modi a consequatur ipsum facere, reprehenderit debitis, quisquam, optio eaque deserunt. Provident enim magnam deserunt commodi iste obcaecati porro.</p>           
+            <p style="color: #566171; font-size: 0.9375rem;">Each school or college sets its own entry requirements, so check with the one you want to apply to. You get a grade for the core (A* to E), a grade for your specialism (pass, merit or distinction) and an overall grade (pass, merit, distinction or distinction*). If you don't have grade 4 in English and maths yet, you keep working towards it.</p>           
         </div>
         <div class="subjectinfo-group" style="margin-top: 20px;">
             <h1 style="color: #131820; font-size: 1.875rem;">Where this area could lead</h1>
-            <p style="color: #566171; font-size: 0.9375rem;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro ut magni modi a consequatur ipsum facere, reprehenderit debitis, quisquam, optio eaque deserunt. Provident enim magnam deserunt commodi iste obcaecati porro.</p>           
+            <p style="color: #566171; font-size: 0.9375rem;">Accounting roles include accounting technician, finance officer and payroll administrator. Finance roles include credit controller, financial services customer adviser, insurance underwriter, mortgage adviser and pensions administrator. You could also go on to a related higher-level apprenticeship or course.</p>           
         </div>
         <div class="mini-box">
             <h1 style="color: #131820; font-size: 1.875rem;">Before you apply</h1>
-            <p style="color: #566171; font-size: 0.9375rem;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro ut magni modi a consequatur ipsum facere, reprehenderit debitis, quisquam, optio eaque deserunt. Provident enim magnam deserunt commodi iste obcaecati porro.</p>
+            <p style="color: #566171; font-size: 0.9375rem;">Check the college's deadlines, go to an open day and ask how they organise industry placements. If you're not quite ready for a T Level, ask about the T Level Foundation Year.</p>
         </div>           
     </div>
 
@@ -120,7 +126,7 @@
             <span><a href="Sign_up_page.html">Sign up</a> &middot; <a href="Log_in_page.html">Log in</a></span>
         </nav>
         <hr class="footer-divider">
-        <p class="footer-text">Privacy &middot; Terms &middot; Cookies &middot; <a href="accessibility.html">Accessibility</a></p>
+        <p class="footer-text"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="privacy.html#cookies">Cookies</a> &middot; <a href="accessibility.html" class="footer-a11y-link">Accessibility</a></p>
     </footer>
 
 </body>

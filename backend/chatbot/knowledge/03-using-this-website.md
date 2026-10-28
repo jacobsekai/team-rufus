@@ -6,11 +6,16 @@ This describes the Team Rufus prototype website.
 
 - Read any guide or subject page.
 - Download the Student checklist, Parent and carer guide, or Educator briefing.
-- Register your interest in an Amazon placement.
+  The guides are in the "Guides to download" section at the bottom of the
+  Information page.
+- Register your interest in an Amazon placement, using the form at the bottom
+  of the Amazon page.
 
 ## With a free account you can
 
-- Save subjects and guides so you can find them again.
+- Save subjects and guides so you can find them again. Use the "Save subject"
+  button on a subject page, or "Save" on a guide. Saved items are listed on
+  your account page.
 - Download resources for account holders, such as the placement preparation
   checklist.
 
@@ -18,7 +23,8 @@ This describes the Team Rufus prototype website.
 
 - You need your full name, an email address, and a password of 12 to 128
   characters that includes a number and a symbol.
-- You must accept the Terms of use and read the Privacy notice.
+- You must accept the Terms of use and read the Privacy notice. Both are
+  linked in the footer of every page.
 - You can delete your account at any time from your account page. You will
   need to enter your password to confirm.
 
