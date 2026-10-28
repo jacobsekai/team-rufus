@@ -50,6 +50,9 @@ frontend/
   debug/index.html            Debug panel at /debug: try every endpoint
   debug/signin-tests.js       "Run sign-in tests": end-to-end sign-in checks
   chat/chat-widget.js         "Ask about T Levels" chat panel for every page
+  accessibility.html          Text size and colour contrast settings
+  scripts/display-settings.js Applies the saved settings (in <head> on every page)
+  styles/display-settings.css Text sizes and the high contrast / dark themes
 infra/
   dynamodb-table.yaml         Development table definitions
 deploy/
@@ -124,6 +127,8 @@ The full request and response contract for the frontend team is in
 | `POST` | `/api/users` | Create an account |
 | `POST` | `/api/login` / `/api/logout` | Sign in / sign out |
 | `GET` | `/api/users/me` | View my account |
+| `POST` | `/api/users/me/update` | Change my name and email (password required) |
+| `POST` | `/api/users/me/password` | Change my password |
 | `POST` | `/api/users/me/delete` | Delete my account (password required) |
 | `GET` / `POST` | `/api/users/me/saved` | List / add saved subjects and guides |
 | `POST` | `/api/users/me/saved/remove` | Remove a saved item |
@@ -171,8 +176,9 @@ Bedrock Guardrail. Design, safety rules and test prompts are in
 
 `/debug` on the deployed site is an unstyled page for trying every backend
 endpoint by hand. Its **Run sign-in tests** button signs up a new made-up
-account and checks 44 steps of the sign-in journey against the live backend
-(password rules, terms, sign-in, Remember me, saved items, wrong passwords,
+account and checks 58 steps of the sign-in journey against the live backend
+(password rules, terms, sign-in, Remember me, saved items, editing details,
+changing the password, wrong passwords,
 lockout, sign-out, members-only download, account deletion), printing PASS or FAIL for each. The test account is deleted at the
 end.
 

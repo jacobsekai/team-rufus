@@ -32,6 +32,8 @@ accounts = Blueprint("accounts", __name__)
 
 SIGNUP_FIELDS = {"full_name", "email", "password", "accept_terms"}
 LOGIN_FIELDS = {"email", "password", "remember_me"}
+UPDATE_ACCOUNT_FIELDS = {"full_name", "email", "current_password"}
+CHANGE_PASSWORD_FIELDS = {"current_password", "new_password"}
 DELETE_ACCOUNT_FIELDS = {"password"}
 
 PASSWORD_MIN_LENGTH = 12
@@ -51,6 +53,8 @@ LOCKOUT_SECONDS = 15 * 60
 
 INVALID_LOGIN_MESSAGE = "Email or password is incorrect."
 SIGN_IN_REQUIRED_MESSAGE = "You need to sign in."
+# Not 403: CloudFront replaces every 403 with the Midway sign-in page.
+WRONG_PASSWORD_MESSAGE = "Password is incorrect."
 
 
 def hash_password(password: str) -> str:
@@ -118,14 +122,21 @@ def _clear_session_cookie(response) -> None:
     )
 
 
-def _start_session(response, email: str, remember_me: bool = False) -> None:
+def _session_version(record: Dict[str, Any]) -> int:
+    # Absent until the user first changes their password.
+    return int(record.get("session_version", 0))
+
+
+def _start_session(response, user: Dict[str, Any], remember_me: bool = False) -> None:
     token = secrets.token_urlsafe(32)
     now = utc_now()
     expires = now + _session_lifetime(remember_me)
     _sessions().create_session(
         {
             "token_hash": _token_hash(token),
-            "email": email,
+            "email": user["email"],
+            "user_id": user["id"],
+            "session_version": _session_version(user),
             "created_at": utc_timestamp(),
             # Epoch seconds, as required by DynamoDB time-to-live.
             "expires_at": int(expires.timestamp()),
@@ -163,6 +174,16 @@ def current_user() -> Optional[Dict[str, Any]]:
     if user is None:
         return None
 
+    # A different id means the email was given up (account deleted or email
+    # changed) and someone else has since registered it. A lower version
+    # means the password has changed since this session started. Sessions
+    # from before these fields existed have no user_id and are refused too.
+    if (
+        session.get("user_id") != user["id"]
+        or _session_version(session) != _session_version(user)
+    ):
+        return None
+
     g.current_user = user
     g.session_token_hash = token_hash
     return user
@@ -193,12 +214,14 @@ def login_required(view):
 
 
 PASSWORD_RULE_MESSAGE = (
-    f"password must be {PASSWORD_MIN_LENGTH} to {PASSWORD_MAX_LENGTH} characters "
+    f"must be {PASSWORD_MIN_LENGTH} to {PASSWORD_MAX_LENGTH} characters "
     "and include a number and a symbol."
 )
 
 
-def _validate_new_password(password: Any, errors: List[str]) -> None:
+def _validate_new_password(
+    password: Any, errors: List[str], field: str = "password"
+) -> None:
     """Apply the sign-up password rule shown in the design."""
 
     if (
@@ -208,7 +231,7 @@ def _validate_new_password(password: Any, errors: List[str]) -> None:
         # A symbol is anything that is not a letter, a number, or a space.
         or not any(not char.isalnum() and not char.isspace() for char in password)
     ):
-        errors.append(PASSWORD_RULE_MESSAGE)
+        errors.append(f"{field} {PASSWORD_RULE_MESSAGE}")
 
 
 def _validate_signup(payload: Any) -> tuple[Dict[str, Any], List[str]]:
@@ -241,6 +264,58 @@ def _validate_signup(payload: Any) -> tuple[Dict[str, Any], List[str]]:
         "email": normalize_email(email),
         "password": password,
     }, []
+
+
+def _validate_current_password(password: Any, errors: List[str]) -> None:
+    if not isinstance(password, str) or not 1 <= len(password) <= PASSWORD_MAX_LENGTH:
+        errors.append("current_password is required.")
+
+
+def _validate_account_update(payload: Any) -> tuple[Dict[str, Any], List[str]]:
+    if not isinstance(payload, dict):
+        return {}, ["The request body must be a JSON object."]
+
+    errors: List[str] = []
+    unknown = unknown_fields_error(payload, UPDATE_ACCOUNT_FIELDS)
+    if unknown:
+        errors.append(unknown)
+
+    full_name = payload.get("full_name")
+    validate_full_name(full_name, errors)
+
+    email = payload.get("email")
+    validate_email(email, errors)
+
+    current_password = payload.get("current_password")
+    _validate_current_password(current_password, errors)
+
+    if errors:
+        return {}, errors
+    return {
+        "full_name": full_name.strip(),
+        "email": normalize_email(email),
+        "current_password": current_password,
+    }, []
+
+
+def _validate_password_change(payload: Any) -> tuple[Dict[str, Any], List[str]]:
+    if not isinstance(payload, dict):
+        return {}, ["The request body must be a JSON object."]
+
+    errors: List[str] = []
+    unknown = unknown_fields_error(payload, CHANGE_PASSWORD_FIELDS)
+    if unknown:
+        errors.append(unknown)
+
+    current_password = payload.get("current_password")
+    _validate_current_password(current_password, errors)
+
+    new_password = payload.get("new_password")
+    _validate_new_password(new_password, errors, field="new_password")
+
+    if errors:
+        return {}, errors
+    return {"current_password": current_password, "new_password": new_password}, []
 
 
 def _validate_login(payload: Any) -> tuple[Dict[str, Any], List[str]]:
@@ -316,7 +391,7 @@ def create_user():
         return error_response("The account could not be created.", 503)
 
     try:
-        _start_session(response, user["email"])
+        _start_session(response, user)
     except RepositoryError:
         # The account exists, so still report success; the user can sign in.
         current_app.logger.exception("Failed to start a session after signup.")
@@ -366,7 +441,7 @@ def login():
         response = make_response(
             jsonify({**_public_profile(user), "status": "signed_in"}), 200
         )
-        _start_session(response, user["email"], credentials["remember_me"])
+        _start_session(response, user, credentials["remember_me"])
     except RepositoryError:
         current_app.logger.exception("Failed to sign the user in.")
         return error_response("Unable to sign in right now.", 503)
@@ -399,6 +474,96 @@ def get_my_account():
     return jsonify(_public_profile(g.current_user)), 200
 
 
+@accounts.post("/api/users/me/update")
+@login_required
+def update_my_account():
+    """Change the signed-in user's name and email (UK GDPR right to rectification).
+
+    The current password must be confirmed, as for deleting the account.
+    Changing the email moves the account to the new address; this browser
+    stays signed in and any other sessions end.
+    """
+
+    payload, error = json_body_or_error()
+    if error:
+        return error
+
+    changes, errors = _validate_account_update(payload)
+    if errors:
+        return error_response("Validation failed.", 400, errors)
+
+    user = g.current_user
+    if not check_password_hash(user["password_hash"], changes["current_password"]):
+        return error_response(WRONG_PASSWORD_MESSAGE, 400)
+
+    email_changed = changes["email"] != user["email"]
+    timestamp = utc_timestamp()
+    try:
+        if email_changed:
+            user = _users().change_email(
+                user, changes["email"], changes["full_name"], timestamp
+            )
+        else:
+            _users().update_full_name(user["email"], changes["full_name"], timestamp)
+            user = {**user, "full_name": changes["full_name"], "updated_at": timestamp}
+    except DuplicateRecordError:
+        return error_response("An account with this email already exists.", 409)
+    except RepositoryError:
+        current_app.logger.exception("Failed to update the account.")
+        return error_response("Your details could not be updated.", 503)
+
+    if email_changed:
+        try:
+            _sessions().set_email(g.session_token_hash, user["email"])
+        except RepositoryError:
+            # The change is saved; this browser just has to sign in again.
+            current_app.logger.exception("Failed to move the session to the new email.")
+
+    return jsonify(_public_profile(user)), 200
+
+
+@accounts.post("/api/users/me/password")
+@login_required
+def change_my_password():
+    """Change the signed-in user's password.
+
+    This browser stays signed in; every other session ends, so changing the
+    password locks out anyone who had signed in with the old one.
+    """
+
+    payload, error = json_body_or_error()
+    if error:
+        return error
+
+    passwords, errors = _validate_password_change(payload)
+    if errors:
+        return error_response("Validation failed.", 400, errors)
+
+    user = g.current_user
+    if not check_password_hash(user["password_hash"], passwords["current_password"]):
+        return error_response(WRONG_PASSWORD_MESSAGE, 400)
+    if passwords["new_password"] == passwords["current_password"]:
+        return error_response(
+            "Your new password must be different from your current one.", 400
+        )
+
+    try:
+        session_version = _users().change_password(
+            user["email"], hash_password(passwords["new_password"]), utc_timestamp()
+        )
+    except RepositoryError:
+        current_app.logger.exception("Failed to change the password.")
+        return error_response("Your password could not be changed.", 503)
+
+    try:
+        _sessions().set_session_version(g.session_token_hash, session_version)
+    except RepositoryError:
+        # The password is changed; this browser just has to sign in again.
+        current_app.logger.exception("Failed to keep the session after a password change.")
+
+    return jsonify({"status": "updated"}), 200
+
+
 # POST rather than DELETE: CloudFront's signed requests to the Lambda function
 # URL reject DELETE requests that have a body, and the password must be sent.
 @accounts.post("/api/users/me/delete")
@@ -428,8 +593,7 @@ def delete_my_account():
 
     user = g.current_user
     if not check_password_hash(user["password_hash"], payload["password"]):
-        # Not 403: CloudFront replaces every 403 with the Midway sign-in page.
-        return error_response("Password is incorrect.", 400)
+        return error_response(WRONG_PASSWORD_MESSAGE, 400)
 
     try:
         _users().delete_user(user["email"])

@@ -10,7 +10,14 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-lg);
-  font-size: 14px;
+  font-size: 0.875rem;
+}
+
+/* Shown when "Forgot password?" is clicked (reset isn't built yet). */
+.auth-forgot-note {
+  margin: calc(-1 * var(--space-md)) 0 var(--space-lg);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
 }
 
 /* "Forgot password?" is a muted link, not the bright-orange default. */

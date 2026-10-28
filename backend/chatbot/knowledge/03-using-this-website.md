@@ -51,5 +51,11 @@ This describes the Team Rufus prototype website.
 
 - The Accessibility page lets you choose a larger text size and a high
   contrast or dark colour scheme.
+- It also has text to speech. Turn it on there and a "Read page" button
+  appears in the bottom-left corner of every page. It reads the page out
+  loud and outlines the part being read. Select some text first to hear just
+  that part. There are Pause and Stop buttons, the Escape key also stops, and
+  the reading speed can be Slow, Normal or Fast. It uses the browser's own
+  voice, so nothing is sent anywhere.
 - You can also use your browser's zoom (Ctrl and + on Windows, Command and +
   on Mac).

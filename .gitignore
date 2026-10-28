@@ -28,3 +28,4 @@ dist/
 .aws-sam/
 cdk.out/
 
+deploycreds.txt

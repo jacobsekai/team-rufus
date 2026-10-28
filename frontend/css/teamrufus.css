@@ -40,6 +40,20 @@ body {
     padding-left: 50px;
 }
 
+/* The logo is a link to the home page (hand cursor, works with the
+   keyboard). The link takes the logo's old place, so nothing moves and
+   the centred nav links stay centred. */
+.topnav .home-logo-link {
+    position: absolute;
+    left: 12px;
+    padding: 0;
+    overflow: visible;
+}
+.topnav .home-logo-link .logo {
+    position: static;
+    display: block;
+}
+
 button {
     padding-left: 22px;
     padding-right: 22px;
@@ -114,6 +128,16 @@ button {
     gap: 30px;
 }
 
+.amazon-content-section {
+    min-height: 1000px;
+    box-sizing: border-box;
+    align-items: flex-start;
+}
+
+.amazon-content-section .content-copy {
+    align-self: flex-start;
+}
+
 .content-section p,
 .content-section h1 {
     margin-block: 0;
@@ -142,8 +166,13 @@ button {
 .back-to-subjects {
     margin: 0;
     color: white;
-    font-size: 15px;
+    font-size: 0.9375rem;
     cursor: pointer;
+    text-decoration: none;
+}
+
+.back-to-subjects:hover {
+    text-decoration: underline;
 }
 
 .exploresub-button {
@@ -155,10 +184,26 @@ button {
     gap: 8px;
     width: 170px;
     height: 50px;
-    font-size: 14px;
+    font-size: 0.875rem;
     transition: transform 0.2s ease;
     cursor: pointer;
 }   
+
+.amazon-apply-button {
+    box-sizing: border-box;
+    width: 100px;
+    height: 50px;
+    border-radius: 8px;
+    justify-content: center;
+    padding: 10px 12px;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.amazon-apply-button:hover {
+    transform: scale(1.1);
+}
 
 .exploresub-button:hover {
     transform: scale(1.1);
@@ -179,7 +224,7 @@ button {
     gap: 8px;
     width: 190px;
     height: 50px;
-    font-size: 14px;
+    font-size: 0.875rem;
     transition: transform 0.2s ease;
     cursor: pointer;
 }
@@ -385,7 +430,7 @@ button {
     gap: 8px;
     width: 190px;
     height: 50px;
-    font-size: 14px;
+    font-size: 0.875rem;
     transition: transform 0.2s ease;
     cursor: pointer;
 }
@@ -437,7 +482,7 @@ button {
     top: 25px;
     left: 25px;
     margin: 0;
-    font-size: 35px;
+    font-size: 2.1875rem;
     font-weight: bold;
 }
 
@@ -454,13 +499,13 @@ button {
 
 .percent80-copy p {
     margin: 0;
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 1.5;
 }
 
 .percent80-copy p:first-child {
     color: #131820;
-    font-size: 15px;
+    font-size: 0.9375rem;
     word-spacing: 1px;
 }
 
@@ -490,7 +535,7 @@ button {
     top: 25px;
     left: 25px;
     margin: 0;
-    font-size: 35px;
+    font-size: 2.1875rem;
     font-weight: bold;
 }
 
@@ -507,13 +552,13 @@ button {
 
 .percent20-copy p {
     margin: 0;
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 1.5;
 }
 
 .percent20-copy p:first-child {
     color: #131820;
-    font-size: 15px;
+    font-size: 0.9375rem;
     word-spacing: 1px;
 }
 
@@ -550,17 +595,17 @@ button {
 }
 
 .homepage4-eyebrow {
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: bold;
 }
 
 .homepage4-heading {
-    font-size: 50px;
+    font-size: 3.125rem;
     word-spacing: 4px;
 }
 
 .homepage4-description {
-    font-size: 15px;
+    font-size: 0.9375rem;
     line-height: 1.5;
     color: #566171;
 }
@@ -574,7 +619,7 @@ button {
     gap: 8px;
     width: 235px;
     height: 50px;
-    font-size: 14px;
+    font-size: 0.875rem;
     transition: transform 0.2s ease;
     font-family: "Amazon Ember", Arial, sans-serif;
     transition: transform 0.2s ease;
@@ -883,13 +928,13 @@ button {
 
 .learning-card-title {
     margin: 50px 0 12px;
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
 .learning-card-description {
     margin: 0;
     color: #566171;
-    font-size: 15px;
+    font-size: 0.9375rem;
     line-height: 1.5;
 }
 
@@ -938,6 +983,191 @@ button {
     transform: translateY(-2px);
 }
 
+.application-section {
+    position: relative;
+    min-height: 700px;
+    box-sizing: border-box;
+    object-fit: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 40px;
+    background-color: white;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.computer-img {
+    position: absolute;
+    top: 50px;
+    left: 80px;
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+}
+
+.application-label {
+    position: absolute;
+    top: 140px;
+    left: 90px;
+    margin: 0;
+    font-size: 20px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.application-heading {
+    position: absolute;
+    top: 200px;
+    left: 87px;
+    margin: 0;
+    font-size: 50px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.application-description {
+    position: absolute;
+    top: 300px;
+    left: 90px;
+    margin: 0;
+    color: #566171;
+    font-size: 15px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.application-boxes {
+    position: absolute;
+    top: 350px;
+    left: 90px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+    background-color: white;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.application-box1 {
+    position: relative;
+    box-sizing: border-box;
+    width: 405px;
+    height: 240px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    justify-content: flex-start;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.application-box1 .learning-card-title {
+    margin-top: 0;
+}
+
+.application-box2 {
+    position: relative;
+    box-sizing: border-box;
+    width: 405px;
+    height: 240px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    justify-content: flex-start;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.application-box2 .learning-card-title {
+    margin-top: 0;
+}
+
+.application-box3 {
+    position: relative;
+    box-sizing: border-box;
+    width: 405px;
+    height: 240px;
+    background-color: white;
+    border: 1px solid #DCE2EB;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    justify-content: flex-start;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.application-box3 .learning-card-title {
+    margin-top: 0;
+}
+
+.application-box1,
+.application-box2,
+.application-box3 {
+    border: none;
+}
+
+.application-section .application-box1,
+.application-section .application-box2,
+.application-section .application-box3 {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.application-section .application-box1:hover,
+.application-section .application-box2:hover,
+.application-section .application-box3:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.location-section {
+    position: relative;
+    min-height: 309px;
+    box-sizing: border-box;
+    object-fit: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 40px;
+    background-color: #FFF4E2;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.amazon-content {
+    position: relative;
+    min-height: 433px;
+    box-sizing: border-box;
+    object-fit: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 40px;
+    background-color: white;
+    color: #232F3E;
+    font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+.amazon-content .application-heading {
+    position: static;
+    margin: 0 0 0 20px;
+}
+
+.amazon-content .application-boxes {
+    position: static;
+    margin-top: 0;
+}
+
 .footer {
     background-color: #232F3E;
     height: 250px;
@@ -978,7 +1208,27 @@ hr.footer-divider {
 }
 
 .footer-text {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: #DCE2EB;
     margin-top: 10px;
+}
+
+/* The footer's Accessibility link is made easy to spot for the people who
+   need it: bigger, bold, orange and always underlined. Orange #FF9900 on the
+   navy footer (#232F3E) has a 6.3:1 contrast ratio, which passes WCAG AA. */
+.footer-text a,
+.footer-text a:visited {
+    color: #FF9900;
+    font-size: 0.9375rem;
+    font-weight: bold;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.footer-text a:hover,
+.footer-text a:focus-visible {
+    color: white;
+}
+.footer-text a:focus-visible {
+    outline: 2px solid #FF9900;
+    outline-offset: 2px;
 }

@@ -1,0 +1,283 @@
+/* ============================================================
+   Team Rufus — Display settings (Accessibility page)
+   Loaded LAST on every page, after the page's own CSS, together
+   with scripts/display-settings.js, which sets on <html>:
+     data-text-size = standard | large | largest
+     data-contrast  = standard | high | dark
+
+   Text size: every font-size on the site is in rem, so changing
+   the root size scales all text. 1rem = 16px at Standard.
+
+   Contrast: the two themes override colours on EVERY element
+   (hence the universal selector and !important). The site's
+   colours are written as fixed values in many files, so this is
+   the one way to guarantee readable text everywhere, including
+   pages added later. Colours chosen for WCAG AAA (7:1) text
+   contrast:
+     High contrast: #000 on #fff  (21:1)
+     Dark:          #fff on #15191e (17.6:1)
+   To keep a specific element's own colours in a theme, give it
+   a rule here with a more specific selector (see the swatches
+   at the end).
+   ============================================================ */
+
+/* ---------- Text size ---------- */
+html[data-text-size="large"] {
+  font-size: 125%;
+}
+html[data-text-size="largest"] {
+  font-size: 150%;
+}
+/* Bigger text on a phone can make one long word wider than the
+   screen; let it wrap instead of overflowing. */
+html[data-text-size="large"] body,
+html[data-text-size="largest"] body {
+  overflow-wrap: break-word;
+}
+
+/* Boxes with a fixed height (mainly the home, subjects and digital pages, in
+   css/teamrufus.css, plus the shared footer) would let larger text
+   spill out. With larger text they grow instead; the original height
+   stays as the minimum so the layout looks the same when text fits. */
+html:is([data-text-size="large"], [data-text-size="largest"]) :is(
+  .exploresub-button, .tlvlama-button, .homepage3-button, .homepage4-button
+) {
+  height: auto;
+  min-height: 50px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .homepage-section {
+  height: auto;
+  min-height: 60px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) :is(.percent80-box, .percent20-box) {
+  height: auto;
+  min-height: 150px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) :is(
+  .skillsemploy-box, .experience-box, .moreway-box
+) {
+  height: auto;
+  min-height: 220px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .footer {
+  height: auto;
+  min-height: 250px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) :is(
+  .digital-box, .accounting-box, .marketing-box, .business-box, .engineering-box
+) {
+  height: auto;
+  min-height: 266px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .mini-box {
+  height: auto;
+  min-height: 203px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) :is(.one-box, .two-box, .three-box) {
+  height: auto;
+  min-height: 414px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .learnings-section {
+  height: auto;
+  min-height: 600px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .subjectinfo-section {
+  height: auto;
+  min-height: 1050px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .homepage-section3 {
+  height: auto;
+  min-height: 450px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .homepage-section2 {
+  height: auto;
+  min-height: 500px;
+}
+
+/* ---------- High contrast: black on white ---------- */
+html[data-contrast="high"],
+html[data-contrast="high"] body,
+html[data-contrast="high"] body * {
+  color: #000 !important;
+  background-color: #fff !important;
+  border-color: #000 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+html[data-contrast="high"] *::before,
+html[data-contrast="high"] *::after {
+  color: #000 !important;
+  border-color: #000 !important;
+}
+html[data-contrast="high"] ::placeholder {
+  color: #444 !important;
+}
+html[data-contrast="high"] :focus-visible {
+  outline-color: #000 !important;
+}
+/* The footer's Amazon logo is white; show it in black. */
+html[data-contrast="high"] img[src*="amazon"] {
+  filter: brightness(0);
+}
+
+/* ---------- Dark: white on dark ---------- */
+html[data-contrast="dark"],
+html[data-contrast="dark"] body,
+html[data-contrast="dark"] body * {
+  color: #fff !important;
+  background-color: #15191e !important;
+  border-color: #9aa0a6 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+html[data-contrast="dark"] *::before,
+html[data-contrast="dark"] *::after {
+  color: #fff !important;
+  border-color: #9aa0a6 !important;
+}
+html[data-contrast="dark"] ::placeholder {
+  color: #c4c8cc !important;
+}
+html[data-contrast="dark"] :focus-visible {
+  outline-color: #fff !important;
+}
+/* The arrow and menu icons are black pictures; make them white. */
+html[data-contrast="dark"] img[src*="arrow"],
+html[data-contrast="dark"] img[src*="menu"] {
+  filter: invert(1);
+}
+
+/* ---------- Both themes ---------- */
+/* Pictures keep a see-through background (otherwise the icon colour
+   swap above would also swap the box behind the icon). */
+html[data-contrast="high"] body img,
+html[data-contrast="dark"] body img {
+  background-color: transparent !important;
+}
+/* Links are underlined so they stand out without relying on colour.
+   Links styled as buttons keep their button look. */
+html[data-contrast="high"] a:not([class*="button"]):not(.btn),
+html[data-contrast="dark"] a:not([class*="button"]):not(.btn) {
+  text-decoration: underline !important;
+}
+html[data-contrast="high"] [aria-current="page"],
+html[data-contrast="dark"] [aria-current="page"] {
+  text-decoration: underline 3px !important;
+  text-underline-offset: 6px;
+}
+
+/* Main actions are shown inverted so they still stand out. */
+html[data-contrast="high"] :is(.signup-button, .btn-primary, #rufus-chat-button) {
+  color: #fff !important;
+  background-color: #000 !important;
+}
+html[data-contrast="dark"] :is(.signup-button, .btn-primary, #rufus-chat-button) {
+  color: #15191e !important;
+  background-color: #fff !important;
+  border-color: #fff !important;
+}
+html[data-contrast] :is(.signup-button, .btn-primary, #rufus-chat-button) * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+/* Arrow icons follow the inverted text colour. */
+html[data-contrast="high"] :is(.signup-button, .btn-primary) img[src*="arrow"] {
+  filter: invert(1);
+}
+html[data-contrast="dark"] :is(.signup-button, .btn-primary) img[src*="arrow"] {
+  filter: none;
+}
+
+/* ---------- Accessibility page options ---------- */
+html[data-contrast="dark"] .a11y-radio:checked {
+  background-image: radial-gradient(circle, #fff 0 0.25rem, transparent 0.28rem);
+}
+html[data-contrast="high"] .a11y-option:has(.a11y-radio:focus-visible) {
+  outline-color: #000 !important;
+}
+html[data-contrast="dark"] .a11y-option:has(.a11y-radio:focus-visible) {
+  outline-color: #fff !important;
+}
+
+/* ---------- Accessibility page swatches ----------
+   Each swatch always shows the colours of its own option, whatever
+   theme is chosen, so people can see what they are picking. */
+html[data-contrast] .contrast-swatch-standard {
+  color: #0f1111 !important;
+  background-color: #fff !important;
+  border-color: #d5d9d9 !important;
+}
+html[data-contrast] .contrast-swatch-high {
+  color: #000 !important;
+  background-color: #fff !important;
+  border-color: #000 !important;
+}
+html[data-contrast] .contrast-swatch-dark {
+  color: #fff !important;
+  background-color: #15191e !important;
+  border-color: #15191e !important;
+}
+
+/* ---------- Read aloud bar (scripts/read-aloud.js) ----------
+   Bottom-left, so it doesn't sit on the chat button (bottom-right). */
+.read-aloud-bar {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background-color: #232F3E;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  font-family: "Amazon Ember", Arial, sans-serif;
+}
+.read-aloud-bar[hidden] {
+  display: none;
+}
+.read-aloud-bar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-color: #FF9900;
+  color: #131820;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.read-aloud-bar button[hidden] {
+  display: none;
+}
+.read-aloud-bar .read-aloud-secondary {
+  background-color: white;
+}
+.read-aloud-bar button:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 2px;
+}
+/* The block being read. An outline, so nothing on the page moves. */
+.read-aloud-current {
+  outline: 3px solid #FF9900;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+/* The themes above make every border invisible-on-white or grey; give
+   the bar's buttons a visible edge in both. */
+html[data-contrast="high"] .read-aloud-bar button {
+  border-color: #000 !important;
+}
+html[data-contrast="dark"] .read-aloud-bar button {
+  border-color: #fff !important;
+}
+/* Phones: sit above the chat button instead of beside it. */
+@media (max-width: 600px) {
+  .read-aloud-bar {
+    left: 12px;
+    bottom: 84px;
+  }
+}

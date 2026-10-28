@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Team Rufus</title>
+    <script src="scripts/nav-early.js"></script>
+    <script src="chat/chat-widget.js" defer></script>
+    <script src="scripts/api.js" defer></script>
+    <script src="scripts/nav.js" defer></script>
+    <script src="scripts/account-nav.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="css/teamrufus.css">
+    <link rel="stylesheet" type="text/css" href="styles/menu.css">
+    <link rel="stylesheet" href="styles/display-settings.css">
+    <script src="scripts/display-settings.js"></script>
+    <script src="scripts/read-aloud.js" defer></script>
+</head>
+</head>
+<body>
+
+    <nav class="topnav"> 
+        <a href="index.html" class="home-logo-link" aria-label="Home"><img class="logo" src="pictures/CTI%20logo.png" alt="CTI logo"></a>
+        <a href="subjects.html">Subjects</a>
+        <a href="amazon.html">Amazon</a>
+        <a href="blog.html">Blog</a>
+        <a href="information.html">Information</a>
+        <button class="login-button" onclick="window.location.href='Log_in_page.html'">
+            <span>Login</span>
+            <img class="login-arrow" src="pictures/arrow point right up.png" alt="Login arrow">
+        </button>
+        <button class="signup-button" onclick="window.location.href='Sign_up_page.html'">
+            <span>Sign Up</span>
+            <img class="signup-arrow" src="pictures/arrow point right up.png" alt="Sign Up arrow">
+        </button>
+        <button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-dropdown">
+            <img class="menu-icon" src="pictures/menu icon.png" alt="">
+            <span class="account-name"></span>
+            <svg class="account-chevron" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+                <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <div class="nav-extra" id="nav-dropdown">
+            <a href="account.html">Account</a>
+            <a href="accessibility.html">Accessibility</a>
+            <button type="button" class="nav-logout" hidden>Log out</button>
+        </div>
+    </nav>
+
+    <div class="content">
+        <div class="content-section amazon-content-section">
+            <img class="homepage-image" src="pictures/604x800.png" alt="604x800 image">
+            <div class="content-copy">
+                <p style="color: #FF9900; font-size: 15px; margin-top: -20px; margin-left: -40px; font-weight: bold;">INDUSTRY PLACEMENT GUIDE</p>
+                <h1 style="color: white; font-size: 70px; margin-top: -20px; margin-left: -40px;">Next step with<br>Amazon</h1>
+                <p style="color: white; font-size: 20px; margin-left: -40px; margin-top: -15px;">Explore T Level placements at Amazon  and what putting your<br>skills into practice could look like.</p>
+                <div class="content-actions">
+                    <a class="exploresub-button amazon-apply-button" href="https://www.aboutamazon.co.uk/amazon-for-schools/online-hub-offerings/t-level-placements">
+                        <span>Apply</span>
+                        <img class="exploresub-arrow" src="pictures/arrow point right up.png" alt="Explore Subjects arrow">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="application-section">
+        <img class="computer-img" src="pictures/black computer.png" alt="Black computer icon">
+        <p class="application-label">Amazon application</p>
+        <h1 class="application-heading">Application process</h1>
+        <p class="application-description">This is the application process for a T-Level Industry Placement at Amazon</p>
+        <div class="application-boxes">
+            <div class="application-box1">
+                <p class="learning-card-title">Stage 1</p>
+                <p class="learning-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quos a possimus quas sit incidunt nemo, nam, corporis nulla quibusdam voluptatibus accusantium aspernatur amet adipisci perspiciatis, culpa voluptates tempore maxime.</p>
+            </div>
+            <div class="application-box2">
+                <p class="learning-card-title">Stage 2</p>
+                <p class="learning-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quos a possimus quas sit incidunt nemo, nam, corporis nulla quibusdam voluptatibus accusantium aspernatur amet adipisci perspiciatis, culpa voluptates tempore maxime.</p>
+            </div>
+            <div class="application-box3">
+                <p class="learning-card-title">Stage 3</p>
+                <p class="learning-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quos a possimus quas sit incidunt nemo, nam, corporis nulla quibusdam voluptatibus accusantium aspernatur amet adipisci perspiciatis, culpa voluptates tempore maxime.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="location-section">
+        <p class="application-label" style="font-size: 15px; font-weight: bold; margin-top: -70px;">LOCATIONS & PRACTICAL DETAILS</p>
+        <h1 class="application-heading" style="font-size: 45px; margin-top: -75px;">A placement that works for<br>you.</h1>
+        <p class="application-description" style="margin-top: -45px;">Content</p>
+    
+    </div>
+
+    <div class="amazon-content">
+        <h1 class="application-heading" style="font-size: 43px; margin-top: -5px; margin-bottom: -30px;">Title</h1>
+        <div class="application-boxes">
+            <div class="application-box1">
+                <h1 style="font-family: Amazon Ember, Arial, sans-serif;">01</h1>
+                <p class="learning-card-title">Heading</p>
+                <p class="learning-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quos a possimus quas sit incidunt nemo, nam, corporis nulla quibusdam voluptatibus accusantium aspernatur amet adipisci perspiciatis, culpa voluptates tempore maxime.</p>
+            </div>
+            <div class="application-box2">
+                <h1 style="font-family: Amazon Ember, Arial, sans-serif;">02</h1>
+                <p class="learning-card-title">Heading</p>
+                <p class="learning-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quos a possimus quas sit incidunt nemo, nam, corporis nulla quibusdam voluptatibus accusantium aspernatur amet adipisci perspiciatis, culpa voluptates tempore maxime.</p>
+            </div>
+            <div class="application-box3">
+                <h1 style="font-family: Amazon Ember, Arial, sans-serif;">03</h1>
+                <p class="learning-card-title">Heading</p>
+                <p class="learning-card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quos a possimus quas sit incidunt nemo, nam, corporis nulla quibusdam voluptatibus accusantium aspernatur amet adipisci perspiciatis, culpa voluptates tempore maxime.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <img class="amazon-logo" src="pictures/amazon%20logo.png" alt="Amazon logo">
+        <nav class="footer-links" aria-label="Footer">
+            <span class="footer-heading">Explore</span>
+            <span><a href="index.html">Home</a> &middot; <a href="subjects.html">Subjects</a> &middot; <a href="amazon.html">Amazon</a></span>
+            <span><a href="blog.html">Blog</a> &middot; <a href="information.html">Information</a></span>
+            <span><a href="Sign_up_page.html">Sign up</a> &middot; <a href="Log_in_page.html">Log in</a></span>
+        </nav>
+        <hr class="footer-divider">
+        <p class="footer-text">Privacy &middot; Terms &middot; Cookies &middot; <a href="accessibility.html">Accessibility</a></p>
+    </footer>
+
+</body>
+</html>

@@ -5,7 +5,12 @@ from decimal import Decimal
 from botocore.exceptions import ClientError
 import pytest
 
-from backend.repositories import RepositoryError, SessionsRepository, UsersRepository
+from backend.repositories import (
+    DuplicateRecordError,
+    RepositoryError,
+    SessionsRepository,
+    UsersRepository,
+)
 
 
 class StubTable:
@@ -114,3 +119,104 @@ def test_set_saved_items_replaces_the_map():
     assert kwargs["UpdateExpression"] == "SET saved = :saved, updated_at = :updated_at"
     assert kwargs["ExpressionAttributeValues"] == {":saved": {"subject:digital": "t"}, ":updated_at": "now"}
     assert kwargs["ConditionExpression"] == "attribute_exists(email)"
+
+
+class StubTransactionClient:
+    def __init__(self, cancellation_codes=None):
+        self.cancellation_codes = cancellation_codes
+        self.calls = []
+
+    def transact_write_items(self, **kwargs):
+        self.calls.append(kwargs)
+        if self.cancellation_codes:
+            raise ClientError(
+                {
+                    "Error": {"Code": "TransactionCanceledException", "Message": "stub"},
+                    "CancellationReasons": [{"Code": code} for code in self.cancellation_codes],
+                },
+                "TransactWriteItems",
+            )
+        return {}
+
+
+def _transaction_table(client):
+    table = StubTable()
+    table.name = "users"
+    table.meta = type("Meta", (), {"client": client})()
+    return table
+
+
+def test_change_email_moves_the_item_in_one_transaction():
+    client = StubTransactionClient()
+    user = {"email": "old@example.com", "id": "u1", "full_name": "Old", "saved": {}}
+
+    new_user = UsersRepository(_transaction_table(client)).change_email(
+        user, "new@example.com", "New", "now"
+    )
+
+    assert new_user == {"email": "new@example.com", "id": "u1", "full_name": "New", "saved": {}, "updated_at": "now"}
+    assert client.calls == [
+        {
+            "TransactItems": [
+                {"Put": {"TableName": "users", "Item": new_user, "ConditionExpression": "attribute_not_exists(email)"}},
+                {"Delete": {"TableName": "users", "Key": {"email": "old@example.com"}, "ConditionExpression": "attribute_exists(email)"}},
+            ]
+        }
+    ]
+
+
+def test_change_email_to_a_registered_email_is_a_duplicate():
+    client = StubTransactionClient(cancellation_codes=["ConditionalCheckFailed", "None"])
+
+    with pytest.raises(DuplicateRecordError):
+        UsersRepository(_transaction_table(client)).change_email(
+            {"email": "old@example.com"}, "taken@example.com", "Name", "now"
+        )
+
+
+@pytest.mark.parametrize("codes", [["None", "ConditionalCheckFailed"], ["ThrottlingError", "None"]])
+def test_other_transaction_failures_are_repository_errors(codes):
+    client = StubTransactionClient(cancellation_codes=codes)
+
+    with pytest.raises(RepositoryError) as raised:
+        UsersRepository(_transaction_table(client)).change_email(
+            {"email": "old@example.com"}, "new@example.com", "Name", "now"
+        )
+    assert not isinstance(raised.value, DuplicateRecordError)
+
+
+def test_update_full_name():
+    table = StubTable()
+    UsersRepository(table).update_full_name("a@example.com", "New Name", "now")
+
+    name, kwargs = table.calls[0]
+    assert name == "update_item"
+    assert kwargs["UpdateExpression"] == "SET full_name = :full_name, updated_at = :updated_at"
+    assert kwargs["ConditionExpression"] == "attribute_exists(email)"
+
+
+def test_change_password_increments_the_session_version():
+    table = StubTable(response={"Attributes": {"session_version": Decimal(2)}})
+
+    assert UsersRepository(table).change_password("a@example.com", "hash", "now") == 2
+    name, kwargs = table.calls[0]
+    assert kwargs["UpdateExpression"] == (
+        "SET password_hash = :hash, updated_at = :updated_at ADD session_version :one"
+    )
+    assert kwargs["ConditionExpression"] == "attribute_exists(email)"
+    assert kwargs["ReturnValues"] == "UPDATED_NEW"
+
+
+def test_session_updates_never_recreate_a_deleted_session():
+    table = StubTable()
+    repository = SessionsRepository(table)
+
+    repository.set_email("abc", "new@example.com")
+    repository.set_session_version("abc", 3)
+
+    assert [kwargs["UpdateExpression"] for _, kwargs in table.calls] == [
+        "SET email = :value",
+        "SET session_version = :value",
+    ]
+    assert all(kwargs["ConditionExpression"] == "attribute_exists(token_hash)" for _, kwargs in table.calls)
+    assert all(kwargs["Key"] == {"token_hash": "abc"} for _, kwargs in table.calls)

@@ -1,0 +1,289 @@
+/* ============================================================
+   Accessibility page (accessibility.html)
+   Design: Figma "Accessibility" (desktop page 9, phone page 10).
+   Cream page, white rounded cards (as on the account page),
+   orange selected state. Tablet and phone rules: responsive.css.
+   The colour themes themselves: styles/display-settings.css.
+   ============================================================ */
+
+.a11y-page {
+  background-color: #FFF4E2;
+  padding: 64px 0 64px;
+}
+
+.a11y-intro {
+  max-width: 720px;
+  margin-bottom: 44px;
+}
+.a11y-intro h1 {
+  color: #0F1111;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 12px 0 20px;
+}
+.a11y-lede {
+  color: #566171;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.a11y-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.a11y-card {
+  background-color: white;
+  border: 1px solid #ECE6DC;
+  border-radius: 20px;
+  padding: 32px;
+}
+
+.a11y-heading {
+  color: #0F1111;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+.a11y-hint {
+  color: #566171;
+  font-size: 0.875rem;
+  margin: 0 0 16px;
+}
+
+.a11y-group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.a11y-group legend {
+  padding: 0;
+}
+
+.a11y-divider {
+  border: 0;
+  border-top: 1px solid #E8EBEE;
+  margin: 28px 0;
+}
+
+/* ---------- Option cards (one radio button each) ---------- */
+.a11y-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* Desktop layout: sample top-left, radio top-right, then name and
+   detail. The radio is a real <input>, placed in the grid. */
+.a11y-option {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "sample radio"
+    "name   name"
+    "detail detail";
+  align-items: start;
+  padding: 15px;
+  background-color: white;
+  border: 1px solid #C9CDD2;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.a11y-option:hover {
+  border-color: #8D9096;
+}
+/* Selected: thicker orange border (1px padding less, so nothing moves). */
+.a11y-option:has(.a11y-radio:checked) {
+  padding: 14px;
+  border: 2px solid #FF9900;
+  background-color: #FFF8EC;
+}
+/* The radio itself shows no ring; the whole card does instead. */
+.a11y-option:has(.a11y-radio:focus-visible) {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+.a11y-radio:focus-visible {
+  outline: none;
+}
+
+.a11y-radio {
+  grid-area: radio;
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 2px 0 0;
+  border: 1.5px solid #8D9096;
+  border-radius: 50%;
+  background-color: white;
+  cursor: pointer;
+}
+/* Orange circle with a dark dot. The dot is a background image so it
+   still shows in the high contrast theme (which only resets colours). */
+.a11y-radio:checked {
+  border-color: #FF9900;
+  background-color: #FF9900;
+  background-image: radial-gradient(circle, #0F1111 0 0.25rem, transparent 0.28rem);
+}
+
+.a11y-sample,
+.a11y-swatch {
+  grid-area: sample;
+  color: #0F1111;
+  line-height: 1;
+}
+.a11y-sample {
+  margin-bottom: 18px;
+}
+.a11y-sample-standard { font-size: 1.25rem; }
+.a11y-sample-large    { font-size: 1.625rem; }
+.a11y-sample-largest  { font-size: 2rem; }
+
+/* Contrast swatches: a little "Aa" box in each option's own colours
+   (kept in every theme by styles/display-settings.css). */
+.a11y-swatch {
+  justify-self: start;
+  margin-bottom: 18px;
+  padding: 7px 10px;
+  border: 1px solid;
+  border-radius: 4px;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.a11y-option-name {
+  grid-area: name;
+  color: #0F1111;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.a11y-option-detail {
+  grid-area: detail;
+  color: #566171;
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+
+/* ---------- Text to speech ---------- */
+.a11y-tts-options {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.a11y-tts-icon svg {
+  display: block;
+}
+.a11y-subgroup {
+  margin-top: 24px;
+}
+.a11y-subheading {
+  margin: 0 0 12px;
+  color: #0F1111;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.a11y-tts-test {
+  margin-top: 20px;
+}
+.a11y-option:has(.a11y-radio:disabled) {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.a11y-tts-unsupported {
+  color: #B12704;
+}
+
+/* ---------- Reset ---------- */
+.a11y-reset {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.a11y-reset p {
+  color: #566171;
+  font-size: 0.875rem;
+  margin: 0;
+}
+.a11y-reset-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 13px 22px;
+  background-color: white;
+  border: 1px solid #DCE2EB;
+  border-radius: 6px;
+  color: #0F1111;
+  font: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+.a11y-reset-button:hover {
+  background-color: #FFF4E2;
+}
+.a11y-reset-button svg {
+  flex-shrink: 0;
+}
+
+/* ---------- Preview ---------- */
+.a11y-side {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.a11y-preview-sample {
+  margin-bottom: 28px;
+  padding: 28px 24px;
+  border: 1px solid #DCE2EB;
+  border-radius: 8px;
+}
+.a11y-preview-sample h3 {
+  color: #0F1111;
+  font-size: 1.5rem;
+  margin: 0 0 16px;
+}
+.a11y-preview-sample p {
+  color: #566171;
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0 0 16px;
+}
+.a11y-preview-sample a {
+  color: #0F1111;
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.a11y-summary p {
+  color: #566171;
+  font-size: 0.8125rem;
+  margin: 0 0 10px;
+}
+.a11y-summary p:last-child {
+  margin-bottom: 0;
+}
+.a11y-summary strong {
+  color: #0F1111;
+}
+
+.a11y-browser-tip {
+  padding: 0 8px;
+}
+.a11y-browser-tip h2 {
+  color: #0F1111;
+  font-size: 1rem;
+  margin: 0 0 10px;
+}
+.a11y-browser-tip p {
+  color: #566171;
+  font-size: 0.875rem;
+  margin: 0;
+}
+.a11y-browser-tip kbd {
+  font-family: inherit;
+}

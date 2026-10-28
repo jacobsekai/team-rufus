@@ -23,12 +23,12 @@
   margin-top: var(--space-sm);
 }
 .post-hero h1 {
-  font-size: 64px;
+  font-size: 4rem;
   margin: var(--space-md) 0 var(--space-lg);
 }
 .post-lede {
   color: white;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 1.5;
   max-width: 860px;
   margin: 0;
@@ -55,13 +55,13 @@
   max-width: 760px;
 }
 .post-body p {
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1.7;
   color: #566171;
   margin-bottom: var(--space-lg);
 }
 .post-body h2 {
-  font-size: 30px;
+  font-size: 1.875rem;
   margin: 40px 0 var(--space-md);
   color: #232F3E;
 }
