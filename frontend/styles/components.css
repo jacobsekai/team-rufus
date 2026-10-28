@@ -286,6 +286,26 @@ hr.footer-divider {
   margin: 10px 0 0;
 }
 
+/* The footer's Accessibility link is made easy to spot for the people who
+   need it: bigger, bold, orange and always underlined. Orange #FF9900 on the
+   navy footer (#232F3E) has a 6.3:1 contrast ratio, which passes WCAG AA. */
+.footer-text a,
+.footer-text a:visited {
+  color: #FF9900;
+  font-size: 0.9375rem;
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.footer-text a:hover,
+.footer-text a:focus-visible {
+  color: white;
+}
+.footer-text a:focus-visible {
+  outline: 2px solid #FF9900;
+  outline-offset: 2px;
+}
+
 /* ---------- Page heroes (dark band at the top of a page) ----------
    Colours, heading size and hover effects are taken from the
    colleague's home page (css/teamrufus.css) so every page matches:

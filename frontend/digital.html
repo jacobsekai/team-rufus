@@ -3,8 +3,13 @@
 <head>
     <meta charset="utf-8">
     <title>Team Rufus</title>
+    <script src="scripts/nav-early.js"></script>
     <script src="chat/chat-widget.js" defer></script>
+    <script src="scripts/api.js" defer></script>
+    <script src="scripts/nav.js" defer></script>
+    <script src="scripts/account-nav.js" defer></script>
     <link rel="stylesheet" type="text/css" href="css/teamrufus.css">
+    <link rel="stylesheet" type="text/css" href="styles/menu.css">
     <link rel="stylesheet" href="styles/display-settings.css">
     <script src="scripts/display-settings.js"></script>
 </head>
@@ -17,15 +22,26 @@
         <a href="amazon.html">Amazon</a>
         <a href="blog.html">Blog</a>
         <a href="information.html">Information</a>
-        <button class="login-button">
+        <button class="login-button" onclick="window.location.href='Log_in_page.html'">
             <span>Login</span>
             <img class="login-arrow" src="pictures/arrow point right up.png" alt="Login arrow">
         </button>
-        <button class="signup-button">
+        <button class="signup-button" onclick="window.location.href='Sign_up_page.html'">
             <span>Sign Up</span>
             <img class="signup-arrow" src="pictures/arrow point right up.png" alt="Sign Up arrow">
         </button>
-        <img class="menu-icon" src="pictures/menu icon.png" alt="Menu icon">
+        <button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-dropdown">
+            <img class="menu-icon" src="pictures/menu icon.png" alt="">
+            <span class="account-name"></span>
+            <svg class="account-chevron" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+                <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <div class="nav-extra" id="nav-dropdown">
+            <a href="account.html">Account</a>
+            <a href="accessibility.html">Accessibility</a>
+            <button type="button" class="nav-logout" hidden>Log out</button>
+        </div>
     </nav>
 
     <div class="content">
@@ -36,11 +52,11 @@
                 <h1 style="color: white; font-size: 4.375rem; margin-top: -20px; margin-left: -40px;">Digital Software<br>Development</h1>
                 <p style="color: white; font-size: 1.25rem; margin-left: -40px; margin-top: -15px;">Turn an interest in technology into software that solves a real problem.<br>Explore practical programming, testing and thoughtful digital design.</p>
                 <div class="content-actions digital-actions">
-                    <button class="exploresub-button" style="width: 170px;">
+                    <button class="exploresub-button" style="width: 170px;" onclick="window.open('https://www.tlevels.gov.uk/students/find', '_blank', 'noopener')">
                         <span>Find a provider</span>
                         <img class="exploresub-arrow" src="pictures/arrow point right up.png" alt="Explore Subjects arrow">
                     </button>
-                    <p class="back-to-subjects" onclick="window.location.href='subjects.html'">← Back to Subjects</p>
+                    <a class="back-to-subjects" href="subjects.html">← Back to Subjects</a>
                 </div>
             </div>
         </div>
@@ -95,17 +111,17 @@
         </div>
     </div>
 
-    <div class="footer">
-        <img class="amazon-logo" src="pictures/amazon logo.png" alt="Amazon logo">
-        <div class="footer-links">
-            <a href="#">Explore</a>
-            <a href="#">Home · Subjects · Amazon</a>
-            <a href="#">Blog · Information</a>
-            <a href="#">Sign up · Log in</a>
-        </div>
+    <footer class="footer">
+        <img class="amazon-logo" src="pictures/amazon%20logo.png" alt="Amazon logo">
+        <nav class="footer-links" aria-label="Footer">
+            <span class="footer-heading">Explore</span>
+            <span><a href="index.html">Home</a> &middot; <a href="subjects.html">Subjects</a> &middot; <a href="amazon.html">Amazon</a></span>
+            <span><a href="blog.html">Blog</a> &middot; <a href="information.html">Information</a></span>
+            <span><a href="Sign_up_page.html">Sign up</a> &middot; <a href="Log_in_page.html">Log in</a></span>
+        </nav>
         <hr class="footer-divider">
-        <p class="footer-text">Privacy · Terms · Cookies · <a href="accessibility.html">Accessibility</a></p>
-    </div>
+        <p class="footer-text">Privacy &middot; Terms &middot; Cookies &middot; <a href="accessibility.html">Accessibility</a></p>
+    </footer>
 
 </body>
 </html>

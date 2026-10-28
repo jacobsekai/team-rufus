@@ -47,6 +47,18 @@
     });
   });
 
+  // ---- Forgot password ---------------------------------------------------
+  // Password reset needs email sending, which the prototype doesn't have
+  // yet, so the link explains that instead of going nowhere.
+  const forgotLink = document.getElementById("forgot-password");
+  const forgotNote = document.getElementById("forgot-password-note");
+  if (forgotLink && forgotNote) {
+    forgotLink.addEventListener("click", function (event) {
+      event.preventDefault();
+      forgotNote.hidden = false;
+    });
+  }
+
   // ---- Inline field validation -----------------------------------------
   function setFieldError(input, message) {
     const field = input.closest(".field");
@@ -122,6 +134,8 @@
     submitButton.disabled = false;
 
     if (result && result.status === 200) {
+      // So the next page shows the name straight away (account-nav.js).
+      if (result.body) rememberFirstName(result.body.full_name);
       window.location.href = "index.html";
       return;
     }

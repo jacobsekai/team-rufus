@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Team Rufus</title>
+    <script src="scripts/nav-early.js"></script>
     <script src="chat/chat-widget.js" defer></script>
     <script src="scripts/api.js" defer></script>
     <script src="scripts/nav.js" defer></script>
@@ -50,7 +51,7 @@
                 <h1 style="color: white; font-size: 4.375rem; margin-top: -20px; margin-left: -40px;">Study with a subject you actually enjoy</h1>
                 <p style="color: white; font-size: 1.25rem; margin-left: -40px; margin-top: -15px;">Discover the subjects that match your interests and career goals.</p>
                 <div class="content-actions">
-                    <button class="exploresub-button" style="width: 170px;">
+                    <button class="exploresub-button" style="width: 170px;" onclick="window.location.href= 'amazon.html'">
                         <span>Placement at Amazon</span>
                         <img class="exploresub-arrow" src="pictures/arrow point right up.png" alt="Explore Subjects arrow">
                     </button>
@@ -68,28 +69,28 @@
                 <p style="color: #566171; font-size: 0.9375rem;">Software development · IT support · Data</p>
                 <p style="color: #566171; font-weight: bold; font-size: 0.9375rem;">Learn more →</p>
             </div>
-            <div class="accounting-box" onclick="window.location.href='accounting.html'">
+            <div class="accounting-box" onclick="window.location.href='https://www.tlevels.gov.uk/students/subjects/accounting'">
                 <h3 style="color: #131820; font-size: 1.75rem;">Accounting & Finance</h3>
                 <p style="color: #566171">Make sense of financial information and how organisations use it. Build accuracy, business awareness and confidence working with numbers.</p>
                 <p style="color: #566171; font-weight: bold;">Example route: Accounting & Finance</p>
                 <p style="color: #566171; font-size: 0.9375rem;">Accounting · Finance · Economics</p>
                 <p style="color: #566171; font-weight: bold; font-size: 0.9375rem;">Learn more →</p>
             </div>
-            <div class="marketing-box" onclick="window.location.href='marketing.html'">
+            <div class="marketing-box" onclick="window.location.href='https://www.tlevels.gov.uk/students/subjects/marketing'">
                 <h3 style="color: #131820; font-size: 1.75rem;">Marketing</h3>
                 <p style="color: #566171">Understand how businesses promote their products and services. Develop skills in market research, branding and digital marketing.</p>
                 <p style="color: #566171; font-weight: bold;">Example route: Marketing</p>
                 <p style="color: #566171; font-size: 0.9375rem;">Market research · Branding · Digital marketing</p>
                 <p style="color: #566171; font-weight: bold; font-size: 0.9375rem;">Learn more →</p>
             </div>
-            <div class="business-box" onclick="window.location.href='business.html'">
+            <div class="business-box" onclick="window.location.href='https://www.tlevels.gov.uk/students/subjects/management-administration'">
                 <h3 style="color: #131820; font-size: 1.75rem;">Business</h3>
                 <p style="color: #566171">Discover how organisations work, from planning projects to supporting teams and improving processes.</p>
                 <p style="color: #566171; font-weight: bold;">Example route: Management and Administration</p>
                 <p style="color: #566171; font-size: 0.9375rem;">Business operations · Administration · Projects</p>
                 <p style="color: #566171; font-weight: bold; font-size: 0.9375rem;">Learn more →</p>
             </div>
-            <div class="engineering-box" onclick="window.location.href='engineering.html'">
+            <div class="engineering-box" onclick="window.location.href='https://www.tlevels.gov.uk/students/subjects/engineering-manufacturing-processing-control'">
                 <h3 style="color: #131820; font-size: 1.75rem;">Engineering</h3>
                 <p style="color: #566171">Get hands-on with systems, materials and manufacturing to solve real technical challenges.</p>
                 <p style="color: #566171; font-weight: bold;">Example route: Engineering, Manufacturing, Processing and Control</p>
@@ -99,17 +100,17 @@
         </div>
     </div>
 
-    <div class="footer">
-        <img class="amazon-logo" src="pictures/amazon logo.png" alt="Amazon logo">
-        <div class="footer-links">
-            <a href="#">Explore</a>
-            <a href="#">Home · Subjects · Amazon</a>
-            <a href="#">Blog · Information</a>
-            <a href="#">Sign up · Log in</a>
-        </div>
+    <footer class="footer">
+        <img class="amazon-logo" src="pictures/amazon%20logo.png" alt="Amazon logo">
+        <nav class="footer-links" aria-label="Footer">
+            <span class="footer-heading">Explore</span>
+            <span><a href="index.html">Home</a> &middot; <a href="subjects.html">Subjects</a> &middot; <a href="amazon.html">Amazon</a></span>
+            <span><a href="blog.html">Blog</a> &middot; <a href="information.html">Information</a></span>
+            <span><a href="Sign_up_page.html">Sign up</a> &middot; <a href="Log_in_page.html">Log in</a></span>
+        </nav>
         <hr class="footer-divider">
-        <p class="footer-text">Privacy · Terms · Cookies · <a href="accessibility.html">Accessibility</a></p>
-    </div>
+        <p class="footer-text">Privacy &middot; Terms &middot; Cookies &middot; <a href="accessibility.html">Accessibility</a></p>
+    </footer>
 
 
 </body>

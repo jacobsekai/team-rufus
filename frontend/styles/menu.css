@@ -85,7 +85,7 @@
   display: none;
 }
 
-/* ---------- Logged in (scripts/account-nav.js adds .is-signed-in) ----------
+/* ---------- Logged in (.signed-in on <html>: scripts/nav-early.js, account-nav.js) ----------
    The Login / Sign up buttons and the menu icon are hidden; the menu
    button shows the person's first name instead (styled like the Login
    button) and still opens the dropdown. */
@@ -93,12 +93,12 @@
 .menu-toggle .account-chevron {
   display: none;
 }
-.topnav.is-signed-in .login-button,
-.topnav.is-signed-in .signup-button,
-.topnav.is-signed-in .menu-icon {
+.signed-in .topnav .login-button,
+.signed-in .topnav .signup-button,
+.signed-in .topnav .menu-icon {
   display: none;
 }
-.topnav.is-signed-in .menu-toggle {
+.signed-in .topnav .menu-toggle {
   gap: 8px;
   padding: 10px 22px;
   background-color: white;
@@ -108,8 +108,8 @@
   font-family: "Amazon Ember", Arial, sans-serif;
   font-size: 0.8333rem;
 }
-.topnav.is-signed-in .menu-toggle .account-name,
-.topnav.is-signed-in .menu-toggle .account-chevron {
+.signed-in .topnav .menu-toggle .account-name,
+.signed-in .topnav .menu-toggle .account-chevron {
   display: block;
 }
 .topnav.is-open .account-chevron {
