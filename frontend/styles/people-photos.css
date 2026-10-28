@@ -1,0 +1,30 @@
+/* Team member photos placed in image slots built for landscape placeholders.
+   The photos are portrait, so each slot keeps its placeholder's shape and the
+   photo is cropped (never stretched); object-position keeps the person in view. */
+
+.person-photo {
+  object-fit: cover;
+}
+
+/* Hero slot on subject pages: same 3:2 shape as "placeholder image.png". */
+.homepage-image.person-photo {
+  aspect-ratio: 3 / 2;
+  max-width: 100%;
+}
+
+/* "Curious about placements" slot: same shape as "719x604 image.png". */
+.homepage4-image.person-photo {
+  aspect-ratio: 719 / 604;
+}
+
+.person-photo--humaid {
+  object-position: 50% 65%;
+}
+
+.person-photo--josh {
+  object-position: 50% 51%;
+}
+
+.person-photo--avina {
+  object-position: 50% 39%;
+}
