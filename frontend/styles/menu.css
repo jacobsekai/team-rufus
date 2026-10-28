@@ -15,7 +15,8 @@
 .topnav {
   overflow: visible;
 }
-.topnav > img.logo {
+.topnav > img.logo,
+.topnav > .home-logo-link > img.logo {
   clip-path: inset(0 0 8px 0);
 }
 

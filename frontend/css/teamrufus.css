@@ -40,6 +40,20 @@ body {
     padding-left: 50px;
 }
 
+/* The logo is a link to the home page (hand cursor, works with the
+   keyboard). The link takes the logo's old place, so nothing moves and
+   the centred nav links stay centred. */
+.topnav .home-logo-link {
+    position: absolute;
+    left: 12px;
+    padding: 0;
+    overflow: visible;
+}
+.topnav .home-logo-link .logo {
+    position: static;
+    display: block;
+}
+
 button {
     padding-left: 22px;
     padding-right: 22px;
