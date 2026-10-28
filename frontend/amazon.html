@@ -8,6 +8,8 @@
     <script src="scripts/api.js" defer></script>
     <script src="scripts/nav.js" defer></script>
     <script src="scripts/account-nav.js" defer></script>
+    <script src="scripts/interest-form.js" defer></script>
+    <link rel="stylesheet" href="styles/interest-form.css">
     <link rel="stylesheet" type="text/css" href="css/teamrufus.css">
     <link rel="stylesheet" type="text/css" href="styles/menu.css">
     <link rel="stylesheet" href="styles/display-settings.css">
@@ -110,6 +112,70 @@
         </div>
     </div>
 
+    <!-- Register your interest: sent by scripts/interest-form.js to
+         POST /api/expressions-of-interest. Not an application. -->
+    <section class="interest-section" id="register-interest" aria-labelledby="interest-heading">
+        <div class="interest-inner">
+            <p class="interest-eyebrow">REGISTER YOUR INTEREST</p>
+            <h2 id="interest-heading" class="interest-heading">Interested in a placement at Amazon?</h2>
+            <p class="interest-lede">Leave your details and tell us which areas you're interested in. Registering your interest isn't an application for a placement.</p>
+
+            <div class="interest-alert interest-alert-success" id="interest-success" role="status" tabindex="-1" hidden>
+                Thanks, we've got your details.
+            </div>
+            <div class="interest-alert interest-alert-error" id="interest-error" role="alert" hidden><span></span></div>
+
+            <form id="interest-form" novalidate>
+                <div class="interest-row">
+                    <div class="interest-field">
+                        <label for="interest-name">Full name</label>
+                        <input type="text" id="interest-name" name="full_name" autocomplete="name" maxlength="100" required>
+                    </div>
+                    <div class="interest-field">
+                        <label for="interest-email">Email address</label>
+                        <input type="email" id="interest-email" name="email" autocomplete="email" required>
+                    </div>
+                </div>
+                <div class="interest-row">
+                    <div class="interest-field">
+                        <label for="interest-type">I am</label>
+                        <select id="interest-type" name="customer_type" required>
+                            <option value="">Choose one</option>
+                            <option value="student">A student</option>
+                            <option value="parent_carer">A parent or carer</option>
+                            <option value="school">From a school or college</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="interest-field">
+                        <label for="interest-school">School or college <span class="interest-optional">(optional)</span></label>
+                        <input type="text" id="interest-school" name="school" autocomplete="organization" maxlength="200">
+                    </div>
+                </div>
+                <fieldset class="interest-fieldset">
+                    <legend>Which areas are you interested in? <span class="interest-optional">(optional)</span></legend>
+                    <div class="interest-areas" id="interest-areas">
+                        <label class="interest-check"><input type="checkbox" name="interests" value="digital"> Digital</label>
+                        <label class="interest-check"><input type="checkbox" name="interests" value="business"> Business</label>
+                        <label class="interest-check"><input type="checkbox" name="interests" value="media"> Media</label>
+                        <label class="interest-check"><input type="checkbox" name="interests" value="finance"> Finance</label>
+                        <label class="interest-check"><input type="checkbox" name="interests" value="engineering"> Engineering</label>
+                    </div>
+                </fieldset>
+                <div class="interest-field">
+                    <label class="interest-check interest-consent">
+                        <input type="checkbox" id="interest-consent" name="consent" required>
+                        <span>I agree that my details can be stored and used to contact me about T Level placements at Amazon. See the <a href="privacy.html">Privacy notice</a>.</span>
+                    </label>
+                </div>
+                <button type="submit" class="exploresub-button interest-submit">
+                    <span>Register interest</span>
+                    <img class="exploresub-arrow" src="pictures/arrow%20point%20right%20up.png" alt="">
+                </button>
+            </form>
+        </div>
+    </section>
+
     <footer class="footer">
         <img class="amazon-logo" src="pictures/amazon%20logo.png" alt="Amazon logo">
         <nav class="footer-links" aria-label="Footer">
@@ -119,7 +185,7 @@
             <span><a href="Sign_up_page.html">Sign up</a> &middot; <a href="Log_in_page.html">Log in</a></span>
         </nav>
         <hr class="footer-divider">
-        <p class="footer-text">Privacy &middot; Terms &middot; Cookies &middot; <a href="accessibility.html">Accessibility</a></p>
+        <p class="footer-text"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="privacy.html#cookies">Cookies</a> &middot; <a href="accessibility.html" class="footer-a11y-link">Accessibility</a></p>
     </footer>
 
 </body>

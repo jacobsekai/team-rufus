@@ -215,6 +215,16 @@ button {
     object-fit: contain;
 }
 
+/* Save subject (scripts/saved-items.js): orange edge once saved. */
+.save-subject-button {
+    justify-content: center;
+    width: 150px;
+}
+.save-subject-button.is-saved {
+    border: 2px solid #FF9900;
+    font-weight: bold;
+}
+
 .tlvlama-button {
     background-color: white;
     border: 1px solid white;
@@ -1218,6 +1228,11 @@ hr.footer-divider {
    navy footer (#232F3E) has a 6.3:1 contrast ratio, which passes WCAG AA. */
 .footer-text a,
 .footer-text a:visited {
+    color: #DCE2EB;
+    text-decoration: underline;
+}
+.footer-text .footer-a11y-link,
+.footer-text .footer-a11y-link:visited {
     color: #FF9900;
     font-size: 0.9375rem;
     font-weight: bold;
@@ -1225,7 +1240,9 @@ hr.footer-divider {
     text-underline-offset: 3px;
 }
 .footer-text a:hover,
-.footer-text a:focus-visible {
+.footer-text a:focus-visible,
+.footer-text .footer-a11y-link:hover,
+.footer-text .footer-a11y-link:focus-visible {
     color: white;
 }
 .footer-text a:focus-visible {
