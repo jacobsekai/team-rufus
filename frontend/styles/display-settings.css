@@ -217,3 +217,67 @@ html[data-contrast] .contrast-swatch-dark {
   background-color: #15191e !important;
   border-color: #15191e !important;
 }
+
+/* ---------- Read aloud bar (scripts/read-aloud.js) ----------
+   Bottom-left, so it doesn't sit on the chat button (bottom-right). */
+.read-aloud-bar {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background-color: #232F3E;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  font-family: "Amazon Ember", Arial, sans-serif;
+}
+.read-aloud-bar[hidden] {
+  display: none;
+}
+.read-aloud-bar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-color: #FF9900;
+  color: #131820;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.read-aloud-bar button[hidden] {
+  display: none;
+}
+.read-aloud-bar .read-aloud-secondary {
+  background-color: white;
+}
+.read-aloud-bar button:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 2px;
+}
+/* The block being read. An outline, so nothing on the page moves. */
+.read-aloud-current {
+  outline: 3px solid #FF9900;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+/* The themes above make every border invisible-on-white or grey; give
+   the bar's buttons a visible edge in both. */
+html[data-contrast="high"] .read-aloud-bar button {
+  border-color: #000 !important;
+}
+html[data-contrast="dark"] .read-aloud-bar button {
+  border-color: #fff !important;
+}
+/* Phones: sit above the chat button instead of beside it. */
+@media (max-width: 600px) {
+  .read-aloud-bar {
+    left: 12px;
+    bottom: 84px;
+  }
+}

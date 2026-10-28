@@ -169,6 +169,33 @@
   margin-top: 4px;
 }
 
+/* ---------- Text to speech ---------- */
+.a11y-tts-options {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.a11y-tts-icon svg {
+  display: block;
+}
+.a11y-subgroup {
+  margin-top: 24px;
+}
+.a11y-subheading {
+  margin: 0 0 12px;
+  color: #0F1111;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.a11y-tts-test {
+  margin-top: 20px;
+}
+.a11y-option:has(.a11y-radio:disabled) {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.a11y-tts-unsupported {
+  color: #B12704;
+}
+
 /* ---------- Reset ---------- */
 .a11y-reset {
   display: flex;

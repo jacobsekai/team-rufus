@@ -1,10 +1,12 @@
-// Text size and colour contrast chosen on the Accessibility page.
+// Text size, colour contrast and text to speech chosen on the
+// Accessibility page.
 //
 // Load this in <head> WITHOUT defer on every page, so the saved choice is
 // applied before the page is drawn (no flash of the default look). It sets
-// data-text-size and data-contrast on <html>; styles/display-settings.css
-// does the rest. The choice is kept in this browser only (localStorage),
-// so it works without an account.
+// data-text-size, data-contrast and data-read-aloud on <html>;
+// styles/display-settings.css does the rest, and scripts/read-aloud.js
+// shows the Read page button. The choice is kept in this browser only
+// (localStorage), so it works without an account.
 
 (function () {
   "use strict";
@@ -22,8 +24,17 @@
       high: "High contrast",
       dark: "Dark",
     },
+    readAloud: {
+      off: "Off",
+      on: "On",
+    },
+    speechRate: {
+      slow: "Slow",
+      normal: "Normal",
+      fast: "Fast",
+    },
   };
-  const DEFAULTS = { textSize: "standard", contrast: "standard" };
+  const DEFAULTS = { textSize: "standard", contrast: "standard", readAloud: "off", speechRate: "normal" };
 
   // Unknown or missing values fall back to the default, so an old or
   // hand-edited saved value can never break the page.
@@ -49,6 +60,9 @@
     const root = document.documentElement;
     root.dataset.textSize = settings.textSize;
     root.dataset.contrast = settings.contrast;
+    root.dataset.readAloud = settings.readAloud;
+    // Lets scripts/read-aloud.js show or hide its button straight away.
+    document.dispatchEvent(new CustomEvent("displaysettingschange", { detail: settings }));
   }
 
   function save(changes) {
