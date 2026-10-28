@@ -1,0 +1,35 @@
+/* Privacy notice and Terms of use pages. */
+
+.legal-section {
+  padding: 56px 0 72px;
+}
+.legal-body {
+  max-width: 760px;
+}
+.legal-body h2 {
+  margin: 36px 0 10px;
+  font-size: 1.5rem;
+}
+.legal-body h3 {
+  margin: 20px 0 6px;
+  font-size: 1.0625rem;
+}
+.legal-body p,
+.legal-body li {
+  color: #374151;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.legal-body ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.legal-body li + li {
+  margin-top: 6px;
+}
+.legal-note {
+  padding: 16px 18px;
+  border-left: 4px solid #FF9900;
+  border-radius: 4px;
+  background-color: #FFF4E2;
+}

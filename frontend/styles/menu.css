@@ -15,7 +15,8 @@
 .topnav {
   overflow: visible;
 }
-.topnav > img.logo {
+.topnav > img.logo,
+.topnav > .home-logo-link > img.logo {
   clip-path: inset(0 0 8px 0);
 }
 
@@ -58,7 +59,7 @@
   padding: 12px 20px;
   color: #131820;
   font-family: "Amazon Ember", Arial, sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   text-decoration: none;
 }
 .nav-extra a,
@@ -70,7 +71,7 @@
   border: none;
   color: #131820;
   font-family: "Amazon Ember", Arial, sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   text-align: left;
   text-decoration: none;
   cursor: pointer;
@@ -106,7 +107,7 @@
   border-radius: 4px;
   color: #131820;
   font-family: "Amazon Ember", Arial, sans-serif;
-  font-size: 13.333px;
+  font-size: 0.8333rem;
 }
 .signed-in .topnav .menu-toggle .account-name,
 .signed-in .topnav .menu-toggle .account-chevron {

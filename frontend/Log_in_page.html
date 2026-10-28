@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="styles/components.css">
 <link rel="stylesheet" href="styles/pages/login.css">
 <link rel="stylesheet" href="styles/responsive.css">
+<link rel="stylesheet" href="styles/display-settings.css">
+<script src="scripts/display-settings.js"></script>
+<script src="scripts/read-aloud.js" defer></script>
 <script src="chat/chat-widget.js" defer></script>
 <script src="scripts/nav.js" defer></script>
 <script src="scripts/api.js" defer></script>
@@ -97,8 +100,12 @@
             <input type="checkbox" id="remember-me" name="remember-me" checked>
             Remember me
           </label>
-          <a href="#">Forgot password?</a>
+          <a href="#forgot-password-note" id="forgot-password" aria-controls="forgot-password-note">Forgot password?</a>
         </div>
+        <p class="auth-forgot-note" id="forgot-password-note" role="status" hidden>
+          Password reset isn't available yet. If you're still logged in on another device,
+          you can change your password on your Account page.
+        </p>
 
         <button type="submit" class="btn btn-primary auth-submit">
           Log in
@@ -129,7 +136,7 @@
     <span><a href="Sign_up_page.html">Sign up</a> &middot; <a href="Log_in_page.html">Log in</a></span>
   </nav>
   <hr class="footer-divider">
-  <p class="footer-text">Privacy &middot; Terms &middot; Cookies &middot; Accessibility</p>
+  <p class="footer-text"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="privacy.html#cookies">Cookies</a> &middot; <a href="accessibility.html" class="footer-a11y-link">Accessibility</a></p>
 </footer>
 
 <script src="scripts/login.js" defer></script>

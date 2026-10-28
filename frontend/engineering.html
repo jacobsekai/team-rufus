@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Team Rufus</title>
+    <script src="scripts/nav-early.js"></script>
+    <script src="chat/chat-widget.js" defer></script>
+    <script src="scripts/api.js" defer></script>
+    <script src="scripts/nav.js" defer></script>
+    <script src="scripts/account-nav.js" defer></script>
+    <script src="scripts/saved-items.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="css/teamrufus.css">
+    <link rel="stylesheet" type="text/css" href="styles/people-photos.css">
+    <link rel="stylesheet" type="text/css" href="styles/menu.css">
+    <link rel="stylesheet" href="styles/display-settings.css">
+    <script src="scripts/display-settings.js"></script>
+    <script src="scripts/read-aloud.js" defer></script>
+</head>
+<body>
+
+    <nav class="topnav"> 
+        <a href="index.html" class="home-logo-link" aria-label="Home"><img class="logo" src="pictures/CTI%20logo.png" alt="CTI logo"></a>
+        <a href="subjects.html">Subjects</a>
+        <a href="amazon.html">Amazon</a>
+        <a href="blog.html">Blog</a>
+        <a href="information.html">Information</a>
+        <button class="login-button" onclick="window.location.href='Log_in_page.html'">
+            <span>Login</span>
+            <img class="login-arrow" src="pictures/arrow point right up.png" alt="Login arrow">
+        </button>
+        <button class="signup-button" onclick="window.location.href='Sign_up_page.html'">
+            <span>Sign Up</span>
+            <img class="signup-arrow" src="pictures/arrow point right up.png" alt="Sign Up arrow">
+        </button>
+        <button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-dropdown">
+            <img class="menu-icon" src="pictures/menu icon.png" alt="">
+            <span class="account-name"></span>
+            <svg class="account-chevron" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+                <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <div class="nav-extra" id="nav-dropdown">
+            <a href="account.html">Account</a>
+            <a href="accessibility.html">Accessibility</a>
+            <button type="button" class="nav-logout" hidden>Log out</button>
+        </div>
+    </nav>
+
+    <div class="content">
+        <div class="content-section">
+        <img class="homepage-image" src="pictures/placeholder%20image.png" alt="Placeholder image">
+            <div class="content-copy">
+                <p style="color: white; font-size: 0.75rem; margin-top: -20px; margin-left: -40px;">Home / Subjects / Engineering</p>
+                <h1 style="color: white; font-size: 4.375rem; margin-top: -20px; margin-left: -40px;">Engineering</h1>
+                <p style="color: white; font-size: 1.25rem; margin-left: -40px; margin-top: -15px;">Get hands-on with systems, materials and manufacturing<br>to solve real technical challenges.</p>
+                <div class="content-actions digital-actions">
+                    <button class="exploresub-button" style="width: 170px;" onclick="window.open('https://www.tlevels.gov.uk/students/find', '_blank', 'noopener')">
+                        <span>Find a provider</span>
+                        <img class="exploresub-arrow" src="pictures/arrow point right up.png" alt="Explore Subjects arrow">
+                    </button>
+                    <button type="button" class="tlvlama-button save-subject-button" data-save-type="subject" data-save-id="engineering" aria-pressed="false">
+                        <span>Save subject</span>
+                    </button>
+                    <a class="back-to-subjects" href="subjects.html">← Back to Subjects</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Draft text, AI-assisted, written from https://www.tlevels.gov.uk/students/subjects/engineering-manufacturing-processing-control and https://www.gov.uk/government/publications/introduction-of-t-levels/introduction-of-t-levels (checked 28 Oct 2026). Rewrite it in your own words; see docs/development-log.md. -->
+    <div class="learnings-section">
+        <h1 style="color: #131820; font-size: 3.125rem;">What will you learn to do?</h1>
+        <div class="learnings-boxes">
+            <div class="one-box">
+                <img class="orangeppl-img" src="pictures/orange people.png" alt="Orange people image">
+                <p class="learning-card-title">Work with materials</p>
+                <p class="learning-card-description">Learn how different materials behave and what they are used for.</p>
+            </div>
+            <div class="two-box">
+                <img class="code-img" src="pictures/code sign.png" alt="Orange code image">
+                <p class="learning-card-title">Use engineering maths</p>
+                <p class="learning-card-description">Practise the essential mathematics used in engineering.</p>
+            </div>
+            <div class="three-box">
+                <img class="check-img" src="pictures/orange check.png" alt="Orange check image">
+                <p class="learning-card-title">Understand the business side</p>
+                <p class="learning-card-description">Find out how engineering and manufacturing businesses work, including the commercial and financial side.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Draft text, AI-assisted, written from https://www.tlevels.gov.uk/students/subjects/engineering-manufacturing-processing-control and https://www.gov.uk/government/publications/introduction-of-t-levels/introduction-of-t-levels (checked 28 Oct 2026). Rewrite it in your own words; see docs/development-log.md. -->
+    <div class="subjectinfo-section">
+        <div class="subjectinfo-group">
+            <h1 style="color: #131820; font-size: 1.875rem;">What you could learn</h1>
+            <p style="color: #566171; font-size: 0.9375rem;">The official name is Engineering, Manufacturing, Processing and Control. The core covers working in the engineering and manufacturing sectors, essential mathematics, materials and their properties, and business, commercial and financial awareness. You then specialise in at least one of fitting and assembly, machining and toolmaking, composites manufacturing, or fabrication and welding.</p>
+        </div>
+        <div class="subjectinfo-group" style="margin-top: 20px;">
+            <h1 style="color: #131820; font-size: 1.875rem;">Projects that you may do</h1>
+            <p style="color: #566171; font-size: 0.9375rem;">Each school or college plans its own projects, so ask the one you're interested in what you would work on and how it is assessed.</p>
+        </div>
+        <div class="subjectinfo-group" style="margin-top: 20px;">
+            <h1 style="color: #131820; font-size: 1.875rem;">Classroom & Workplace</h1>
+            <p style="color: #566171; font-size: 0.9375rem;">About 80% of your time is in the classroom and 20% is on an industry placement with an employer. The placement lasts at least 315 hours, which is about 45 days. It can be one block, a day a week, or a mix of both.</p>           
+        </div>
+        <div class="subjectinfo-group" style="margin-top: 20px;">
+            <h1 style="color: #131820; font-size: 1.875rem;">Entry requirements and assessment</h1>
+            <p style="color: #566171; font-size: 0.9375rem;">Each school or college sets its own entry requirements, so check with the one you want to apply to. You get a grade for the core (A* to E), a grade for your specialism (pass, merit or distinction) and an overall grade (pass, merit, distinction or distinction*). If you don't have grade 4 in English and maths yet, you keep working towards it.</p>           
+        </div>
+        <div class="subjectinfo-group" style="margin-top: 20px;">
+            <h1 style="color: #131820; font-size: 1.875rem;">Where this area could lead</h1>
+            <p style="color: #566171; font-size: 0.9375rem;">Jobs include mechanical, electrical or aerospace engineering technician, materials technician, non-destructive testing technician, welder, engineering construction craftworker and boat builder. You could also go on to a related higher-level apprenticeship or course.</p>           
+        </div>
+        <div class="mini-box">
+            <h1 style="color: #131820; font-size: 1.875rem;">Before you apply</h1>
+            <p style="color: #566171; font-size: 0.9375rem;">Check the college's deadlines, go to an open day and ask how they organise industry placements. If you're not quite ready for a T Level, ask about the T Level Foundation Year.</p>
+        </div>           
+    </div>
+
+    <footer class="footer">
+        <img class="amazon-logo" src="pictures/amazon%20logo.png" alt="Amazon logo">
+        <nav class="footer-links" aria-label="Footer">
+            <span class="footer-heading">Explore</span>
+            <span><a href="index.html">Home</a> &middot; <a href="subjects.html">Subjects</a> &middot; <a href="amazon.html">Amazon</a></span>
+            <span><a href="blog.html">Blog</a> &middot; <a href="information.html">Information</a></span>
+            <span><a href="Sign_up_page.html">Sign up</a> &middot; <a href="Log_in_page.html">Log in</a></span>
+        </nav>
+        <hr class="footer-divider">
+        <p class="footer-text"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="privacy.html#cookies">Cookies</a> &middot; <a href="accessibility.html" class="footer-a11y-link">Accessibility</a></p>
+    </footer>
+
+</body>
+</html>

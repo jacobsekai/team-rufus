@@ -39,6 +39,8 @@ async function runSignInTests(report) {
     const email = "signin.test." + stamp + "@example.com";
     const password = "synthetic test password " + stamp + "!";
     const wrongPassword = "definitely the wrong password";
+    const newEmail = "signin.test." + stamp + ".renamed@example.com";
+    const newPassword = "another synthetic password " + stamp + "?";
     let passed = 0;
     let failed = 0;
 
@@ -131,6 +133,40 @@ async function runSignInTests(report) {
         function (r) { return r.body && r.body.items && r.body.items.length === 2 ? null : "expected 2 items"; });
     await check("Saved items: remove the subject", "POST", "/api/users/me/saved/remove", { type: "subject", id: "digital" }, 200,
         function (r) { return r.body && r.body.items && r.body.items.length === 1 ? null : "expected 1 item left"; });
+
+    await check("Edit details: wrong password refused", "POST", "/api/users/me/update",
+        { full_name: "Sign-in Test", email: email, current_password: wrongPassword }, 400,
+        expectError("Password is incorrect."));
+    await check("Edit details: change name", "POST", "/api/users/me/update",
+        { full_name: "Sign-in Test Renamed", email: email, current_password: password }, 200,
+        function (r) { return r.body && r.body.full_name === "Sign-in Test Renamed" ? null : "name not changed"; });
+    await check("Edit details: change email", "POST", "/api/users/me/update",
+        { full_name: "Sign-in Test Renamed", email: newEmail, current_password: password }, 200,
+        function (r) { return r.body && r.body.email === newEmail ? null : "email not changed"; });
+    await check("Edit details: still signed in with the new email", "GET", "/api/users/me", undefined, 200,
+        function (r) { return r.body && r.body.email === newEmail ? null : "wrong email returned"; });
+    await check("Edit details: saved items kept", "GET", "/api/users/me/saved", undefined, 200,
+        function (r) { return r.body && r.body.items && r.body.items.length === 1 ? null : "expected 1 item"; });
+    await check("Edit details: change email back", "POST", "/api/users/me/update",
+        { full_name: "Sign-in Test", email: email, current_password: password }, 200,
+        function (r) { return r.body && r.body.email === email ? null : "email not changed back"; });
+
+    await check("Change password: wrong current password refused", "POST", "/api/users/me/password",
+        { current_password: wrongPassword, new_password: newPassword }, 400, expectError("Password is incorrect."));
+    await check("Change password: same password refused", "POST", "/api/users/me/password",
+        { current_password: password, new_password: password }, 400,
+        expectError("Your new password must be different from your current one."));
+    await check("Change password: weak new password refused", "POST", "/api/users/me/password",
+        { current_password: password, new_password: "short1!" }, 400);
+    await check("Change password", "POST", "/api/users/me/password",
+        { current_password: password, new_password: newPassword }, 200);
+    await check("Change password: still signed in", "GET", "/api/users/me", undefined, 200);
+    await check("Change password: old password refused", "POST", "/api/login",
+        { email: email, password: password }, 401);
+    await check("Change password: new password works", "POST", "/api/login",
+        { email: email, password: newPassword }, 200);
+    await check("Change password back", "POST", "/api/users/me/password",
+        { current_password: newPassword, new_password: password }, 200);
 
     await check("Content list shows signed in", "GET", "/api/content", undefined, 200,
         function (r) { return r.body && r.body.signed_in === true ? null : "signed_in was not true"; });

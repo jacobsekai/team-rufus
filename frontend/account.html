@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="styles/components.css">
 <link rel="stylesheet" href="styles/pages/account.css">
 <link rel="stylesheet" href="styles/responsive.css">
+<link rel="stylesheet" href="styles/display-settings.css">
+<script src="scripts/display-settings.js"></script>
+<script src="scripts/read-aloud.js" defer></script>
 <script src="chat/chat-widget.js" defer></script>
 <script src="scripts/nav.js" defer></script>
 <script src="scripts/api.js" defer></script>
@@ -121,6 +124,8 @@
             <form id="password-form" novalidate>
               <div class="alert alert-error" role="alert" hidden><span></span></div>
               <div class="alert alert-success" role="status" hidden><span></span></div>
+              <!-- Lets password managers know which account this password belongs to. -->
+              <input type="email" id="pw-username" name="username" autocomplete="username" hidden readonly>
               <div class="field">
                 <label for="pw-current">Current password</label>
                 <input type="password" id="pw-current" name="current-password" autocomplete="current-password" required>
@@ -154,7 +159,7 @@
     <span><a href="Sign_up_page.html">Sign up</a> &middot; <a href="Log_in_page.html">Log in</a></span>
   </nav>
   <hr class="footer-divider">
-  <p class="footer-text">Privacy &middot; Terms &middot; Cookies &middot; Accessibility</p>
+  <p class="footer-text"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="privacy.html#cookies">Cookies</a> &middot; <a href="accessibility.html" class="footer-a11y-link">Accessibility</a></p>
 </footer>
 </body>
 </html>

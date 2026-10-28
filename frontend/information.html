@@ -11,10 +11,15 @@
 <link rel="stylesheet" href="styles/components.css">
 <link rel="stylesheet" href="styles/pages/information.css">
 <link rel="stylesheet" href="styles/responsive.css">
+<link rel="stylesheet" href="styles/display-settings.css">
+<script src="scripts/display-settings.js"></script>
+<script src="scripts/read-aloud.js" defer></script>
 <script src="chat/chat-widget.js" defer></script>
 <script src="scripts/nav.js" defer></script>
 <script src="scripts/api.js" defer></script>
 <script src="scripts/account-nav.js" defer></script>
+<script src="scripts/saved-items.js" defer></script>
+<script src="scripts/downloads.js" defer></script>
 </head>
 <body>
 
@@ -208,6 +213,17 @@
     </div>
   </section>
 
+  <!-- Guides: filled in by scripts/downloads.js from GET /api/content. -->
+  <section class="info-section downloads-section" id="downloads" aria-labelledby="downloads-heading">
+    <div class="wrap-wide">
+      <p class="eyebrow">Guides</p>
+      <h2 id="downloads-heading" class="info-heading">Guides to download.</h2>
+      <p class="downloads-lede">Guides for students, parents and carers, and schools and colleges. Some are for account holders only.</p>
+      <p class="downloads-status" id="downloads-status" role="status">Loading the guides&hellip;</p>
+      <ul class="download-grid" id="download-list"></ul>
+    </div>
+  </section>
+
 </main>
 
 <footer class="footer">
@@ -219,7 +235,7 @@
     <span><a href="Sign_up_page.html">Sign up</a> &middot; <a href="Log_in_page.html">Log in</a></span>
   </nav>
   <hr class="footer-divider">
-  <p class="footer-text">Privacy &middot; Terms &middot; Cookies &middot; Accessibility</p>
+  <p class="footer-text"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="privacy.html#cookies">Cookies</a> &middot; <a href="accessibility.html" class="footer-a11y-link">Accessibility</a></p>
 </footer>
 </body>
 </html>

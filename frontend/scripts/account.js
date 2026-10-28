@@ -1,13 +1,10 @@
 // Account page behaviour.
 //
-// Existing backend endpoints (docs/api.md):
+// Backend endpoints (docs/api.md):
 //   GET  /api/users/me              the signed-in person's details
 //   GET  /api/users/me/saved        their saved subjects and guides
 //   POST /api/users/me/saved/remove remove a saved item
 //   GET  /api/subjects              subject names for saved subject IDs
-//
-// NOT IN THE BACKEND YET - to be added by the backend owner. Until then the
-// backend answers 404 and the forms say editing is not available yet.
 //   POST /api/users/me/update
 //     body: {"full_name", "email", "current_password"}
 //     200: updated profile {"id", "email", "full_name", "created_at"}
@@ -16,8 +13,9 @@
 //   POST /api/users/me/password
 //     body: {"current_password", "new_password"}  (same rule as sign up)
 //     200: {"status": "updated"}
-//     400: {"error": ...} validation failed, or wrong current password
-//   Both: 401 when not signed in.
+//     400: {"error": ...} validation failed, wrong current password, or the
+//          new password is the same as the current one
+//   Both: 401 when not signed in. Both sign out the person's other devices.
 //
 // Needs scripts/api.js loaded first.
 
@@ -88,6 +86,7 @@
     document.getElementById("detail-created").textContent = formatDate(profile.created_at);
     document.getElementById("edit-name").value = profile.full_name;
     document.getElementById("edit-email").value = profile.email;
+    document.getElementById("pw-username").value = profile.email;
     const navName = document.querySelector(".topnav .account-name");
     const firstName = rememberFirstName(profile.full_name);
     if (navName && firstName) navName.textContent = firstName;

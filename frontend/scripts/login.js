@@ -47,6 +47,18 @@
     });
   });
 
+  // ---- Forgot password ---------------------------------------------------
+  // Password reset needs email sending, which the prototype doesn't have
+  // yet, so the link explains that instead of going nowhere.
+  const forgotLink = document.getElementById("forgot-password");
+  const forgotNote = document.getElementById("forgot-password-note");
+  if (forgotLink && forgotNote) {
+    forgotLink.addEventListener("click", function (event) {
+      event.preventDefault();
+      forgotNote.hidden = false;
+    });
+  }
+
   // ---- Inline field validation -----------------------------------------
   function setFieldError(input, message) {
     const field = input.closest(".field");

@@ -81,6 +81,85 @@ class UsersRepository:
     def delete_user(self, email: str) -> None:
         _call(self.table.delete_item, Key={"email": email})
 
+    def update_full_name(self, email: str, full_name: str, updated_at: str) -> None:
+        _call(
+            self.table.update_item,
+            Key={"email": email},
+            UpdateExpression="SET full_name = :full_name, updated_at = :updated_at",
+            ConditionExpression="attribute_exists(email)",
+            ExpressionAttributeValues={":full_name": full_name, ":updated_at": updated_at},
+        )
+
+    def change_email(
+        self, user: Dict[str, Any], new_email: str, full_name: str, updated_at: str
+    ) -> Dict[str, Any]:
+        """Move the account to a new email address and return the new item.
+
+        The email is the partition key, so the item is copied to the new key
+        and the old one deleted in a single transaction: either both happen
+        or neither does, and the new email cannot already be registered.
+        """
+
+        new_user = {
+            **user,
+            "email": new_email,
+            "full_name": full_name,
+            "updated_at": updated_at,
+        }
+        try:
+            # The resource's client converts Python values to DynamoDB types.
+            self.table.meta.client.transact_write_items(
+                TransactItems=[
+                    {
+                        "Put": {
+                            "TableName": self.table.name,
+                            "Item": new_user,
+                            "ConditionExpression": "attribute_not_exists(email)",
+                        }
+                    },
+                    {
+                        "Delete": {
+                            "TableName": self.table.name,
+                            "Key": {"email": user["email"]},
+                            "ConditionExpression": "attribute_exists(email)",
+                        }
+                    },
+                ]
+            )
+        except ClientError as exc:
+            # One reason per item, in order; the first is the Put.
+            reasons = exc.response.get("CancellationReasons") or []
+            if reasons and reasons[0].get("Code") == "ConditionalCheckFailed":
+                raise DuplicateRecordError(
+                    "An account with this email already exists."
+                ) from exc
+            raise RepositoryError("The database request failed.") from exc
+        return new_user
+
+    def change_password(self, email: str, password_hash: str, updated_at: str) -> int:
+        """Store a new password hash and return the new session version.
+
+        Increasing ``session_version`` ends every session started before the
+        change (see ``accounts.current_user``).
+        """
+
+        response = _call(
+            self.table.update_item,
+            Key={"email": email},
+            UpdateExpression=(
+                "SET password_hash = :hash, updated_at = :updated_at "
+                "ADD session_version :one"
+            ),
+            ConditionExpression="attribute_exists(email)",
+            ExpressionAttributeValues={
+                ":hash": password_hash,
+                ":updated_at": updated_at,
+                ":one": 1,
+            },
+            ReturnValues="UPDATED_NEW",
+        )
+        return int(response["Attributes"]["session_version"])
+
     def record_failed_login(self, email: str) -> int:
         """Atomically add one failed attempt and return the new total."""
 
@@ -160,3 +239,19 @@ class SessionsRepository:
 
     def delete_session(self, token_hash: str) -> None:
         _call(self.table.delete_item, Key={"token_hash": token_hash})
+
+    def set_email(self, token_hash: str, email: str) -> None:
+        self._set(token_hash, "email", email)
+
+    def set_session_version(self, token_hash: str, session_version: int) -> None:
+        self._set(token_hash, "session_version", session_version)
+
+    def _set(self, token_hash: str, attribute: str, value: Any) -> None:
+        # The condition stops an update from re-creating a deleted session.
+        _call(
+            self.table.update_item,
+            Key={"token_hash": token_hash},
+            UpdateExpression=f"SET {attribute} = :value",
+            ConditionExpression="attribute_exists(token_hash)",
+            ExpressionAttributeValues={":value": value},
+        )
