@@ -17,8 +17,13 @@
   aspect-ratio: 719 / 604;
 }
 
+/* Amazon page hero: portrait slot, same shape as "604x800.png". */
+.amazon-content-section .homepage-image.person-photo {
+  aspect-ratio: 604 / 800;
+}
+
 .person-photo--humaid {
-  object-position: 50% 65%;
+  object-position: 50% 82%;
 }
 
 .person-photo--josh {
@@ -27,4 +32,12 @@
 
 .person-photo--avina {
   object-position: 50% 39%;
+}
+
+.person-photo--jacob {
+  object-position: 50% 75%;
+}
+
+.person-photo--mohammed {
+  object-position: 50% 50%;
 }
