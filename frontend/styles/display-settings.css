@@ -58,6 +58,42 @@ html:is([data-text-size="large"], [data-text-size="largest"]) :is(
 ) {
   height: auto;
   min-height: 220px;
+  /* Room for the corner icon, so bigger headings don't run into it. */
+  box-sizing: border-box;
+  padding: 56px 20px 20px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+/* Their text is nudged with inline negative margins that only line up at
+   Standard size; at bigger sizes left-align it inside the box instead. */
+html:is([data-text-size="large"], [data-text-size="largest"]) :is(
+  .skillsemploy-box, .experience-box, .moreway-box
+) > p {
+  margin: 0 0 8px !important;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) :is(
+  .skillsemploy-box, .experience-box, .moreway-box
+) br {
+  display: none;
+}
+/* 80% / 20% boxes: their label and text are absolutely positioned for
+   Standard size; at bigger sizes let them sit side by side in the flow. */
+html:is([data-text-size="large"], [data-text-size="largest"]) :is(.percent80-box, .percent20-box) {
+  box-sizing: border-box;
+  height: auto;
+  min-height: 150px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 25px;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) :is(
+  .percent80-label, .percent20-label, .percent80-copy, .percent20-copy
+) {
+  position: static;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .homepage-section3 {
+  height: auto;
 }
 html:is([data-text-size="large"], [data-text-size="largest"]) .footer {
   height: auto;

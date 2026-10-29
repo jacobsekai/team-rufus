@@ -1,0 +1,421 @@
+/* ============================================================
+   Smaller screens for the pages built on css/teamrufus.css
+   (home, Subjects, the five subject pages and Amazon).
+   That stylesheet is laid out for 1440px-wide screens: fixed widths,
+   absolute positions and fixed heights, plus inline styles in the HTML
+   (negative margins, large font sizes). This file loads after it and
+   only changes things below 1420px, so wide screens look the same.
+   !important is used only where an inline style in the HTML has to be
+   overridden.
+   ============================================================ */
+
+/* ---------- Laptops and tablets (below 1420px): nothing wider than the screen ---------- */
+@media (max-width: 1419px) {
+  .content-section,
+  .homepage-section,
+  .homepage4-section,
+  .subjects-section,
+  .learnings-section,
+  .subjectinfo-section {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+  .homepage-image {
+    max-width: 45%;
+  }
+  .homepage-section {
+    gap: 32px;
+  }
+  .fraction-text,
+  .days-text {
+    margin-left: 80px;
+  }
+  .homepage-boxes,
+  .learnings-boxes,
+  .application-boxes {
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .homepage-boxes > div,
+  .learnings-boxes > div {
+    flex: 1 1 300px;
+    width: auto;
+    max-width: 405px;
+  }
+  .homepage-section2,
+  .learnings-section,
+  .subjectinfo-section {
+    height: auto;
+  }
+  .subjects-section {
+    min-height: 0;
+  }
+  .subjects-boxes {
+    width: 100%;
+  }
+  .digital-box,
+  .accounting-box,
+  .marketing-box,
+  .business-box,
+  .engineering-box,
+  .mini-box {
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+  .one-box,
+  .two-box,
+  .three-box {
+    height: auto;
+    min-height: 300px;
+  }
+  .percent80-box,
+  .percent20-box {
+    width: min(520px, 100%);
+  }
+  .homepage-section3 {
+    flex-wrap: wrap;
+    height: auto;
+  }
+  .homepage3-copy {
+    flex: 1 1 360px;
+  }
+  .homepage3-boxes {
+    flex: 1 1 400px;
+    flex-shrink: 1;
+  }
+
+  /* Amazon page: the text and boxes are absolutely positioned for 1440px;
+     put them back in the normal flow so the sections grow with them. */
+  .application-section .computer-img,
+  .application-section .application-label,
+  .application-section .application-heading,
+  .application-section .application-description,
+  .application-boxes,
+  .location-section .application-label,
+  .location-section .application-heading,
+  .location-section .application-description,
+  .amazon-content .application-heading {
+    position: static;
+    margin: 0 !important;
+  }
+  .application-section,
+  .location-section,
+  .amazon-content {
+    min-height: 0 !important;
+    gap: 20px;
+    padding: 48px;
+  }
+  .application-box1,
+  .application-box2,
+  .application-box3 {
+    flex: 1 1 280px;
+    width: auto;
+    max-width: 405px;
+    height: auto;
+    min-height: 200px;
+  }
+  .location-section .application-description {
+    max-width: 60ch;
+  }
+  .amazon-content-section {
+    min-height: 0;
+  }
+}
+
+/* ---------- Phones and small tablets (below 960px): one column ---------- */
+@media (max-width: 959px) {
+  /* Top bar: logo and menu button; the links open from the menu
+     (scripts/nav.js toggles .is-open). Without JavaScript they show. */
+  .topnav {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    height: auto;
+    min-height: 64px;
+    padding: 8px 16px;
+    border-bottom: 1px solid #DCE2EB;
+  }
+  .topnav .home-logo-link {
+    position: static;
+  }
+  .topnav .home-logo-link .logo,
+  .topnav .logo {
+    height: 48px;
+    padding: 0;
+    clip-path: none;
+  }
+  .topnav > .menu-toggle {
+    position: static;
+    margin-left: auto;
+  }
+  .topnav > a:not(.home-logo-link),
+  .topnav > .login-button,
+  .topnav > .signup-button {
+    position: static;
+    flex-basis: 100%;
+    order: 10;
+  }
+  .topnav > a:not(.home-logo-link) {
+    padding: 12px 0;
+    border-bottom: 1px solid #DCE2EB;
+  }
+  .topnav > .login-button,
+  .topnav > .signup-button {
+    justify-content: center;
+    margin-top: 12px;
+  }
+  .topnav > .login-button:hover,
+  .topnav > .signup-button:hover {
+    transform: none;
+  }
+  .topnav.nav-js > a:not(.home-logo-link),
+  .topnav.nav-js > .login-button,
+  .topnav.nav-js > .signup-button {
+    display: none;
+  }
+  .topnav.nav-js.is-open > a:not(.home-logo-link) {
+    display: block;
+  }
+  .topnav.nav-js.is-open > .login-button,
+  .topnav.nav-js.is-open > .signup-button {
+    display: inline-flex;
+  }
+  html.signed-in .topnav.nav-js.is-open > .login-button,
+  html.signed-in .topnav.nav-js.is-open > .signup-button {
+    display: none;
+  }
+  .topnav .nav-extra,
+  .topnav.is-open .nav-extra {
+    position: static;
+    flex-basis: 100%;
+    order: 11;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .topnav.nav-js:not(.is-open) .nav-extra {
+    display: none;
+  }
+  .topnav.is-open .nav-extra {
+    display: flex;
+    flex-direction: column;
+  }
+  .topnav .nav-extra a,
+  .topnav .nav-logout {
+    padding: 12px 0;
+    border-bottom: 1px solid #DCE2EB;
+  }
+
+  /* Dark hero: text first, then the picture, full width. */
+  .content-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 28px;
+    padding: 40px 20px;
+  }
+  .content-copy {
+    order: -1;
+    gap: 14px;
+  }
+  .content-copy > p,
+  .content-copy > h1,
+  .content-actions {
+    margin: 0 !important;
+  }
+  .content-copy > h1 {
+    font-size: 2.5rem !important;
+    line-height: 1.15;
+  }
+  .content-copy > p {
+    font-size: 1rem !important;
+  }
+  .content-copy > p:first-child {
+    font-size: 0.8125rem !important;
+  }
+  .content-actions {
+    flex-wrap: wrap;
+  }
+  /* Line breaks placed for the desktop layout make odd short lines here.
+     Each <br> has a space before it in the HTML, so no words join up. */
+  .content br,
+  .homepage-section2 br,
+  .homepage-section3 br,
+  .homepage4-section br,
+  .subjects-section br,
+  .application-section br,
+  .location-section br,
+  .amazon-content br {
+    display: none;
+  }
+  .homepage-image {
+    width: 100%;
+    max-width: 100%;
+  }
+  .amazon-content-section .homepage-image {
+    max-width: 420px;
+  }
+
+  /* Home: key facts in a column. */
+  .homepage-section {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    gap: 8px;
+    padding: 28px 20px;
+  }
+  .twoyr-text,
+  .fraction-text,
+  .days-text {
+    margin: 0;
+  }
+
+  /* Cards: one per row, full width. */
+  .homepage-section2,
+  .homepage-section3,
+  .homepage4-section,
+  .learnings-section,
+  .subjectinfo-section,
+  .subjects-section,
+  .application-section,
+  .location-section,
+  .amazon-content {
+    height: auto;
+    padding: 32px 20px;
+  }
+  .homepage-section2 > p,
+  .learnings-section > h1,
+  .homepage3-copy > p:nth-child(2) {
+    font-size: 1.75rem !important;
+    margin: 0 !important;
+  }
+  .homepage-boxes,
+  .learnings-boxes,
+  .application-boxes {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .homepage-boxes > div,
+  .learnings-boxes > div,
+  .application-box1,
+  .application-box2,
+  .application-box3 {
+    flex: none;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    min-height: 0;
+  }
+  .homepage-boxes > div {
+    box-sizing: border-box;
+    align-items: flex-start;
+    padding: 56px 20px 20px;
+  }
+  .homepage-boxes > div > p {
+    margin: 0 0 8px !important;
+  }
+
+  /* Home: how it works. */
+  .homepage-section3 {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .homepage3-copy > p {
+    margin: 0 !important;
+  }
+  .homepage3-boxes {
+    flex-shrink: 1;
+    align-items: stretch;
+  }
+  .percent80-box,
+  .percent20-box {
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+  }
+  .percent80-label,
+  .percent20-label,
+  .percent80-copy,
+  .percent20-copy {
+    position: static;
+  }
+  .percent80-copy p,
+  .percent20-copy p {
+    margin: 0 0 6px !important;
+  }
+
+  /* Home: Curious about placements. */
+  .homepage4-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    min-height: 0;
+  }
+  .homepage4-image {
+    width: 100%;
+    max-width: 100%;
+  }
+  .homepage4-copy {
+    margin: 0 !important;
+  }
+  .homepage4-heading {
+    font-size: 2rem;
+  }
+
+  /* Subjects page. */
+  .subjects-section {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .digital-box,
+  .accounting-box,
+  .marketing-box,
+  .business-box,
+  .engineering-box {
+    padding: 24px;
+    gap: 8px;
+  }
+  .subjects-boxes h3 {
+    font-size: 1.375rem !important;
+  }
+
+  /* Subject pages. */
+  .subjectinfo-group > h1,
+  .mini-box > h1 {
+    font-size: 1.5rem !important;
+  }
+  .mini-box {
+    padding: 20px;
+  }
+
+  /* Amazon page. */
+  .application-section .application-heading,
+  .location-section .application-heading,
+  .amazon-content .application-heading {
+    font-size: 1.875rem !important;
+  }
+  .location-section .application-label {
+    font-size: 0.8125rem !important;
+  }
+
+  /* Footer: links under the logo instead of floating right. */
+  .footer {
+    height: auto;
+    padding: 32px 20px;
+  }
+  .amazon-logo {
+    display: block;
+  }
+  .footer-links {
+    float: none;
+    padding-right: 0;
+    gap: 20px;
+  }
+}

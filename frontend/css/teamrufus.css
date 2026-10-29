@@ -215,8 +215,10 @@ button {
     object-fit: contain;
 }
 
-/* Save subject (scripts/saved-items.js): orange edge once saved. */
-.save-subject-button {
+/* Save subject (scripts/saved-items.js): orange edge once saved.
+   Share (scripts/share.js) uses the same size. */
+.save-subject-button,
+.share-button {
     justify-content: center;
     width: 150px;
 }
@@ -968,7 +970,7 @@ button {
     top: 140px;
     left: 90px;
     margin: 0;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-family: "Amazon Ember", Arial, sans-serif;
 }
 
@@ -977,7 +979,7 @@ button {
     top: 200px;
     left: 87px;
     margin: 0;
-    font-size: 50px;
+    font-size: 3.125rem;
     font-family: "Amazon Ember", Arial, sans-serif;
 }
 
@@ -987,7 +989,7 @@ button {
     left: 90px;
     margin: 0;
     color: #566171;
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-family: "Amazon Ember", Arial, sans-serif;
 }
 
