@@ -67,6 +67,9 @@ docs/
   deployment.md               AWS hosting design and security decisions
   development-log.md          Iterative development record
   test-log.md                 Iterative test record
+  guides/                     Text the guide PDFs are built from
+tools/
+  build_guides.py             Rebuilds the guide PDFs from docs/guides/
 ```
 
 ## Local setup

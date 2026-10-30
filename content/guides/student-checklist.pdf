@@ -3,50 +3,80 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+<< /Type /Pages /Kids [6 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
 endobj
 4 0 obj
-<< /Length 391 >>
-stream
-BT
-/F1 20 Tf
-72 760 Td
-(Student checklist) Tj
-/F1 12 Tf
-0 -36 Td
-(PLACEHOLDER - NOT APPROVED CONTENT) Tj
-0 -18 Td
-() Tj
-0 -18 Td
-(This file only tests downloads in the Team Rufus prototype.) Tj
-0 -18 Td
-(Replace it with the approved version and record the source) Tj
-0 -18 Td
-(in the assets log.) Tj
-0 -18 Td
-() Tj
-0 -18 Td
-(Design reference: Information > Student checklist.) Tj
-0 -18 Td
-ET
-endstream
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
 endobj
 5 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+<< /Length 3454 >>
+stream
+BT /F2 22 Tf 0.14 0.18 0.24 rg 60 756.0 Td (Student checklist) Tj ET
+1 0.6 0 RG 3 w 60 752.0 m 120 752.0 l S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 60 723.0 Td (Questions for open days and a simple plan for applying to a T Level.) Tj ET
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 687.0 Td (Is a T Level right for me?) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 670.0 Td (I know which subject area interests me \(Digital, Business, Finance, Engineering or) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 655.0 Td (another\).) Tj ET
+0.14 0.18 0.24 RG 1 w 62 670.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 636.0 Td (I'm happy to spend about 80% of my time in the classroom and 20% on an industry) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 621.0 Td (placement.) Tj ET
+0.14 0.18 0.24 RG 1 w 62 636.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 602.0 Td (I understand the placement is at least 315 hours \(about 45 days\).) Tj ET
+0.14 0.18 0.24 RG 1 w 62 602.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 583.0 Td (I've compared a T Level with A levels and apprenticeships.) Tj ET
+0.14 0.18 0.24 RG 1 w 62 583.0 11 11 re S
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 547.0 Td (Questions to ask at an open day) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 530.0 Td (What are your entry requirements for this T Level?) Tj ET
+0.14 0.18 0.24 RG 1 w 62 530.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 511.0 Td (How do you find and organise industry placements?) Tj ET
+0.14 0.18 0.24 RG 1 w 62 511.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 492.0 Td (Will my placement be a block, day release or a mix?) Tj ET
+0.14 0.18 0.24 RG 1 w 62 492.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 473.0 Td (What support is there if I haven't got grade 4 in English or maths yet?) Tj ET
+0.14 0.18 0.24 RG 1 w 62 473.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 454.0 Td (Do you offer the T Level Foundation Year if I'm not ready yet?) Tj ET
+0.14 0.18 0.24 RG 1 w 62 454.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 435.0 Td (What have past students gone on to do?) Tj ET
+0.14 0.18 0.24 RG 1 w 62 435.0 11 11 re S
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 399.0 Td (My application plan) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 382.0 Td (Colleges or schools I'm interested in:) Tj ET
+0.14 0.18 0.24 RG 1 w 62 382.0 11 11 re S
+0.4 0.4 0.4 RG 0.5 w 60 356.0 m 535 356.0 l S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 341.0 Td (Open day dates:) Tj ET
+0.14 0.18 0.24 RG 1 w 62 341.0 11 11 re S
+0.4 0.4 0.4 RG 0.5 w 60 315.0 m 535 315.0 l S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 300.0 Td (Application deadlines:) Tj ET
+0.14 0.18 0.24 RG 1 w 62 300.0 11 11 re S
+0.4 0.4 0.4 RG 0.5 w 60 274.0 m 535 274.0 l S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 259.0 Td (Who can help me \(teacher, careers adviser, family\):) Tj ET
+0.14 0.18 0.24 RG 1 w 62 259.0 11 11 re S
+0.4 0.4 0.4 RG 0.5 w 60 233.0 m 535 233.0 l S
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 201.0 Td (Useful links) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 184.0 Td (TLevels.gov.uk: www.tlevels.gov.uk) Tj ET
+1 0.6 0 rg 66 188.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 167.0 Td (Find a T Level near you: www.tlevels.gov.uk/students/find) Tj ET
+1 0.6 0 rg 66 171.0 4 4 re f
+BT /F1 9 Tf 0.4 0.4 0.4 rg 60 146.0 Td (Sources: TLevels.gov.uk About T Levels; GOV.UK Introduction of T Levels. Checked 28 October 2026.) Tj ET
+BT /F1 8 Tf 0.4 0.4 0.4 rg 60 30 Td (DRAFT - Team Rufus student prototype. Check every fact before sharing.) Tj ET BT /F1 8 Tf 0.4 0.4 0.4 rg 495 30 Td (Page 1 of 1) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 5 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> >>
 endobj
 xref
-0 6
+0 7
 0000000000 65535 f 
 0000000009 00000 n 
 0000000058 00000 n 
 0000000115 00000 n 
-0000000241 00000 n 
-0000000683 00000 n 
+0000000212 00000 n 
+0000000314 00000 n 
+0000003820 00000 n 
 trailer
-<< /Size 6 /Root 1 0 R >>
+<< /Size 7 /Root 1 0 R >>
 startxref
-753
+3956
 %%EOF

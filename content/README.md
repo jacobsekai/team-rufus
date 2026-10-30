@@ -4,6 +4,10 @@ Files in this folder are uploaded to the private content bucket by
 `deploy/deploy.sh`. They are never served directly: the backend hands out
 short-lived download links.
 
+The four guide PDFs are built from the text files in `docs/guides/`. To change
+one, edit its text file and run `python3 tools/build_guides.py` from the repo
+root. The format is explained at the top of that script.
+
 To add a file:
 
 1. Put it in `guides/` (anyone can download) or `members/` (sign-in needed).

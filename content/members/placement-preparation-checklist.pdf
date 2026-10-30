@@ -3,50 +3,73 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+<< /Type /Pages /Kids [6 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
 endobj
 4 0 obj
-<< /Length 412 >>
-stream
-BT
-/F1 20 Tf
-72 760 Td
-(Placement preparation checklist) Tj
-/F1 12 Tf
-0 -36 Td
-(PLACEHOLDER - NOT APPROVED CONTENT) Tj
-0 -18 Td
-() Tj
-0 -18 Td
-(This file only tests downloads in the Team Rufus prototype.) Tj
-0 -18 Td
-(Replace it with the approved version and record the source) Tj
-0 -18 Td
-(in the assets log.) Tj
-0 -18 Td
-() Tj
-0 -18 Td
-(Members only: you can only download this while signed in.) Tj
-0 -18 Td
-ET
-endstream
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
 endobj
 5 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+<< /Length 2916 >>
+stream
+BT /F2 22 Tf 0.14 0.18 0.24 rg 60 756.0 Td (Placement preparation checklist) Tj ET
+1 0.6 0 RG 3 w 60 752.0 m 120 752.0 l S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 60 723.0 Td (For account holders: things to sort out before your industry placement starts.) Tj ET
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 687.0 Td (Before your first day) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 670.0 Td (I know the address and how I'll get there, and I've tried the journey.) Tj ET
+0.14 0.18 0.24 RG 1 w 62 670.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 651.0 Td (I know my start time, finish time and which days I'm in.) Tj ET
+0.14 0.18 0.24 RG 1 w 62 651.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 632.0 Td (I have the name and contact details of my placement supervisor.) Tj ET
+0.14 0.18 0.24 RG 1 w 62 632.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 613.0 Td (I know who to contact at my school or college during the placement.) Tj ET
+0.14 0.18 0.24 RG 1 w 62 613.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 594.0 Td (I know what to wear.) Tj ET
+0.14 0.18 0.24 RG 1 w 62 594.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 575.0 Td (I've told my placement about anything I need support with.) Tj ET
+0.14 0.18 0.24 RG 1 w 62 575.0 11 11 re S
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 539.0 Td (Things to bring) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 522.0 Td (Lunch or money for lunch) Tj ET
+0.14 0.18 0.24 RG 1 w 62 522.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 503.0 Td (Notebook and pen) Tj ET
+0.14 0.18 0.24 RG 1 w 62 503.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 484.0 Td (Any documents or forms my college asked me to bring) Tj ET
+0.14 0.18 0.24 RG 1 w 62 484.0 11 11 re S
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 448.0 Td (In your first week) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 431.0 Td (Find out who to ask if I have a question.) Tj ET
+0.14 0.18 0.24 RG 1 w 62 431.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 412.0 Td (Learn the health and safety rules and fire exits.) Tj ET
+0.14 0.18 0.24 RG 1 w 62 412.0 11 11 re S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 82 393.0 Td (Agree my goals for the placement with my supervisor.) Tj ET
+0.14 0.18 0.24 RG 1 w 62 393.0 11 11 re S
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 357.0 Td (My placement goals) Tj ET
+0.4 0.4 0.4 RG 0.5 w 60 333.0 m 535 333.0 l S
+0.4 0.4 0.4 RG 0.5 w 60 311.0 m 535 311.0 l S
+0.4 0.4 0.4 RG 0.5 w 60 289.0 m 535 289.0 l S
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 257.0 Td (If something goes wrong) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 240.0 Td (If you're running late or ill, tell your supervisor as early as you can.) Tj ET
+1 0.6 0 rg 66 244.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 223.0 Td (If you feel unsafe or unhappy, talk to your college placement contact.) Tj ET
+1 0.6 0 rg 66 227.0 4 4 re f
+BT /F1 8 Tf 0.4 0.4 0.4 rg 60 30 Td (DRAFT - Team Rufus student prototype. Check every fact before sharing.) Tj ET BT /F1 8 Tf 0.4 0.4 0.4 rg 495 30 Td (Page 1 of 1) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 5 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> >>
 endobj
 xref
-0 6
+0 7
 0000000000 65535 f 
 0000000009 00000 n 
 0000000058 00000 n 
 0000000115 00000 n 
-0000000241 00000 n 
-0000000704 00000 n 
+0000000212 00000 n 
+0000000314 00000 n 
+0000003282 00000 n 
 trailer
-<< /Size 6 /Root 1 0 R >>
+<< /Size 7 /Root 1 0 R >>
 startxref
-774
+3418
 %%EOF

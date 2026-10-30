@@ -3,50 +3,75 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+<< /Type /Pages /Kids [6 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
 endobj
 4 0 obj
-<< /Length 391 >>
-stream
-BT
-/F1 20 Tf
-72 760 Td
-(Educator briefing) Tj
-/F1 12 Tf
-0 -36 Td
-(PLACEHOLDER - NOT APPROVED CONTENT) Tj
-0 -18 Td
-() Tj
-0 -18 Td
-(This file only tests downloads in the Team Rufus prototype.) Tj
-0 -18 Td
-(Replace it with the approved version and record the source) Tj
-0 -18 Td
-(in the assets log.) Tj
-0 -18 Td
-() Tj
-0 -18 Td
-(Design reference: Information > Educator briefing.) Tj
-0 -18 Td
-ET
-endstream
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
 endobj
 5 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+<< /Length 3212 >>
+stream
+BT /F2 22 Tf 0.14 0.18 0.24 rg 60 756.0 Td (Educator briefing) Tj ET
+1 0.6 0 RG 3 w 60 752.0 m 120 752.0 l S
+BT /F1 11 Tf 0.14 0.18 0.24 rg 60 723.0 Td (Conversation prompts and official links for teachers and careers advisers talking to) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 60 708.0 Td (students about T Levels.) Tj ET
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 672.0 Td (Key facts to share) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 655.0 Td (T Levels are 2-year, Level 3 courses, equivalent in size to 3 A levels.) Tj ET
+1 0.6 0 rg 66 659.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 638.0 Td (Around 80% classroom learning and 20% industry placement.) Tj ET
+1 0.6 0 rg 66 642.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 621.0 Td (Placements are at least 315 hours \(about 45 days\).) Tj ET
+1 0.6 0 rg 66 625.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 604.0 Td (Entry requirements are set by each school or college.) Tj ET
+1 0.6 0 rg 66 608.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 587.0 Td (Grades: overall pass, merit, distinction or distinction*.) Tj ET
+1 0.6 0 rg 66 591.0 4 4 re f
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 553.0 Td (Conversation prompts) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 536.0 Td (Which subjects do you enjoy most, and why?) Tj ET
+1 0.6 0 rg 66 540.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 519.0 Td (Would you rather learn mainly through practical work or through exams and essays?) Tj ET
+1 0.6 0 rg 66 523.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 502.0 Td (How would you feel about spending time in a real workplace while you study?) Tj ET
+1 0.6 0 rg 66 506.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 485.0 Td (What jobs or areas of work are you curious about?) Tj ET
+1 0.6 0 rg 66 489.0 4 4 re f
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 451.0 Td (Supporting students to choose) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 434.0 Td (Encourage them to visit open days and ask how placements are organised.) Tj ET
+1 0.6 0 rg 66 438.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 417.0 Td (Compare T Levels, A levels and apprenticeships side by side.) Tj ET
+1 0.6 0 rg 66 421.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 400.0 Td (Mention the T Level Foundation Year for students who need more preparation.) Tj ET
+1 0.6 0 rg 66 404.0 4 4 re f
+BT /F2 14 Tf 0.14 0.18 0.24 rg 60 366.0 Td (Official links) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 349.0 Td (TLevels.gov.uk \(students and parents\): www.tlevels.gov.uk) Tj ET
+1 0.6 0 rg 66 353.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 332.0 Td (GOV.UK Introduction of T Levels:) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 317.0 Td (www.gov.uk/government/publications/introduction-of-t-levels) Tj ET
+1 0.6 0 rg 66 336.0 4 4 re f
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 300.0 Td (GOV.UK industry placements guidance:) Tj ET
+BT /F1 11 Tf 0.14 0.18 0.24 rg 78 285.0 Td (www.gov.uk/government/publications/t-level-industry-placements-guidance-for-providers) Tj ET
+1 0.6 0 rg 66 304.0 4 4 re f
+BT /F1 9 Tf 0.4 0.4 0.4 rg 60 264.0 Td (Sources: as listed above. Checked 28 October 2026.) Tj ET
+BT /F1 8 Tf 0.4 0.4 0.4 rg 60 30 Td (DRAFT - Team Rufus student prototype. Check every fact before sharing.) Tj ET BT /F1 8 Tf 0.4 0.4 0.4 rg 495 30 Td (Page 1 of 1) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 5 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> >>
 endobj
 xref
-0 6
+0 7
 0000000000 65535 f 
 0000000009 00000 n 
 0000000058 00000 n 
 0000000115 00000 n 
-0000000241 00000 n 
-0000000683 00000 n 
+0000000212 00000 n 
+0000000314 00000 n 
+0000003578 00000 n 
 trailer
-<< /Size 6 /Root 1 0 R >>
+<< /Size 7 /Root 1 0 R >>
 startxref
-753
+3714
 %%EOF

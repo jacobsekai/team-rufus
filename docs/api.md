@@ -242,7 +242,7 @@ All three need sign-in (`401` otherwise) and return the full list, newest first:
   "items": [
     {
       "id": "placement-preparation-checklist",
-      "title": "Placement preparation checklist (placeholder)",
+      "title": "Placement preparation checklist",
       "description": "...",
       "requires_login": true,
       "download_url": "/api/content/placement-preparation-checklist/download"
