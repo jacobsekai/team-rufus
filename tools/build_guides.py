@@ -3,8 +3,9 @@
 Run from the repo root:  python3 tools/build_guides.py
 
 Text format, one item per line:
-    # Title           ## Heading        - bullet
-    [ ] checkbox      ___ writing line  > small grey note
+    # Title           + intro line under the title (in the header band)
+    ## Heading        - bullet          [ ] checkbox
+    ___ writing line  > small grey note
     anything else is a paragraph; a blank line adds space.
 """
 
@@ -19,10 +20,12 @@ SOURCES = {
 }
 
 PAGE_W, PAGE_H, MARGIN = 595, 842, 60
-FOOTER = "DRAFT - Team Rufus student prototype. Check every fact before sharing."
 ORANGE = "1 0.6 0"
 DARK = "0.14 0.18 0.24"
 GREY = "0.4 0.4 0.4"
+WHITE = "1 1 1"
+SOFT_WHITE = "0.85 0.88 0.92"
+RULE = "0.86 0.89 0.92"
 
 # Approximate Helvetica widths (per 1pt of font size) for line wrapping.
 NARROW = set("ijl.,;:'!|()[] ")
@@ -32,7 +35,7 @@ WIDE = set("mwMW@%")
 def text_width(text, size):
     total = 0.0
     for ch in text:
-        total += 0.28 if ch in NARROW else 0.85 if ch in WIDE else 0.56
+        total += 0.28 if ch in NARROW else 0.85 if ch in WIDE else 0.53
     return total * size
 
 
@@ -65,6 +68,8 @@ def pdf_string(text):
 class Pages:
     def __init__(self):
         self.pages = []
+        self.title = ""
+        self.band_start = None
         self.new_page()
 
     def new_page(self):
@@ -72,8 +77,17 @@ class Pages:
         self.pages.append(self.ops)
         self.y = PAGE_H - MARGIN
 
+    def close_band(self):
+        bottom = self.y - 22
+        self.ops[self.band_start:self.band_start] = [
+            f"{DARK} rg 0 {bottom:.1f} {PAGE_W} {PAGE_H - bottom:.1f} re f",
+            f"{ORANGE} rg 0 {bottom - 5:.1f} {PAGE_W} 5 re f",
+        ]
+        self.band_start = None
+        self.y = bottom - 22
+
     def need(self, height):
-        if self.y - height < MARGIN + 30:
+        if self.y - height < 66:  # just above the footer rule
             self.new_page()
 
     def text(self, x, text, font, size, colour=DARK):
@@ -92,12 +106,18 @@ def render(source):
     pages = Pages()
     for raw in source.splitlines():
         line = raw.rstrip()
+        if pages.band_start is not None and not line.startswith("+ "):
+            pages.close_band()
         if not line:
             pages.y -= 6
         elif line.startswith("# "):
-            pages.block(line[2:], "F2", 22, gap=4)
-            pages.ops.append(f"{ORANGE} RG 3 w {MARGIN} {pages.y:.1f} m {MARGIN + 60} {pages.y:.1f} l S")
-            pages.y -= 14
+            pages.title = line[2:]
+            pages.band_start = len(pages.ops)
+            pages.y = PAGE_H - 44
+            pages.block("T LEVEL GUIDE", "F2", 9, colour=ORANGE, gap=6)
+            pages.block(line[2:], "F2", 26, colour=WHITE, gap=6)
+        elif line.startswith("+ "):
+            pages.block(line[2:], size=12, colour=SOFT_WHITE, gap=2)
         elif line.startswith("## "):
             pages.need(40)
             pages.y -= 8
@@ -114,16 +134,16 @@ def render(source):
             pages.ops.append(f"{DARK} RG 1 w {MARGIN + 2} {top - 15:.1f} 11 11 re S")
         elif line.startswith("___"):
             pages.need(24)
-            pages.y -= 22
+            pages.y -= 20
             pages.ops.append(f"{GREY} RG 0.5 w {MARGIN} {pages.y:.1f} m {PAGE_W - MARGIN} {pages.y:.1f} l S")
         elif line.startswith("> "):
             pages.block(line[2:], size=9, colour=GREY, gap=2)
         else:
             pages.block(line)
-    return pages.pages
+    return pages.title, pages.pages
 
 
-def build_pdf(pages):
+def build_pdf(title, pages):
     objects = [
         "<< /Type /Catalog /Pages 2 0 R >>",
         None,
@@ -133,8 +153,9 @@ def build_pdf(pages):
     kids = []
     for number, ops in enumerate(pages, start=1):
         footer = (
-            f"BT /F1 8 Tf {GREY} rg {MARGIN} 30 Td {pdf_string(FOOTER)} Tj ET "
-            f"BT /F1 8 Tf {GREY} rg {PAGE_W - MARGIN - 40} 30 Td {pdf_string(f'Page {number} of {len(pages)}')} Tj ET"
+            f"{RULE} RG 0.5 w {MARGIN} 46 m {PAGE_W - MARGIN} 46 l S "
+            f"BT /F1 8 Tf {GREY} rg {MARGIN} 32 Td {pdf_string(f'{title}  ·  Team Rufus')} Tj ET "
+            f"BT /F1 8 Tf {GREY} rg {PAGE_W - MARGIN - 40} 32 Td {pdf_string(f'Page {number} of {len(pages)}')} Tj ET"
         )
         stream = "\n".join(ops + [footer]).encode("latin-1")
         objects.append(f"<< /Length {len(stream)} >>\nstream\n".encode("latin-1") + stream + b"\nendstream")
@@ -161,7 +182,7 @@ def build_pdf(pages):
 def main():
     for source, target in SOURCES.items():
         text = (ROOT / "docs/guides" / source).read_text(encoding="utf-8")
-        (ROOT / target).write_bytes(build_pdf(render(text)))
+        (ROOT / target).write_bytes(build_pdf(*render(text)))
         print(f"Built {target}")
 
 

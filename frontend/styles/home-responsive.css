@@ -147,6 +147,7 @@
   }
   .topnav > .menu-toggle {
     position: static;
+    transform: none;
     margin-left: auto;
   }
   .topnav > a:not(.home-logo-link),
@@ -160,8 +161,10 @@
     padding: 12px 0;
     border-bottom: 1px solid #DCE2EB;
   }
+  /* Same order as the other pages' menu: links, Account/Accessibility, then the buttons. */
   .topnav > .login-button,
   .topnav > .signup-button {
+    order: 12;
     justify-content: center;
     margin-top: 12px;
   }
