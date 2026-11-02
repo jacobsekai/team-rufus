@@ -215,6 +215,46 @@ button {
     object-fit: contain;
 }
 
+.quotes-section {
+    background-color: #232F3E;
+    padding: 40px 100px;
+    font-family: "Amazon Ember", Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 24px;
+    color: white;
+}
+
+.quotes-heading {
+    margin: 0;
+    font-size: 20px;
+}
+
+.quotes-list {
+    display: flex;
+    gap: 48px;
+}
+
+.quote-card {
+    flex: 1;
+}
+
+.quote-text {
+    margin: 0;
+    color: white;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.quote-attribution {
+    margin: 12px 0 0;
+    color: #FFF4E2;
+    font-size: 10px;
+    text-align: right;
+}
+
 /* Save subject (scripts/saved-items.js): orange edge once saved. */
 .save-subject-button {
     justify-content: center;
