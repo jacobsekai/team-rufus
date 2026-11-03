@@ -126,7 +126,18 @@ button {
     flex-direction: row-reverse;
     align-items: center;
     gap: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
+
+
+
+.content-section:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
 
 .amazon-content-section {
     min-height: 1000px;
