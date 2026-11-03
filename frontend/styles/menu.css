@@ -1,6 +1,6 @@
 /* ============================================================
    Team Rufus — Menu button and dropdown
-   Loaded on EVERY page: the styles/ pages (after layout.css) and the
+   Loaded on EVERY page: the styles/ pages (before layout.css) and the
    colleague's pages (after css/teamrufus.css), so the menu is one
    implementation everywhere. Covers the menu button, the dropdown
    (Account, Accessibility, Log out) and the logged-in name button
@@ -37,7 +37,7 @@
 
 /* Menu dropdown (desktop): Account and Accessibility, opened by the
    menu icon (scripts/nav.js toggles .is-open). On small screens these
-   links join the stacked menu instead (responsive.css). */
+   links join the stacked menu instead (layout.css). */
 .nav-extra {
   display: none;
   position: absolute;
@@ -119,7 +119,7 @@
 
 /* Menu button, far right, like her menu icon: 35px image, 20px from the
    edge. Opens the dropdown (scripts/nav.js); on small screens on the
-   styles/ pages it opens the stacked menu instead (responsive.css). */
+   styles/ pages it opens the stacked menu instead (layout.css). */
 .menu-toggle {
   position: absolute;
   right: 20px;

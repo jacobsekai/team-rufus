@@ -2,12 +2,12 @@
    Accessibility page (accessibility.html)
    Design: Figma "Accessibility" (desktop page 9, phone page 10).
    Cream page, white rounded cards (as on the account page),
-   orange selected state. Tablet and phone rules: responsive.css.
-   The colour themes themselves: styles/display-settings.css.
+   orange selected state. The themes themselves:
+   styles/display-settings.css.
    ============================================================ */
 
 .a11y-page {
-  background-color: #FFF4E2;
+  background-color: var(--color-cream);
   padding: 64px 0 64px;
 }
 
@@ -16,14 +16,14 @@
   margin-bottom: 44px;
 }
 .a11y-intro h1 {
-  color: #0F1111;
+  color: var(--color-ink);
   font-size: 3.5rem;
   font-weight: 700;
   line-height: 1.1;
   margin: 12px 0 20px;
 }
 .a11y-lede {
-  color: #566171;
+  color: var(--color-body);
   font-size: 1.125rem;
   line-height: 1.55;
   margin: 0;
@@ -38,19 +38,19 @@
 
 .a11y-card {
   background-color: white;
-  border: 1px solid #ECE6DC;
+  border: 1px solid var(--color-card-line);
   border-radius: 20px;
   padding: 32px;
 }
 
 .a11y-heading {
-  color: #0F1111;
+  color: var(--color-ink);
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 8px;
 }
 .a11y-hint {
-  color: #566171;
+  color: var(--color-body);
   font-size: 0.875rem;
   margin: 0 0 16px;
 }
@@ -67,7 +67,7 @@
 
 .a11y-divider {
   border: 0;
-  border-top: 1px solid #E8EBEE;
+  border-top: 1px solid var(--color-divider);
   margin: 28px 0;
 }
 
@@ -100,7 +100,7 @@
 /* Selected: thicker orange border (1px padding less, so nothing moves). */
 .a11y-option:has(.a11y-radio:checked) {
   padding: 14px;
-  border: 2px solid #FF9900;
+  border: 2px solid var(--color-orange);
   background-color: #FFF8EC;
 }
 /* The radio itself shows no ring; the whole card does instead. */
@@ -126,15 +126,15 @@
 /* Orange circle with a dark dot. The dot is a background image so it
    still shows in the high contrast theme (which only resets colours). */
 .a11y-radio:checked {
-  border-color: #FF9900;
-  background-color: #FF9900;
-  background-image: radial-gradient(circle, #0F1111 0 0.25rem, transparent 0.28rem);
+  border-color: var(--color-orange);
+  background-color: var(--color-orange);
+  background-image: radial-gradient(circle, var(--color-ink) 0 0.25rem, transparent 0.28rem);
 }
 
 .a11y-sample,
 .a11y-swatch {
   grid-area: sample;
-  color: #0F1111;
+  color: var(--color-ink);
   line-height: 1;
 }
 .a11y-sample {
@@ -158,13 +158,13 @@
 
 .a11y-option-name {
   grid-area: name;
-  color: #0F1111;
+  color: var(--color-ink);
   font-size: 0.9375rem;
   font-weight: 500;
 }
 .a11y-option-detail {
   grid-area: detail;
-  color: #566171;
+  color: var(--color-body);
   font-size: 0.75rem;
   margin-top: 4px;
 }
@@ -181,7 +181,7 @@
 }
 .a11y-subheading {
   margin: 0 0 12px;
-  color: #0F1111;
+  color: var(--color-ink);
   font-size: 1rem;
   font-weight: 700;
 }
@@ -204,7 +204,7 @@
   gap: 16px;
 }
 .a11y-reset p {
-  color: #566171;
+  color: var(--color-body);
   font-size: 0.875rem;
   margin: 0;
 }
@@ -216,15 +216,15 @@
   flex-shrink: 0;
   padding: 13px 22px;
   background-color: white;
-  border: 1px solid #DCE2EB;
+  border: 1px solid var(--color-line);
   border-radius: 6px;
-  color: #0F1111;
+  color: var(--color-ink);
   font: inherit;
   font-size: 0.9375rem;
   cursor: pointer;
 }
 .a11y-reset-button:hover {
-  background-color: #FFF4E2;
+  background-color: var(--color-cream);
 }
 .a11y-reset-button svg {
   flex-shrink: 0;
@@ -239,28 +239,28 @@
 .a11y-preview-sample {
   margin-bottom: 28px;
   padding: 28px 24px;
-  border: 1px solid #DCE2EB;
+  border: 1px solid var(--color-line);
   border-radius: 8px;
 }
 .a11y-preview-sample h3 {
-  color: #0F1111;
+  color: var(--color-ink);
   font-size: 1.5rem;
   margin: 0 0 16px;
 }
 .a11y-preview-sample p {
-  color: #566171;
+  color: var(--color-body);
   font-size: 1rem;
   line-height: 1.55;
   margin: 0 0 16px;
 }
 .a11y-preview-sample a {
-  color: #0F1111;
+  color: var(--color-ink);
   font-size: 0.875rem;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 .a11y-summary p {
-  color: #566171;
+  color: var(--color-body);
   font-size: 0.8125rem;
   margin: 0 0 10px;
 }
@@ -268,22 +268,107 @@
   margin-bottom: 0;
 }
 .a11y-summary strong {
-  color: #0F1111;
+  color: var(--color-ink);
 }
 
 .a11y-browser-tip {
   padding: 0 8px;
 }
 .a11y-browser-tip h2 {
-  color: #0F1111;
+  color: var(--color-ink);
   font-size: 1rem;
   margin: 0 0 10px;
 }
 .a11y-browser-tip p {
-  color: #566171;
+  color: var(--color-body);
   font-size: 0.875rem;
   margin: 0;
 }
 .a11y-browser-tip kbd {
   font-family: inherit;
+}
+
+/* ---------- Tablet: preview goes under the settings ---------- */
+@media (max-width: 960px) {
+  .a11y-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- Phone (design page 10) ---------- */
+@media (max-width: 720px) {
+  .a11y-page {
+    padding: 40px 0 48px;
+  }
+  .a11y-intro {
+    margin-bottom: 28px;
+  }
+  .a11y-intro h1 {
+    font-size: 2.25rem;
+    margin: 8px 0 14px;
+  }
+  .a11y-lede {
+    font-size: 1rem;
+  }
+  .a11y-layout,
+  .a11y-side {
+    gap: 24px;
+  }
+  .a11y-card {
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+  .a11y-divider {
+    margin: 24px 0;
+  }
+  .a11y-options {
+    gap: 8px;
+  }
+  /* Text size: three narrow cards, radio at the bottom. */
+  .a11y-size-option {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "sample"
+      "name"
+      "detail"
+      "radio";
+  }
+  .a11y-size-option .a11y-radio {
+    margin-top: 12px;
+  }
+  .a11y-sample {
+    margin-bottom: 12px;
+  }
+  /* The design drops "· Default" here: the cards are too narrow. */
+  .a11y-size-option .a11y-default-note {
+    display: none;
+  }
+  /* Colour contrast: one row each, swatch | name and detail | radio. */
+  .a11y-contrast-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .a11y-contrast-option {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "sample name   radio"
+      "sample detail radio";
+    column-gap: 14px;
+    align-items: center;
+  }
+  .a11y-contrast-option .a11y-swatch {
+    margin-bottom: 0;
+  }
+  .a11y-contrast-option .a11y-option-name {
+    align-self: end;
+  }
+  .a11y-contrast-option .a11y-option-detail {
+    align-self: start;
+  }
+  .a11y-reset {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .a11y-preview-sample {
+    padding: 20px 16px;
+  }
 }

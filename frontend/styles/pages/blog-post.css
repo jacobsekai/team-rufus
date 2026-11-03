@@ -1,13 +1,10 @@
 /* ============================================================
-   Single blog post page (blog-post.html)
-   Design: "Example Blog Page" screenshot. Content sits in a
-   narrower centred column (about 1000px), set in from the nav
-   on both sides. Dark hero with breadcrumb, back link, white
-   eyebrow, title and intro; the lead image starts right where
-   the hero ends. The article text is below the screenshot's
-   cut-off, so it uses a simple readable style in the same
-   colours as the rest of the site.
-   Shared hero/breadcrumb/back-link/image styles: components.css.
+   Blog post page (blog-post.html)
+   Design: "Example Blog Page" screenshot. A narrower centred
+   column; dark hero with breadcrumb, back link, eyebrow, title and
+   intro; the lead image starts where the hero ends. The article
+   text is past the screenshot's cut-off, so it uses a plain,
+   readable style in the site's colours.
    ============================================================ */
 
 .post-wrap {
@@ -17,25 +14,24 @@
 }
 
 .post-hero {
-  padding: 48px 0 56px;
+  --hero-padding: 48px 0 56px;
 }
 .post-hero .eyebrow {
   margin-top: var(--space-sm);
 }
 .post-hero h1 {
-  font-size: 4rem;
   margin: var(--space-md) 0 var(--space-lg);
+  font-size: 4rem;
 }
 .post-lede {
+  max-width: 860px;
+  margin: 0;
   color: white;
   font-size: 1.25rem;
   line-height: 1.5;
-  max-width: 860px;
-  margin: 0;
 }
 
-/* Lead image: flush with the bottom of the hero, rounded on top only
-   (as in the design). */
+/* Lead image: flush with the bottom of the hero, rounder on top. */
 .post-hero-media {
   aspect-ratio: 16 / 9;
 }
@@ -47,21 +43,59 @@
 .post-body {
   padding-top: 48px;
   padding-bottom: 80px;
-  color: #232F3E;
+  color: var(--color-navy);
 }
+/* About 75 characters per line, for comfortable reading. */
 .post-body p,
 .post-body h2 {
-  /* About 75 characters per line, for comfortable reading. */
   max-width: 760px;
 }
 .post-body p {
+  margin-bottom: var(--space-lg);
+  color: var(--color-body);
   font-size: 1.125rem;
   line-height: 1.7;
-  color: #566171;
-  margin-bottom: var(--space-lg);
 }
 .post-body h2 {
-  font-size: 1.875rem;
   margin: 40px 0 var(--space-md);
-  color: #232F3E;
+  color: var(--color-navy);
+  font-size: 1.875rem;
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 960px) {
+  .post-wrap {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+  .post-hero h1 {
+    font-size: 3rem;
+  }
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 720px) {
+  .post-wrap {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+  .post-hero h1 {
+    font-size: 2.375rem;
+  }
+  .post-lede {
+    font-size: 1.0625rem;
+  }
+  .post-hero-media .media-img {
+    border-radius: 16px 16px 8px 8px;
+  }
+  .post-body {
+    padding-top: 32px;
+    padding-bottom: 56px;
+  }
+  .post-body h2 {
+    font-size: 1.5rem;
+  }
+  .post-body p {
+    font-size: 1rem;
+  }
 }
