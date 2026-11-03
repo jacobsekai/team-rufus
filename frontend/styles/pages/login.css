@@ -1,10 +1,10 @@
 /* ============================================================
-   Sign in page — the few things unique to THIS page only.
-   Shared auth-page/auth-card/auth-logo/eyebrow/etc. shell lives
-   in components.css under "Auth pages" so sign-in and sign-up
-   don't duplicate the same rules.
+   Log in page (Log_in_page.html)
+   The card itself is shared with sign up: components.css,
+   "Auth card". Only what differs is here.
    ============================================================ */
 
+/* "Remember me" and "Forgot password?" on one row. */
 .auth-row {
   display: flex;
   align-items: center;
@@ -12,27 +12,35 @@
   margin-bottom: var(--space-lg);
   font-size: 0.875rem;
 }
+/* A quiet link, not the bright orange default. */
+.auth-row a {
+  color: var(--color-ink);
+  font-weight: 500;
+}
 
 /* Shown when "Forgot password?" is clicked (reset isn't built yet). */
 .auth-forgot-note {
   margin: calc(-1 * var(--space-md)) 0 var(--space-lg);
+  color: var(--color-muted);
   font-size: 0.875rem;
-  color: var(--color-text-muted);
 }
 
-/* "Forgot password?" is a muted link, not the bright-orange default. */
-.auth-row a {
-  color: var(--color-text);
-  font-weight: 500;
-}
-
+/* Note under the button, with an info icon. */
 .auth-note {
   display: flex;
-  gap: var(--space-sm);
   align-items: flex-start;
+  gap: var(--space-sm);
 }
 .note-icon {
   flex-shrink: 0;
   margin-top: 2px;
-  color: var(--color-text-muted);
+  color: var(--color-muted);
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 720px) {
+  .auth-row {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
 }

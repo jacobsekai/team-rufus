@@ -1,8 +1,7 @@
 /* ============================================================
-   Sign up page — the few things unique to THIS page only.
-   Shared auth-page/auth-card/auth-logo/eyebrow/etc. shell lives
-   in components.css under "Auth pages" so sign-in and sign-up
-   don't duplicate the same rules.
+   Sign up page (Sign_up_page.html)
+   The card itself is shared with log in: components.css,
+   "Auth card". Only what differs is here.
    ============================================================ */
 
 .auth-submit {

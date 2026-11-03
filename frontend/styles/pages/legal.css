@@ -1,4 +1,7 @@
-/* Privacy notice and Terms of use pages. */
+/* ============================================================
+   Privacy notice and Terms of use (privacy.html, terms.html)
+   Dark hero, then a single readable column of text.
+   ============================================================ */
 
 .legal-section {
   padding: 56px 0 72px;
@@ -29,7 +32,7 @@
 }
 .legal-note {
   padding: 16px 18px;
-  border-left: 4px solid #FF9900;
-  border-radius: 4px;
-  background-color: #FFF4E2;
+  background-color: var(--color-cream);
+  border-left: 4px solid var(--color-orange);
+  border-radius: var(--radius-sm);
 }

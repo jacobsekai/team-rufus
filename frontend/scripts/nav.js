@@ -2,7 +2,7 @@
 //
 // Desktop: opens a small dropdown with Account, Accessibility and (when
 // logged in) Log out.
-// Small screens (see responsive.css): opens the stacked menu with the
+// Small screens (see the 960px rules in styles/layout.css): opens the stacked menu with the
 // nav links, Account, Accessibility and the Log in / Sign up buttons.
 // Either way this script toggles .is-open on the nav and keeps the
 // button's accessible state (aria-expanded, label) in sync.
@@ -18,7 +18,7 @@
   const toggle = nav.querySelector(".menu-toggle");
   if (!toggle) return;
 
-  // Must match the breakpoint in responsive.css.
+  // Must match the breakpoint in styles/layout.css.
   const mobile = window.matchMedia("(max-width: 960px)");
 
   nav.classList.add("nav-js");
