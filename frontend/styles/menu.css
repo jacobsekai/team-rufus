@@ -54,16 +54,12 @@
 .topnav.is-open .nav-extra {
   display: block;
 }
-.nav-extra a {
-  display: block;
-  padding: 12px 20px;
-  color: #131820;
-  font-family: "Amazon Ember", Arial, sans-serif;
-  font-size: 1rem;
-  text-decoration: none;
-}
+/* border-box: without it (her stylesheet doesn't set it), width 100%
+   plus the padding made each item 40px wider than the dropdown, so the
+   hover highlight ran out of the box to the edge of the screen. */
 .nav-extra a,
 .nav-logout {
+  box-sizing: border-box;
   display: block;
   width: 100%;
   padding: 12px 20px;
