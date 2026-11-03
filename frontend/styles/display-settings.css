@@ -248,7 +248,7 @@ html[data-contrast="dark"] :focus-visible {
 
 /* ---- Surfaces ---- */
 html[data-contrast="dark"] :is(
-  .hero-dark, .content-section, .footer
+  .hero-dark, .content-section, .quotes-section, .footer
 ) {
   background-color: var(--dk-deep) !important;
 }
