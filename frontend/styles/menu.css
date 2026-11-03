@@ -81,6 +81,17 @@
 .nav-logout[hidden] {
   display: none;
 }
+/* Current page: the nav link keeps its hover underline, the dropdown
+   item is bold with an orange bar, so people can see where they are. */
+.topnav a[aria-current="page"]:not(.login-button, .signup-button, .nav-extra a) {
+  text-decoration: underline 3px;
+  text-decoration-color: #FF9900;
+  text-underline-offset: 6px;
+}
+.nav-extra a[aria-current="page"] {
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 #FF9900;
+}
 
 /* ---------- Logged in (.signed-in on <html>: scripts/nav-early.js, account-nav.js) ----------
    The Login / Sign up buttons and the menu icon are hidden; the menu
