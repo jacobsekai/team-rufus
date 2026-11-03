@@ -8,17 +8,16 @@
    Text size: every font-size on the site is in rem, so changing
    the root size scales all text. 1rem = 16px at Standard.
 
-   Contrast: the two themes override colours on EVERY element
-   (hence the universal selector and !important). The site's
-   colours are written as fixed values in many files, so this is
-   the one way to guarantee readable text everywhere, including
-   pages added later. Colours chosen for WCAG AAA (7:1) text
-   contrast:
-     High contrast: #000 on #fff  (21:1)
-     Dark:          #fff on #15191e (17.6:1)
-   To keep a specific element's own colours in a theme, give it
-   a rule here with a more specific selector (see the swatches
-   at the end).
+   Contrast: both themes override colours on EVERY element (hence
+   the universal selector and !important). The site's colours are
+   written as fixed values in many files, so this is the one way to
+   guarantee readable text everywhere, including pages added later.
+   Text colours meet WCAG AAA (7:1) on every surface they sit on:
+     High contrast: #000 on #fff (21:1)
+     Dark: headings #F3F4F6, body #C3C9D1 and orange #FF9900 on
+           the surfaces below (lowest: body text on a card, 8.3:1)
+   To keep a specific element's own colours in a theme, give it a
+   rule here with a more specific selector (see the swatches).
    ============================================================ */
 
 /* ---------- Text size ---------- */
@@ -156,83 +155,281 @@ html[data-contrast="high"] img[src*="amazon"] {
   filter: brightness(0);
 }
 
-/* ---------- Dark: white on dark ---------- */
-html[data-contrast="dark"],
-html[data-contrast="dark"] body,
-html[data-contrast="dark"] body * {
+/* Pictures keep a see-through background (otherwise the icon
+   colour swap would also swap the box behind the icon). */
+html[data-contrast="high"] body img {
+  background-color: transparent !important;
+}
+/* Links are underlined so they stand out without relying on colour.
+   Links styled as buttons keep their button look. */
+html[data-contrast="high"] a:not([class*="button"]):not(.btn) {
+  text-decoration: underline !important;
+}
+html[data-contrast="high"] [aria-current="page"] {
+  text-decoration: underline 3px !important;
+  text-underline-offset: 6px;
+}
+/* Main actions are inverted so they still stand out. */
+html[data-contrast="high"] :is(.signup-button, .btn-primary, #rufus-chat-button) {
   color: #fff !important;
-  background-color: #15191e !important;
-  border-color: #9aa0a6 !important;
+  background-color: #000 !important;
+}
+html[data-contrast="high"] :is(.signup-button, .btn-primary, #rufus-chat-button) * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+html[data-contrast="high"] :is(.signup-button, .btn-primary) img[src*="arrow"] {
+  filter: invert(1);
+}
+html[data-contrast="high"] .a11y-option:has(.a11y-radio:focus-visible) {
+  outline-color: #000 !important;
+}
+/* The theme resets every background, which removed all hover
+   feedback: hovered options and menu items get an outline or
+   underline instead. */
+html[data-contrast="high"] .a11y-option:not(:has(.a11y-radio:checked)):hover {
+  outline: 2px dashed currentColor;
+  outline-offset: 2px;
+}
+html[data-contrast="high"] :is(.nav-extra a, .nav-logout, .a11y-reset-button):hover {
+  text-decoration: underline 2px !important;
+  text-underline-offset: 4px;
+}
+
+/* ---------- Dark ----------
+   Not a flat inversion: the light design's layers are kept, each
+   one a step lighter, so heroes, sections and cards still read as
+   separate pieces. Orange stays the accent.
+     deep    navy hero bands, footer           #0E1216
+     base    page, white sections, nav         #161B21
+     band    cream sections                    #1C232B
+     card    white cards, dropdown, chat       #232B35
+     field   inputs                            #10151A */
+html[data-contrast="dark"] {
+  --dk-deep: #0E1216;
+  --dk-base: #161B21;
+  --dk-band: #1C232B;
+  --dk-card: #232B35;
+  --dk-field: #10151A;
+  --dk-heading: #F3F4F6;
+  --dk-text: #C3C9D1;
+  --dk-line: #313A45;
+  --dk-line-strong: #5A6573;
+  --dk-orange: #FF9900;
+  --dk-orange-soft: #FFB547;
+  color-scheme: dark;
+}
+
+/* Every element: light text, soft borders, no background of its own
+   (it shows the surface it sits on), no shadows. */
+html[data-contrast="dark"],
+html[data-contrast="dark"] body {
+  color: var(--dk-text) !important;
+  background-color: var(--dk-base) !important;
+}
+html[data-contrast="dark"] body * {
+  color: var(--dk-text) !important;
+  background-color: transparent !important;
+  border-color: var(--dk-line) !important;
   box-shadow: none !important;
   text-shadow: none !important;
 }
 html[data-contrast="dark"] *::before,
 html[data-contrast="dark"] *::after {
-  color: #fff !important;
-  border-color: #9aa0a6 !important;
+  color: var(--dk-text) !important;
+  border-color: var(--dk-line) !important;
 }
 html[data-contrast="dark"] ::placeholder {
-  color: #c4c8cc !important;
+  color: #9AA3AE !important;
 }
 html[data-contrast="dark"] :focus-visible {
-  outline-color: #fff !important;
-}
-/* The arrow and menu icons are black pictures; make them white. */
-html[data-contrast="dark"] img[src*="arrow"],
-html[data-contrast="dark"] img[src*="menu"] {
-  filter: invert(1);
+  outline-color: var(--dk-orange-soft) !important;
 }
 
-/* ---------- Both themes ---------- */
-/* Pictures keep a see-through background (otherwise the icon colour
-   swap above would also swap the box behind the icon). */
-html[data-contrast="high"] body img,
-html[data-contrast="dark"] body img {
-  background-color: transparent !important;
+/* ---- Surfaces ---- */
+html[data-contrast="dark"] :is(
+  .hero-dark, .content-section, .footer
+) {
+  background-color: var(--dk-deep) !important;
 }
-/* Links are underlined so they stand out without relying on colour.
-   Links styled as buttons keep their button look. */
-html[data-contrast="high"] a:not([class*="button"]):not(.btn),
-html[data-contrast="dark"] a:not([class*="button"]):not(.btn) {
+html[data-contrast="dark"] :is(.topnav, .content) {
+  background-color: var(--dk-base) !important;
+}
+html[data-contrast="dark"] .topnav {
+  border-bottom: 1px solid var(--dk-line) !important;
+}
+html[data-contrast="dark"] :is(
+  .section-cream, .a11y-page, .blog-featured-section, .blog-list-section,
+  .auth-page, .homepage-section, .homepage-section3, .subjects-section,
+  .learnings-section, .location-section, .interest-section,
+  .tariff-table thead th, .legal-note, .download-badge
+) {
+  background-color: var(--dk-band) !important;
+}
+html[data-contrast="dark"] :is(
+  .a11y-card, .faq-item, .option-card, .post-card, .account-card,
+  .download-card, .tariff-card, .auth-card,
+  .skillsemploy-box, .experience-box, .moreway-box,
+  .percent80-box, .percent20-box, .mini-box,
+  .digital-box, .accounting-box, .marketing-box, .business-box, .engineering-box,
+  .one-box, .two-box, .three-box,
+  .application-box1, .application-box2, .application-box3,
+  #rufus-chat-panel, #rufus-chat-log .rufus-assistant
+) {
+  background-color: var(--dk-card) !important;
+  border: 1px solid var(--dk-line) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35) !important;
+}
+/* The dropdown is a card on desktop; in the phone menu it is part of
+   the stacked list, so it stays flat. */
+@media (min-width: 961px) {
+  html[data-contrast="dark"] .nav-extra {
+    background-color: var(--dk-card) !important;
+    border: 1px solid var(--dk-line) !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4) !important;
+  }
+}
+html[data-contrast="dark"] #rufus-chat-log .rufus-user {
+  background-color: #2E2A22 !important;
+}
+/* Cards that are links: the edge lightens on hover. */
+html[data-contrast="dark"] :is(
+  .faq-item, .post-card,
+  .digital-box, .accounting-box, .marketing-box, .business-box, .engineering-box
+):hover {
+  border-color: var(--dk-line-strong) !important;
+}
+html[data-contrast="dark"] :is(input, select, textarea) {
+  background-color: var(--dk-field) !important;
+  border-color: var(--dk-line-strong) !important;
+}
+
+/* ---- Text ---- */
+html[data-contrast="dark"] :is(
+  h1, h2, h3, h4, h5, h6, strong, b, dd, label, legend, th, td,
+  .faq-question, .a11y-option-name, .saved-name,
+  .nav-links a, .topnav > a, .nav-extra a, .nav-logout, .footer-links a,
+  .learning-card-title,
+  .percent80-label, .percent20-label,
+  /* The colleague's pages build some headings as bold paragraphs. */
+  p[style*="bold"], .homepage-boxes p:first-of-type, .percent80-copy p:first-child,
+  .percent20-copy p:first-child
+),
+html[data-contrast="dark"] :is(h1, h2, h3, h4, h5, h6) * {
+  color: var(--dk-heading) !important;
+}
+/* Small labels above headings, in orange as in the design. */
+html[data-contrast="dark"] :is(
+  .eyebrow, .homepage4-eyebrow, .interest-eyebrow, .application-label,
+  .homepage3-copy > p:first-child, .content-copy > p[style*="FF9900"]
+) {
+  color: var(--dk-orange) !important;
+}
+/* Links inside text: soft orange and underlined. Nav, footer, cards
+   and buttons keep their own look. */
+html[data-contrast="dark"] :is(p, li, dd, .breadcrumb) a:not([class*="button"]):not(.btn),
+html[data-contrast="dark"] .footer-text a {
+  color: var(--dk-orange-soft) !important;
   text-decoration: underline !important;
 }
-html[data-contrast="high"] [aria-current="page"],
-html[data-contrast="dark"] [aria-current="page"] {
-  text-decoration: underline 3px !important;
+html[data-contrast="dark"] .footer-text .footer-a11y-link {
+  color: var(--dk-orange) !important;
+}
+html[data-contrast="dark"] [aria-current="page"]:not(.login-button, .signup-button) {
+  color: var(--dk-heading) !important;
+  text-decoration: underline 3px var(--dk-orange) !important;
+  text-underline-offset: 6px;
+}
+html[data-contrast="dark"] :is(.nav-links a, .topnav > a, .footer-links a):hover {
+  text-decoration: underline 3px var(--dk-orange) !important;
   text-underline-offset: 6px;
 }
 
-/* Main actions are shown inverted so they still stand out. */
-html[data-contrast="high"] :is(.signup-button, .btn-primary, #rufus-chat-button) {
-  color: #fff !important;
-  background-color: #000 !important;
+/* ---- Buttons ---- */
+/* Main actions: orange with dark text, as in the light design. */
+html[data-contrast="dark"] :is(
+  .signup-button, .btn-primary, .exploresub-button, .interest-submit,
+  #rufus-chat-button, #rufus-chat-form button,
+  .read-aloud-bar button:not(.read-aloud-secondary)
+) {
+  color: var(--dk-deep) !important;
+  background-color: var(--dk-orange) !important;
+  border-color: var(--dk-orange) !important;
 }
-html[data-contrast="dark"] :is(.signup-button, .btn-primary, #rufus-chat-button) {
-  color: #15191e !important;
-  background-color: #fff !important;
-  border-color: #fff !important;
-}
-html[data-contrast] :is(.signup-button, .btn-primary, #rufus-chat-button) * {
+html[data-contrast="dark"] :is(
+  .signup-button, .btn-primary, .exploresub-button, .interest-submit,
+  #rufus-chat-button, #rufus-chat-form button, .read-aloud-bar button
+) * {
   color: inherit !important;
-  background-color: transparent !important;
 }
-/* Arrow icons follow the inverted text colour. */
-html[data-contrast="high"] :is(.signup-button, .btn-primary) img[src*="arrow"] {
-  filter: invert(1);
+/* Other buttons: outlined. */
+html[data-contrast="dark"] :is(
+  .login-button, .tlvlama-button, .homepage3-button, .homepage4-button,
+  .btn-outline, .outline-button, .a11y-reset-button, .saved-remove,
+  .read-aloud-secondary, #rufus-chat-suggestions button
+) {
+  color: var(--dk-heading) !important;
+  border: 1px solid var(--dk-line-strong) !important;
 }
-html[data-contrast="dark"] :is(.signup-button, .btn-primary) img[src*="arrow"] {
-  filter: none;
+html[data-contrast="dark"] :is(
+  .login-button, .tlvlama-button, .homepage3-button, .homepage4-button,
+  .btn-outline, .outline-button, .a11y-reset-button, .saved-remove,
+  .read-aloud-secondary, .nav-extra a, .nav-logout
+):hover {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+}
+html[data-contrast="dark"] :is(.save-subject-button.is-saved, .download-actions .is-saved) {
+  border-color: var(--dk-orange) !important;
+}
+html[data-contrast="dark"] .read-aloud-bar {
+  background-color: var(--dk-card) !important;
+  border: 1px solid var(--dk-line-strong) !important;
 }
 
-/* ---------- Accessibility page options ---------- */
-html[data-contrast="dark"] .a11y-radio:checked {
-  background-image: radial-gradient(circle, #fff 0 0.25rem, transparent 0.28rem);
+/* ---- Pictures ---- */
+html[data-contrast="dark"] body img {
+  background-color: transparent !important;
 }
-html[data-contrast="high"] .a11y-option:has(.a11y-radio:focus-visible) {
-  outline-color: #000 !important;
+/* Black icons (arrows, menu, computer) become light; arrows on
+   orange buttons stay dark. */
+html[data-contrast="dark"] :is(img[src*="arrow"], img[src*="menu"], img[src*="black"]) {
+  filter: invert(0.92);
+}
+html[data-contrast="dark"] :is(
+  .signup-button, .btn-primary, .exploresub-button, .interest-submit
+) img[src*="arrow"] {
+  filter: none;
+}
+/* Less glare: photos slightly dimmed, the light grey placeholder
+   toned right down. */
+html[data-contrast="dark"] img[src$=".jpg"] {
+  filter: brightness(0.9);
+}
+html[data-contrast="dark"] img[src*="placeholder"] {
+  filter: brightness(0.42) saturate(0.6);
+}
+
+/* ---- Accessibility page ---- */
+html[data-contrast="dark"] :is(.a11y-option, .a11y-preview-sample) {
+  border: 1px solid var(--dk-line-strong) !important;
+}
+html[data-contrast="dark"] .a11y-option:hover {
+  border-color: var(--dk-orange-soft) !important;
+}
+html[data-contrast="dark"] .a11y-option:has(.a11y-radio:checked) {
+  border: 2px solid var(--dk-orange) !important;
+  background-color: rgba(255, 153, 0, 0.08) !important;
+}
+html[data-contrast="dark"] .a11y-radio {
+  border-color: var(--dk-line-strong) !important;
+}
+html[data-contrast="dark"] .a11y-radio:checked {
+  border-color: var(--dk-orange) !important;
+  background-color: var(--dk-orange) !important;
+  background-image: radial-gradient(circle, var(--dk-deep) 0 0.25rem, transparent 0.28rem);
 }
 html[data-contrast="dark"] .a11y-option:has(.a11y-radio:focus-visible) {
-  outline-color: #fff !important;
+  outline-color: var(--dk-orange-soft) !important;
 }
 
 /* ---------- Accessibility page swatches ----------
@@ -249,9 +446,9 @@ html[data-contrast] .contrast-swatch-high {
   border-color: #000 !important;
 }
 html[data-contrast] .contrast-swatch-dark {
-  color: #fff !important;
-  background-color: #15191e !important;
-  border-color: #15191e !important;
+  color: #F3F4F6 !important;
+  background-color: #161B21 !important;
+  border-color: #313A45 !important;
 }
 
 /* ---------- Read aloud bar (scripts/read-aloud.js) ----------
@@ -302,13 +499,10 @@ html[data-contrast] .contrast-swatch-dark {
   outline-offset: 4px;
   border-radius: 4px;
 }
-/* The themes above make every border invisible-on-white or grey; give
-   the bar's buttons a visible edge in both. */
+/* High contrast makes every border black-on-white; give the bar's
+   buttons a visible edge. (Dark theme: see that section.) */
 html[data-contrast="high"] .read-aloud-bar button {
   border-color: #000 !important;
-}
-html[data-contrast="dark"] .read-aloud-bar button {
-  border-color: #fff !important;
 }
 /* Phones: sit above the chat button instead of beside it. */
 @media (max-width: 600px) {
