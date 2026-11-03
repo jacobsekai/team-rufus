@@ -93,9 +93,13 @@
   border: 1px solid #C9CDD2;
   border-radius: 8px;
   cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
+/* Hover: orange-tinted edge and a soft lift, lighter than the selected
+   look so the two can't be confused. */
 .a11y-option:hover {
-  border-color: #8D9096;
+  border-color: #FFB84D;
+  box-shadow: 0 2px 8px rgba(15, 17, 17, 0.08);
 }
 /* Selected: thicker orange border (1px padding less, so nothing moves). */
 .a11y-option:has(.a11y-radio:checked) {
