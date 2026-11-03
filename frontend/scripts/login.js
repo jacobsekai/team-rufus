@@ -48,8 +48,8 @@
   });
 
   // ---- Forgot password ---------------------------------------------------
-  // Password reset needs email sending, which the prototype doesn't have
-  // yet, so the link explains that instead of going nowhere.
+  // Password reset needs email sending, which the site doesn't have, so
+  // the link explains that instead of going nowhere.
   const forgotLink = document.getElementById("forgot-password");
   const forgotNote = document.getElementById("forgot-password-note");
   if (forgotLink && forgotNote) {

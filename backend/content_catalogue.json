@@ -1,29 +1,29 @@
 [
   {
     "id": "student-checklist",
-    "title": "Student checklist (placeholder)",
-    "description": "Questions for your open day and a simple application planner. Placeholder until the approved PDF is added.",
+    "title": "Student checklist",
+    "description": "Is a T Level right for you, questions to ask at an open day, and a simple application plan.",
     "file": "guides/student-checklist.pdf",
     "requires_login": false
   },
   {
     "id": "parent-carer-guide",
-    "title": "Parent and carer guide (placeholder)",
-    "description": "A clear summary of study, placements and progression routes. Placeholder until the approved PDF is added.",
+    "title": "Parent and carer guide",
+    "description": "What a T Level is, how placements work, pay, English and maths, and where it can lead.",
     "file": "guides/parent-carer-guide.pdf",
     "requires_login": false
   },
   {
     "id": "educator-briefing",
-    "title": "Educator briefing (placeholder)",
-    "description": "Conversation prompts and links to official T Level guidance. Placeholder until the approved PDF is added.",
+    "title": "Educator briefing",
+    "description": "Key facts, conversation prompts and official links for teachers and careers advisers.",
     "file": "guides/educator-briefing.pdf",
     "requires_login": false
   },
   {
     "id": "placement-preparation-checklist",
-    "title": "Placement preparation checklist (placeholder)",
-    "description": "For account holders: what to sort out before your placement starts. Placeholder until the approved PDF is added.",
+    "title": "Placement preparation checklist",
+    "description": "For account holders: what to sort out before and during the first week of your placement.",
     "file": "members/placement-preparation-checklist.pdf",
     "requires_login": true
   }

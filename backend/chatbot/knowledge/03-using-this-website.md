@@ -1,6 +1,6 @@
 # Using the T Levels at Amazon website
 
-This describes the Team Rufus prototype website.
+This describes the Team Rufus website.
 
 ## You don't need an account to
 
@@ -33,7 +33,7 @@ This describes the Team Rufus prototype website.
 - Tick "Remember me" only on your own device. Without it, you are logged out
   when you close the browser.
 - After 5 wrong passwords in a row, the account is locked for 15 minutes.
-- Forgot password is not available yet in this prototype.
+- Forgot password isn't available on this website.
 
 ## Registering your interest in an Amazon placement
 
