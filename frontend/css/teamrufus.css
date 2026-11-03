@@ -902,7 +902,7 @@ button {
 }
 
 .subjectinfo-section {
-    height: 1050px;
+    min-height: 1050px;
     object-fit: cover;
     display: flex;
     flex-direction: column;
@@ -928,7 +928,7 @@ button {
     position: relative;
     box-sizing: border-box;
     width: 1264px;
-    height: 203px;
+    min-height: 203px;
     background-color: #FFF4E2;
     border-radius: 12px;
     display: flex;

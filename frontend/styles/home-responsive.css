@@ -47,6 +47,9 @@
   .subjectinfo-section {
     height: auto;
   }
+  .subjectinfo-section {
+    min-height: 0;
+  }
   .subjects-section {
     min-height: 0;
   }
