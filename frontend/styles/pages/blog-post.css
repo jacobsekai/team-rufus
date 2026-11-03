@@ -31,6 +31,13 @@
   line-height: 1.5;
 }
 
+/* "Share this post" button on the hero (scripts/share.js). */
+.post-share {
+  margin-top: 20px;
+  background-color: white;
+  color: var(--color-nav-text);
+}
+
 /* Lead image: flush with the bottom of the hero, rounder on top. */
 .post-hero-media {
   aspect-ratio: 16 / 9;

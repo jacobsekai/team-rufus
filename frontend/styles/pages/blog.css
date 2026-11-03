@@ -155,10 +155,3 @@
     transform: none;
   }
 }
-
-/* Share this post (scripts/share.js), on the dark hero. */
-.post-share {
-  margin-top: 20px;
-  background-color: white;
-  color: #131820;
-}
