@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Development DynamoDB tables for T Level expressions of interest, user accounts, and sign-in sessions.
+Description: Development DynamoDB tables for T Level expressions of interest, user accounts, sign-in sessions, and the forum.
 
 Parameters:
   TableName:
@@ -11,6 +11,9 @@ Parameters:
   SessionsTableName:
     Type: String
     Default: t-level-sessions-dev
+  ForumTableName:
+    Type: String
+    Default: t-level-forum-dev
 
 Resources:
   ExpressionsOfInterestTable:
@@ -86,6 +89,39 @@ Resources:
         - Key: DataClassification
           Value: Prototype
 
+  # Forum posts, comments, votes, reports and rate limits in one table
+  # (key design: docs/dynamodb-design.md).
+  ForumTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref ForumTableName
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      # DynamoDB deletes finished rate-limit windows automatically.
+      TimeToLiveSpecification:
+        AttributeName: expires_at
+        Enabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      SSESpecification:
+        SSEEnabled: true
+      Tags:
+        - Key: Project
+          Value: T-Level-Team-Project
+        - Key: Environment
+          Value: Development
+        - Key: DataClassification
+          Value: Prototype
+
 Outputs:
   TableName:
     Description: DynamoDB table name
@@ -105,3 +141,9 @@ Outputs:
   SessionsTableArn:
     Description: Sessions DynamoDB table ARN
     Value: !GetAtt SessionsTable.Arn
+  ForumTableName:
+    Description: Forum DynamoDB table name
+    Value: !Ref ForumTable
+  ForumTableArn:
+    Description: Forum DynamoDB table ARN
+    Value: !GetAtt ForumTable.Arn

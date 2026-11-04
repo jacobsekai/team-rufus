@@ -26,6 +26,8 @@ backend/
   content_catalogue.json      List of downloadable files
   helpers.py                  Shared validation and response helpers
   saved.py                    Saved subjects and guides
+  forum.py                    Forum: posts, comments, likes, reports
+  forum_example.json          Example welcome post added to an empty forum
   chat.py                     Chat assistant (Claude on Bedrock + guardrail)
   chatbot/                    Assistant instructions and knowledge files
   aws.py                      AWS/DynamoDB client construction
@@ -42,6 +44,7 @@ tests/
   test_content.py             Downloads and catalogue tests
   test_repositories.py        DynamoDB request tests
   test_saved.py               Saved items and subjects tests
+  test_forum.py               Forum tests
   test_chat.py                Chat assistant tests (fake Claude and guardrail)
   test_lambda.py              Lambda event (function URL / API Gateway v2) tests
 content/                      Downloadable files (uploaded by deploy.sh)
@@ -51,6 +54,7 @@ frontend/
   debug/signin-tests.js       "Run sign-in tests": end-to-end sign-in checks
   chat/chat-widget.js         "Ask about T Levels" chat panel for every page
   accessibility.html          Text size and colour contrast settings
+  forum.html, forum-post.html Forum list and one discussion
   scripts/display-settings.js Applies the saved settings (in <head> on every page)
   styles/display-settings.css Text sizes and the high contrast / dark themes
 infra/
@@ -139,20 +143,24 @@ The full request and response contract for the frontend team is in
 | `POST` | `/api/chat` | Ask the chat assistant (see `docs/chatbot/`) |
 | `GET` | `/api/content` | List downloads |
 | `GET` | `/api/content/<id>/download` | Download a file (some need sign-in) |
+| `GET` / `POST` | `/api/forum/posts` | List / start forum discussions |
+| `GET` | `/api/forum/posts/<id>` | One discussion with its comments |
+| `POST` | `/api/forum/...` | Comment, like/dislike, delete your own, report (see `docs/api.md`) |
 
 Passwords are hashed before storage and never returned. There is no endpoint
 for reading other people's data.
 
 ## DynamoDB tables
 
-The application expects three tables by default, all defined in
+The application expects four tables by default, all defined in
 `infra/dynamodb-table.yaml`. See `docs/dynamodb-design.md` for the item shapes.
 
-| Table | Setting | Partition key |
+| Table | Setting | Key |
 |---|---|---|
 | `t-level-expressions-of-interest-dev` | `DYNAMODB_TABLE_NAME` | `id` |
 | `t-level-users-dev` | `USERS_TABLE_NAME` | `email` |
 | `t-level-sessions-dev` | `SESSIONS_TABLE_NAME` | `token_hash` |
+| `t-level-forum-dev` | `FORUM_TABLE_NAME` | `pk` + sort key `sk` |
 
 All tables use:
 

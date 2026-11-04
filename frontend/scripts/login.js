@@ -26,6 +26,14 @@
     errorAlert.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
+  // Where to go after logging in: ?next=<page> (e.g. the forum post the
+  // person was reading), else the home page. Only a page on this site is
+  // accepted ("forum-post.html?id=..."), never another address.
+  function nextPage() {
+    const next = new URLSearchParams(window.location.search).get("next") || "";
+    return /^[\w-]+\.html(\?[\w=&%.-]*)?(#[\w-]*)?$/.test(next) ? next : "index.html";
+  }
+
   // Lockout: the backend says how many seconds to wait (up to 15 minutes).
   function lockedMessage(seconds) {
     const minutes = Math.max(1, Math.ceil(seconds / 60));
@@ -136,7 +144,7 @@
     if (result && result.status === 200) {
       // So the next page shows the name straight away (account-nav.js).
       if (result.body) rememberFirstName(result.body.full_name);
-      window.location.href = "index.html";
+      window.location.href = nextPage();
       return;
     }
     if (result && result.status === 401) {

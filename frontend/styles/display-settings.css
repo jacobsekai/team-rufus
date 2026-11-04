@@ -94,6 +94,26 @@ html:is([data-text-size="large"], [data-text-size="largest"]) :is(
 html:is([data-text-size="large"], [data-text-size="largest"]) .homepage-section3 {
   height: auto;
 }
+/* "Curious about placements": the HTML pulls the text up 180px to centre
+   it at Standard size; taller text then slides under the section above.
+   Centre it with flexbox instead, and let the button fit its label. */
+html:is([data-text-size="large"], [data-text-size="largest"]) .homepage4-copy {
+  margin-top: 0 !important;
+  align-self: center;
+}
+html:is([data-text-size="large"], [data-text-size="largest"]) .homepage4-button {
+  width: auto;
+  padding-left: 22px;
+  padding-right: 22px;
+  white-space: nowrap;
+}
+/* Line breaks in her paragraphs are placed for Standard size; with larger
+   text they leave short broken lines, so let the text wrap naturally. */
+html:is([data-text-size="large"], [data-text-size="largest"]) :is(
+  .content-copy, .homepage3-copy, .homepage4-copy, .percent80-copy, .percent20-copy
+) p br {
+  display: none;
+}
 html:is([data-text-size="large"], [data-text-size="largest"]) .footer {
   height: auto;
   min-height: 250px;
@@ -191,6 +211,11 @@ html[data-contrast="high"] .a11y-option:not(:has(.a11y-radio:checked)):hover {
   outline: 2px dashed currentColor;
   outline-offset: 2px;
 }
+/* Liked and disliked can't rely on colour: thick border. */
+html[data-contrast="high"] .forum-react[aria-pressed="true"] {
+  border-width: 3px !important;
+  font-weight: 700;
+}
 html[data-contrast="high"] :is(.nav-extra a, .nav-logout, .a11y-reset-button):hover {
   text-decoration: underline 2px !important;
   text-underline-offset: 4px;
@@ -274,7 +299,8 @@ html[data-contrast="dark"] :is(
   .digital-box, .accounting-box, .marketing-box, .business-box, .engineering-box,
   .one-box, .two-box, .three-box,
   .application-box1, .application-box2, .application-box3,
-  #rufus-chat-panel, #rufus-chat-log .rufus-assistant
+  #rufus-chat-panel, #rufus-chat-log .rufus-assistant,
+  .forum-card, .forum-post-card, .forum-comment, .forum-state, .forum-dialog
 ) {
   background-color: var(--dk-card) !important;
   border: 1px solid var(--dk-line) !important;
@@ -294,7 +320,7 @@ html[data-contrast="dark"] #rufus-chat-log .rufus-user {
 }
 /* Cards that are links: the edge lightens on hover. */
 html[data-contrast="dark"] :is(
-  .faq-item, .post-card,
+  .faq-item, .post-card, .forum-post-card,
   .digital-box, .accounting-box, .marketing-box, .business-box, .engineering-box
 ):hover {
   border-color: var(--dk-line-strong) !important;
@@ -327,7 +353,7 @@ html[data-contrast="dark"] :is(
 }
 /* Links inside text: soft orange and underlined. Nav, footer, cards
    and buttons keep their own look. */
-html[data-contrast="dark"] :is(p, li, dd, .breadcrumb) a:not([class*="button"]):not(.btn),
+html[data-contrast="dark"] :is(p, li, dd, .breadcrumb) a:not([class*="button"], .btn, .forum-action, .forum-post-title a),
 html[data-contrast="dark"] .footer-text a {
   color: var(--dk-orange-soft) !important;
   text-decoration: underline !important;
@@ -366,7 +392,8 @@ html[data-contrast="dark"] :is(
 html[data-contrast="dark"] :is(
   .login-button, .tlvlama-button, .homepage3-button, .homepage4-button,
   .btn-outline, .outline-button, .a11y-reset-button, .saved-remove,
-  .read-aloud-secondary, #rufus-chat-suggestions button
+  .read-aloud-secondary, #rufus-chat-suggestions button,
+  .forum-react, .forum-sort select
 ) {
   color: var(--dk-heading) !important;
   border: 1px solid var(--dk-line-strong) !important;
@@ -380,6 +407,52 @@ html[data-contrast="dark"] :is(
 }
 html[data-contrast="dark"] :is(.save-subject-button.is-saved, .download-actions .is-saved) {
   border-color: var(--dk-orange) !important;
+}
+/* Forum: titles read as headings; liked items in orange. */
+html[data-contrast="dark"] .forum-post-title a {
+  color: var(--dk-heading) !important;
+}
+/* Blog tabs: keep the orange line under the current one. */
+html:is([data-contrast="high"], [data-contrast="dark"]) .blog-tabs a,
+html:is([data-contrast="high"], [data-contrast="dark"]) .blog-tabs a[aria-current="page"]:not(.x) {
+  text-decoration: none !important;
+}
+html[data-contrast="dark"] .blog-tabs a[aria-current] {
+  border-bottom-color: var(--dk-orange) !important;
+}
+html[data-contrast="dark"] .blog-tabs a:not([aria-current]) {
+  border-bottom-color: transparent !important;
+}
+html[data-contrast="high"] .blog-tabs a:not([aria-current]) {
+  border-bottom-color: transparent !important;
+}
+html[data-contrast="dark"] .forum-compose-preview {
+  background-color: var(--dk-band) !important;
+  border-left: 4px solid var(--dk-orange) !important;
+}
+html[data-contrast="dark"] .forum-preview-note {
+  background-color: var(--dk-card) !important;
+  border-left: 4px solid var(--dk-orange) !important;
+}
+html[data-contrast="dark"] .forum-react:hover {
+  border-color: var(--dk-orange-soft) !important;
+}
+html[data-contrast="dark"] .forum-like[aria-pressed="true"] {
+  border: 1px solid var(--dk-orange) !important;
+  background-color: rgba(255, 153, 0, 0.14) !important;
+}
+html[data-contrast="dark"] .forum-like[aria-pressed="true"] svg {
+  color: var(--dk-orange) !important;
+}
+html[data-contrast="dark"] .forum-dislike[aria-pressed="true"] {
+  border: 1px solid var(--dk-heading) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+html[data-contrast="dark"] .forum-action:hover {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+}
+html[data-contrast="dark"] .forum-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
 }
 html[data-contrast="dark"] .read-aloud-bar {
   background-color: var(--dk-card) !important;

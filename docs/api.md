@@ -62,6 +62,15 @@ deleting an account is a `POST`.
 | `POST` | `/api/users/me/delete` | Yes | Delete my account |
 | `GET` | `/api/content` | No | List downloadable content |
 | `GET` | `/api/content/<id>/download` | Depends on item | Download a file |
+| `GET` | `/api/forum/posts` | No | List forum posts |
+| `POST` | `/api/forum/posts` | Yes | Start a discussion |
+| `GET` | `/api/forum/posts/<post_id>` | No | One post with its comments |
+| `POST` | `/api/forum/posts/<post_id>/comments` | Yes | Comment on a post |
+| `POST` | `/api/forum/posts/<post_id>/vote` | Yes | Like, dislike or clear on a post |
+| `POST` | `/api/forum/comments/<comment_id>/vote` | Yes | Like, dislike or clear on a comment |
+| `POST` | `/api/forum/posts/<post_id>/delete` | Yes (author) | Delete your post and its comments |
+| `POST` | `/api/forum/comments/<comment_id>/delete` | Yes (author) | Delete your comment |
+| `POST` | `/api/forum/reports` | Yes | Report a post or comment |
 
 ## `GET /health`
 
@@ -265,3 +274,86 @@ downloads the file.
 | `401` | This item needs sign-in |
 | `404` | No item with that ID |
 | `503` | Downloads unavailable |
+
+## Forum
+
+Code: `backend/forum.py`. Frontend: `forum.html`, `forum-post.html`,
+`scripts/forum*.js`, and the "Community forum" section of `blog.html`
+(`scripts/blog-forum.js`, the 3 newest posts). Storage: `docs/dynamodb-design.md`, "Forum table".
+
+Anyone can read; posting, commenting, liking and reporting need sign-in
+(`401` otherwise). Only the author's first name is returned, never an email
+or user ID. Text is returned exactly as written: the frontend shows it with
+`textContent`, so HTML in a post is displayed, not run.
+
+### Post and comment
+
+```json
+{
+  "id": "1793725372827513-538f7d718d1e",
+  "title": "Is the placement paid?",
+  "body": "Does anyone know...",
+  "author_name": "Sam",
+  "created_at": "2026-11-03T17:02:52.827492Z",
+  "likes": 3,
+  "dislikes": 0,
+  "comment_count": 2,
+  "my_vote": 1,
+  "is_mine": false
+}
+```
+
+A comment has the same fields except `title` and `comment_count`.
+`my_vote` is `1` (liked), `-1` (disliked) or `0`; `is_mine` is true for the
+signed-in author. Post IDs are `<16-digit microseconds>-<12 hex>`; comment IDs
+are `<post_id>.<same shape>`.
+
+### `GET /api/forum/posts`
+
+| Query | Meaning |
+|---|---|
+| `sort` | `new` (default) or `top` (likes minus dislikes) |
+| `cursor` | The `next_cursor` from the previous page |
+
+`200` `{"posts": [Post], "next_cursor": "..." | null}`, 20 posts per page.
+`400` for an unknown sort or cursor. The first call also adds the
+example welcome post (`backend/forum_example.json`) to an empty forum, once.
+
+### `POST /api/forum/posts`
+
+`{"title": "...", "body": "..."}`: `title` 5 to 120
+characters, `body` 10 to 5000 (both trimmed). `201` Post, `400` validation,
+`429` more than 5 posts in 10 minutes (`Retry-After` header).
+
+### `GET /api/forum/posts/<post_id>`
+
+`200` `{"post": Post, "comments": [Comment]}`, comments oldest first.
+`404` `{"error": "Post not found."}`. This is JSON, unlike the HTML 404 for
+an unknown path, which is how the frontend tells "post deleted" from "forum
+not deployed".
+
+### `POST /api/forum/posts/<post_id>/comments`
+
+`{"body": "..."}` (1 to 2000 characters). `201` Comment, `400`, `404` post
+gone, `429` more than 20 comments in 10 minutes.
+
+### `POST /api/forum/posts/<post_id>/vote`, `POST /api/forum/comments/<comment_id>/vote`
+
+`{"value": 1}` like, `-1` dislike, `0` remove. One vote per person per item:
+sending the same value twice counts once; switching moves the count.
+`200` `{"likes": n, "dislikes": n, "my_vote": 1 | -1 | 0}`, `400`, `404`,
+`429` more than 120 votes a minute.
+
+### `POST /api/forum/posts/<post_id>/delete`, `POST /api/forum/comments/<comment_id>/delete`
+
+Body `{}`. Authors only. `200` `{"status": "deleted"}`; `404` if it doesn't
+exist or isn't yours (not `403`, which CloudFront reserves for Midway).
+Deleting a post deletes its comments.
+
+### `POST /api/forum/reports`
+
+`{"type": "post" | "comment", "id": "...", "reason": "spam" | "bullying" |
+"personal_info" | "other"}`. `201` `{"status": "received"}`; `200`
+`{"status": "already_reported"}` the second time; `400`, `404`, `429` more
+than 20 reports in 10 minutes. Reports are stored for the team to review; there
+is no review screen yet.

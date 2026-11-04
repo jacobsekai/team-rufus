@@ -35,24 +35,30 @@
     if (!ok) throw new Error("copy failed");
   }
 
-  document.querySelectorAll(".share-button").forEach(function (button) {
-    button.addEventListener("click", async function () {
-      const url = window.location.href.split("#")[0];
-      const title = button.dataset.shareTitle || document.title;
-      if (navigator.share) {
-        try {
-          await navigator.share({ title: title, url: url });
-        } catch (e) {
-          // Closing the share menu without sharing is fine.
-        }
-        return;
-      }
+  // Share url (default: this page) from button. Also used by the forum
+  // (scripts/forum.js) to share one post from the list.
+  async function shareLink(button, url, title) {
+    if (navigator.share) {
       try {
-        await copy(url);
-        say(button, "Link copied");
+        await navigator.share({ title: title, url: url });
       } catch (e) {
-        window.prompt("Copy this link:", url);
+        // Closing the share menu without sharing is fine.
       }
+      return;
+    }
+    try {
+      await copy(url);
+      say(button, "Link copied");
+    } catch (e) {
+      window.prompt("Copy this link:", url);
+    }
+  }
+
+  document.querySelectorAll(".share-button").forEach(function (button) {
+    button.addEventListener("click", function () {
+      shareLink(button, window.location.href.split("#")[0], button.dataset.shareTitle || document.title);
     });
   });
+
+  window.shareLink = shareLink;
 })();

@@ -1,0 +1,14 @@
+{
+  "_comment": "Also shown as a preview by frontend/scripts/forum.js (EXAMPLE) when the backend isn't deployed: keep the two in step.",
+  "post": {
+    "title": "Welcome to the T Level forum: introduce yourself!",
+    "author_name": "Team Rufus",
+    "body": "Hi everyone, and welcome!\n\nThis is the place to ask questions and share what you know about T Levels: choosing a subject, what an industry placement is really like, and how to apply (including placements at Amazon).\n\nTo get things started, reply with a comment:\n- which T Level you're studying or thinking about\n- one question you'd like answered\n\nLike the posts and comments you find helpful so the best answers rise to the top, and use Share to send a discussion to a friend, parent or teacher.\n\nPlease keep it kind, and don't share personal details like your address or phone number. If you see something that breaks the rules, use Report and the team will check it."
+  },
+  "comments": [
+    {
+      "author_name": "Team Rufus",
+      "body": "We'll start: lots of students ask whether placements are paid. It's up to each employer, so ask your school or college placement coordinator. There's more on the Information page too."
+    }
+  ]
+}

@@ -31,7 +31,7 @@ Globals:
       Environment: Development
 
 Resources:
-  # Both DynamoDB tables come from the existing template so there is one
+  # The DynamoDB tables come from the existing template so there is one
   # definition of each table.
   Tables:
     Type: AWS::CloudFormation::Stack
@@ -62,6 +62,7 @@ Resources:
           DYNAMODB_TABLE_NAME: !GetAtt Tables.Outputs.TableName
           USERS_TABLE_NAME: !GetAtt Tables.Outputs.UsersTableName
           SESSIONS_TABLE_NAME: !GetAtt Tables.Outputs.SessionsTableName
+          FORUM_TABLE_NAME: !GetAtt Tables.Outputs.ForumTableName
           CONTENT_BUCKET_NAME: !Ref ContentBucket
           CHAT_MODEL_ID: anthropic.claude-opus-5-5
           # Claude answers in us-east-1 for this account; the guardrail and
@@ -87,6 +88,22 @@ Resources:
               Resource:
                 - !GetAtt Tables.Outputs.UsersTableArn
                 - !GetAtt Tables.Outputs.SessionsTableArn
+            # Forum: list posts and comments (Query), read the viewer's
+            # likes (BatchGetItem), delete a post's comments
+            # (BatchWriteItem). Transactions use the Put/Update/Delete
+            # permissions and ConditionCheck.
+            - Sid: ManageForum
+              Effect: Allow
+              Action:
+                - dynamodb:PutItem
+                - dynamodb:GetItem
+                - dynamodb:UpdateItem
+                - dynamodb:DeleteItem
+                - dynamodb:Query
+                - dynamodb:BatchGetItem
+                - dynamodb:BatchWriteItem
+                - dynamodb:ConditionCheckItem
+              Resource: !GetAtt Tables.Outputs.ForumTableArn
             # Claude on Amazon Bedrock. Mantle grants are per account
             # project, not per model.
             - Sid: InvokeClaude

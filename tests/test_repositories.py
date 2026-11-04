@@ -6,7 +6,10 @@ from botocore.exceptions import ClientError
 import pytest
 
 from backend.repositories import (
+    ConflictError,
     DuplicateRecordError,
+    ForumRepository,
+    NotFoundError,
     RepositoryError,
     SessionsRepository,
     UsersRepository,
@@ -220,3 +223,103 @@ def test_session_updates_never_recreate_a_deleted_session():
     ]
     assert all(kwargs["ConditionExpression"] == "attribute_exists(token_hash)" for _, kwargs in table.calls)
     assert all(kwargs["Key"] == {"token_hash": "abc"} for _, kwargs in table.calls)
+
+
+# ---------- Forum ----------
+class StubClient:
+    """Stands in for ``table.meta.client`` (transactions, batch reads)."""
+
+    def __init__(self, error_reasons=None, batch_responses=None):
+        self.error_reasons = error_reasons
+        self.batch_responses = list(batch_responses or [])
+        self.calls = []
+
+    def transact_write_items(self, **kwargs):
+        self.calls.append(("transact_write_items", kwargs))
+        if self.error_reasons is not None:
+            raise ClientError(
+                {"Error": {"Code": "TransactionCanceledException", "Message": "stub"},
+                 "CancellationReasons": [{"Code": c} for c in self.error_reasons]},
+                "TransactWriteItems",
+            )
+
+    def batch_get_item(self, **kwargs):
+        self.calls.append(("batch_get_item", kwargs))
+        return self.batch_responses.pop(0)
+
+
+class StubForumTable(StubTable):
+    name = "forum-table"
+
+    def __init__(self, client=None, **kwargs):
+        super().__init__(**kwargs)
+        self.meta = type("Meta", (), {"client": client or StubClient()})()
+
+
+POST_ID = "1730000000000000-aaaaaaaaaaaa"
+
+
+def test_comment_and_count_change_in_one_transaction():
+    table = StubForumTable()
+
+    ForumRepository(table).create_comment({"id": f"{POST_ID}.c1", "post_id": POST_ID, "body": "Hi"})
+
+    [(_, call)] = table.meta.client.calls
+    put, update = call["TransactItems"]
+    assert put["Put"]["Item"]["pk"] == f"POST#{POST_ID}"
+    assert put["Put"]["Item"]["sk"] == f"COMMENT#{POST_ID}.c1"
+    assert update["Update"]["Key"] == {"pk": "POSTS", "sk": f"POST#{POST_ID}"}
+    assert update["Update"]["ConditionExpression"] == "attribute_exists(pk)"
+    assert put["Put"]["TableName"] == update["Update"]["TableName"] == "forum-table"
+
+
+@pytest.mark.parametrize("reasons, error", [
+    (["None", "ConditionalCheckFailed"], NotFoundError),  # the post is gone
+    (["ConditionalCheckFailed", "None"], ConflictError),  # the vote changed meanwhile
+    (["None", "None"], RepositoryError),
+])
+def test_vote_transaction_errors(reasons, error):
+    table = StubForumTable(client=StubClient(error_reasons=reasons))
+    key = ForumRepository.target_key("post", POST_ID)
+
+    with pytest.raises(error):
+        ForumRepository(table).set_vote("u1", f"post#{POST_ID}", key, 0, 1)
+
+
+def test_switching_like_to_dislike_moves_one_count():
+    table = StubForumTable(response={"Item": {"likes": Decimal(0), "dislikes": Decimal(1)}})
+    key = ForumRepository.target_key("post", POST_ID)
+
+    counts = ForumRepository(table).set_vote("u1", f"post#{POST_ID}", key, 1, -1)
+
+    [(_, call)] = table.meta.client.calls
+    vote, update = call["TransactItems"]
+    assert vote["Put"]["Item"] == {"pk": "VOTES#u1", "sk": f"post#{POST_ID}", "value": -1}
+    assert vote["Put"]["ExpressionAttributeValues"] == {":old": 1}
+    assert update["Update"]["ExpressionAttributeValues"] == {":likes": -1, ":dislikes": 1}
+    assert counts == {"likes": 0, "dislikes": 1}
+
+
+def test_get_votes_retries_unprocessed_keys():
+    request = {"forum-table": {"Keys": [{"pk": "VOTES#u1", "sk": "post#b"}]}}
+    client = StubClient(batch_responses=[
+        {"Responses": {"forum-table": [{"sk": "post#a", "value": Decimal(1)}]},
+         "UnprocessedKeys": request},
+        {"Responses": {"forum-table": [{"sk": "post#b", "value": Decimal(-1)}]}},
+    ])
+
+    votes = ForumRepository(StubForumTable(client=client)).get_votes("u1", ["post#a", "post#b"])
+
+    assert votes == {"post#a": 1, "post#b": -1}
+    assert client.calls[0][1]["RequestItems"]["forum-table"]["ConsistentRead"] is True
+
+
+def test_rate_limit_refused_when_window_is_full():
+    table = StubForumTable(error_code="ConditionalCheckFailedException")
+
+    allowed = ForumRepository(table).take_rate_token("u1", "post", 5, 600, 1000)
+
+    assert allowed is False
+    first, second = (kwargs for _, kwargs in table.calls)
+    assert first["ConditionExpression"] == "window_start > :cutoff AND #c < :limit"
+    assert second["ConditionExpression"] == "attribute_not_exists(pk) OR window_start <= :cutoff"
