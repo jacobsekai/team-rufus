@@ -287,7 +287,8 @@ html[data-contrast="dark"] :is(
   .section-cream, .a11y-page, .blog-featured-section, .blog-list-section,
   .auth-page, .homepage-section, .homepage-section3, .subjects-section,
   .learnings-section, .location-section, .interest-section,
-  .tariff-table thead th, .legal-note, .download-badge
+  .tariff-table thead th, .legal-note, .download-badge,
+  .compare-table thead th, .tracker-bar, .tracker-status
 ) {
   background-color: var(--dk-band) !important;
 }
@@ -300,7 +301,8 @@ html[data-contrast="dark"] :is(
   .one-box, .two-box, .three-box,
   .application-box1, .application-box2, .application-box3,
   #rufus-chat-panel, #rufus-chat-log .rufus-assistant,
-  .forum-card, .forum-post-card, .forum-comment, .forum-state, .forum-dialog
+  .forum-card, .forum-post-card, .forum-comment, .forum-state, .forum-dialog,
+  .subject-card, .subject-jump, .compare-card, .tracker
 ) {
   background-color: var(--dk-card) !important;
   border: 1px solid var(--dk-line) !important;
@@ -353,7 +355,7 @@ html[data-contrast="dark"] :is(
 }
 /* Links inside text: soft orange and underlined. Nav, footer, cards
    and buttons keep their own look. */
-html[data-contrast="dark"] :is(p, li, dd, .breadcrumb) a:not([class*="button"], .btn, .forum-action, .forum-post-title a),
+html[data-contrast="dark"] :is(p, li, dd, .breadcrumb) a:not([class*="button"], .btn, .forum-action, .forum-post-title a, .subject-jump a),
 html[data-contrast="dark"] .footer-text a {
   color: var(--dk-orange-soft) !important;
   text-decoration: underline !important;
@@ -412,6 +414,53 @@ html[data-contrast="dark"] :is(.save-subject-button.is-saved, .download-actions 
 html[data-contrast="dark"] .forum-post-title a {
   color: var(--dk-heading) !important;
 }
+/* Icons: the rule above recolours every element, including the lines
+   inside an <svg>, so icons couldn't follow their own colour. Let the
+   inside of an icon inherit it again (same specificity, later wins). */
+html[data-contrast="dark"] svg *,
+html[data-contrast="high"] svg * {
+  color: inherit !important;
+}
+
+/* Subjects page: quick links read as headings, arrows and eyebrow orange. */
+html[data-contrast="dark"] .subject-jump a {
+  color: var(--dk-heading) !important;
+  text-decoration: none !important;
+}
+html[data-contrast="dark"] :is(.subject-jump a svg, .subject-jump-title, .subjects-eyebrow) {
+  color: var(--dk-orange) !important;
+}
+html[data-contrast="dark"] .subject-card-route,
+html[data-contrast="dark"] .subject-card-more {
+  color: var(--dk-heading) !important;
+}
+
+/* T Level column and tracker: orange where the light design is. */
+html[data-contrast="dark"] .compare-table .compare-highlight {
+  background-color: rgba(255, 153, 0, 0.08) !important;
+  color: var(--dk-heading) !important;
+}
+html[data-contrast="dark"] .compare-table thead .compare-highlight,
+html[data-contrast="dark"] :is(.tracker-bar span, .is-done .tracker-mark, .is-current .tracker-status, .is-current .tracker-mark::after),
+html[data-contrast="dark"] .tracker-step.is-done:not(:last-child)::before {
+  background-color: var(--dk-orange) !important;
+  color: var(--dk-deep) !important;
+}
+html[data-contrast="dark"] .tracker-mark {
+  background-color: var(--dk-card) !important;
+  border-color: var(--dk-line-strong) !important;
+}
+html[data-contrast="dark"] :is(.is-done, .is-current) .tracker-mark {
+  border-color: var(--dk-orange) !important;
+}
+html[data-contrast="dark"] .is-done .tracker-mark {
+  background-color: var(--dk-orange) !important;
+}
+html[data-contrast="dark"] .tracker-badge {
+  border-color: var(--dk-orange) !important;
+  color: var(--dk-orange) !important;
+}
+
 /* Blog tabs: keep the orange line under the current one. */
 html:is([data-contrast="high"], [data-contrast="dark"]) .blog-tabs a,
 html:is([data-contrast="high"], [data-contrast="dark"]) .blog-tabs a[aria-current="page"]:not(.x) {

@@ -921,40 +921,40 @@ button {
     transform: translateY(-2px);
 }
 
-.subjects-boxes.is-revealing > [class$="-box"] {
+.subjects-boxes.is-revealing > :is([class$="-box"], .subject-card) {
     opacity: 0;
     transform: translateY(24px);
     transition: opacity 1.4s ease, transform 1.4s ease, box-shadow 0.2s ease;
 }
 
-.subjects-boxes.is-revealing > [class$="-box"].is-visible {
+.subjects-boxes.is-revealing > :is([class$="-box"], .subject-card).is-visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-.subjects-boxes.is-revealing > [class$="-box"].is-visible:hover {
+.subjects-boxes.is-revealing > :is([class$="-box"], .subject-card).is-visible:hover {
     transform: translateY(-2px);
     transition-delay: 0s;
 }
 
-.subjects-boxes.is-revealing > [class$="-box"]:nth-child(2) {
+.subjects-boxes.is-revealing > :is([class$="-box"], .subject-card):nth-child(2) {
     transition-delay: 200ms;
 }
 
-.subjects-boxes.is-revealing > [class$="-box"]:nth-child(3) {
+.subjects-boxes.is-revealing > :is([class$="-box"], .subject-card):nth-child(3) {
     transition-delay: 400ms;
 }
 
-.subjects-boxes.is-revealing > [class$="-box"]:nth-child(4) {
+.subjects-boxes.is-revealing > :is([class$="-box"], .subject-card):nth-child(4) {
     transition-delay: 600ms;
 }
 
-.subjects-boxes.is-revealing > [class$="-box"]:nth-child(5) {
+.subjects-boxes.is-revealing > :is([class$="-box"], .subject-card):nth-child(5) {
     transition-delay: 800ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .subjects-boxes.is-revealing > [class$="-box"] {
+    .subjects-boxes.is-revealing > :is([class$="-box"], .subject-card) {
         opacity: 1;
         transform: none;
         transition: none;

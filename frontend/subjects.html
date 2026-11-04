@@ -13,6 +13,8 @@
     <script src="scripts/subject-reveal.js" defer></script>
     <link rel="stylesheet" type="text/css" href="css/teamrufus.css">
     <link rel="stylesheet" type="text/css" href="styles/menu.css">
+    <link rel="stylesheet" href="styles/polish.css">
+    <script src="scripts/blend.js" defer></script>
     <link rel="stylesheet" href="styles/display-settings.css">
     <script src="scripts/display-settings.js"></script>
     <script src="scripts/read-aloud.js" defer></script>
@@ -50,15 +52,27 @@
     </nav>
 
     <div class="content">
-        <div class="content-section">
+        <div class="content-section subjects-hero">
+            <!-- Quick links to each subject (styles/polish.css). -->
+            <nav class="subject-jump" aria-labelledby="jump-heading">
+                <p class="subject-jump-title" id="jump-heading">JUMP TO A SUBJECT</p>
+                <ul>
+                    <li><a href="digital.html"><span>Digital Software Development</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></li>
+                    <li><a href="accounting.html"><span>Accounting &amp; Finance</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></li>
+                    <li><a href="marketing.html"><span>Marketing</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></li>
+                    <li><a href="business.html"><span>Business</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></li>
+                    <li><a href="engineering.html"><span>Engineering</span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></li>
+                </ul>
+            </nav>
             <div class="content-copy">
-                <p style="color: #FF9900; font-size: 0.9375rem; margin-top: -20px; margin-left: -40px; font-weight: bold;">EXPLORE YOUR OPTIONS</p>
-                <h1 style="color: white; font-size: 4.375rem; margin-top: -20px; margin-left: -40px;">Study with a subject you actually enjoy</h1>
-                <p style="color: white; font-size: 1.25rem; margin-left: -40px; margin-top: -15px;">Discover the subjects that match your interests and career goals.</p>
+                <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Subjects</span></nav>
+                <p class="subjects-eyebrow">EXPLORE YOUR OPTIONS</p>
+                <h1 class="subjects-title">Study with a subject you actually enjoy</h1>
+                <p class="subjects-lead">Discover the subjects that match your interests and career goals.</p>
                 <div class="content-actions">
-                    <button class="exploresub-button" style="width: 205px;" onclick="window.location.href= 'amazon.html'">
+                    <button class="exploresub-button" onclick="window.location.href= 'amazon.html'">
                         <span>Placement at Amazon</span>
-                        <img class="exploresub-arrow" src="pictures/arrow point right up.png" alt="Explore Subjects arrow">
+                        <img class="exploresub-arrow" src="pictures/arrow point right up.png" alt="">
                     </button>
                 </div>
             </div>
@@ -67,41 +81,61 @@
 
     <div class="subjects-section">
         <div class="subjects-boxes">
-            <div class="digital-box" onclick="window.location.href='digital.html'">
-                <h3 style="color: #131820; font-size: 1.75rem;">Digital Software Development</h3>
-                <p style="color: #566171">Turn your interest in technology into practical skills in software, data and digital systems.</p>
-                <p style="color: #566171; font-weight: bold;">Example route: Digital Software Development</p>
-                <p style="color: #566171; font-size: 0.9375rem;">Software development · IT support · Data</p>
-                <p style="color: #566171; font-weight: bold; font-size: 0.9375rem;">Learn more →</p>
-            </div>
-            <div class="accounting-box" onclick="window.location.href='accounting.html'">
-                <h3 style="color: #131820; font-size: 1.75rem;">Accounting & Finance</h3>
-                <p style="color: #566171">Make sense of financial information and how organisations use it. Build accuracy, business awareness and confidence working with numbers.</p>
-                <p style="color: #566171; font-weight: bold;">Example route: Accounting & Finance</p>
-                <p style="color: #566171; font-size: 0.9375rem;">Accounting · Finance · Economics</p>
-                <p style="color: #566171; font-weight: bold; font-size: 0.9375rem;">Learn more →</p>
-            </div>
-            <div class="marketing-box" onclick="window.location.href='marketing.html'">
-                <h3 style="color: #131820; font-size: 1.75rem;">Marketing</h3>
-                <p style="color: #566171">Understand how businesses promote their products and services. Develop skills in market research, branding and digital marketing.</p>
-                <p style="color: #566171; font-weight: bold;">Example route: Marketing</p>
-                <p style="color: #566171; font-size: 0.9375rem;">Market research · Branding · Digital marketing</p>
-                <p style="color: #566171; font-weight: bold; font-size: 0.9375rem;">Learn more →</p>
-            </div>
-            <div class="business-box" onclick="window.location.href='business.html'">
-                <h3 style="color: #131820; font-size: 1.75rem;">Business</h3>
-                <p style="color: #566171">Discover how organisations work, from planning projects to supporting teams and improving processes.</p>
-                <p style="color: #566171; font-weight: bold;">Example route: Management and Administration</p>
-                <p style="color: #566171; font-size: 0.9375rem;">Business operations · Administration · Projects</p>
-                <p style="color: #566171; font-weight: bold; font-size: 0.9375rem;">Learn more →</p>
-            </div>
-            <div class="engineering-box" onclick="window.location.href='engineering.html'">
-                <h3 style="color: #131820; font-size: 1.75rem;">Engineering</h3>
-                <p style="color: #566171">Get hands-on with systems, materials and manufacturing to solve real technical challenges.</p>
-                <p style="color: #566171; font-weight: bold;">Example route: Engineering, Manufacturing, Processing and Control</p>
-                <p style="color: #566171; font-size: 0.9375rem;">Manufacturing · Maintenance · Technical design</p>
-                <p style="color: #566171; font-weight: bold; font-size: 0.9375rem;">Learn more →</p>
-            </div>
+            <a class="subject-card" href="digital.html">
+                <div class="subject-card-main">
+                    <h2 class="subject-card-title">Digital Software Development</h2>
+                    <p class="subject-card-text">Turn your interest in technology into practical skills in software, data and digital systems.</p>
+                </div>
+                <div class="subject-card-side">
+                    <p class="subject-card-route">Example route: Digital Software Development</p>
+                    <p class="subject-card-tags">Software development · IT support · Data</p>
+                    <p class="subject-card-more">Learn more &rarr;</p>
+                </div>
+            </a>
+            <a class="subject-card" href="accounting.html">
+                <div class="subject-card-main">
+                    <h2 class="subject-card-title">Accounting &amp; Finance</h2>
+                    <p class="subject-card-text">Make sense of financial information and how organisations use it. Build accuracy, business awareness and confidence working with numbers.</p>
+                </div>
+                <div class="subject-card-side">
+                    <p class="subject-card-route">Example route: Accounting &amp; Finance</p>
+                    <p class="subject-card-tags">Accounting · Finance · Economics</p>
+                    <p class="subject-card-more">Learn more &rarr;</p>
+                </div>
+            </a>
+            <a class="subject-card" href="marketing.html">
+                <div class="subject-card-main">
+                    <h2 class="subject-card-title">Marketing</h2>
+                    <p class="subject-card-text">Understand how businesses promote their products and services. Develop skills in market research, branding and digital marketing.</p>
+                </div>
+                <div class="subject-card-side">
+                    <p class="subject-card-route">Example route: Marketing</p>
+                    <p class="subject-card-tags">Market research · Branding · Digital marketing</p>
+                    <p class="subject-card-more">Learn more &rarr;</p>
+                </div>
+            </a>
+            <a class="subject-card" href="business.html">
+                <div class="subject-card-main">
+                    <h2 class="subject-card-title">Business</h2>
+                    <p class="subject-card-text">Discover how organisations work, from planning projects to supporting teams and improving processes.</p>
+                </div>
+                <div class="subject-card-side">
+                    <p class="subject-card-route">Example route: Management and Administration</p>
+                    <p class="subject-card-tags">Business operations · Administration · Projects</p>
+                    <p class="subject-card-more">Learn more &rarr;</p>
+                </div>
+            </a>
+            <a class="subject-card" href="engineering.html">
+                <div class="subject-card-main">
+                    <h2 class="subject-card-title">Engineering</h2>
+                    <p class="subject-card-text">Get hands-on with systems, materials and manufacturing to solve real technical challenges.</p>
+                </div>
+                <div class="subject-card-side">
+                    <p class="subject-card-route">Example route: Engineering, Manufacturing, Processing and Control</p>
+                    <p class="subject-card-tags">Manufacturing · Maintenance · Technical design</p>
+                    <p class="subject-card-more">Learn more &rarr;</p>
+                </div>
+            </a>
         </div>
     </div>
 
