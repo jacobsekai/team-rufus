@@ -38,7 +38,18 @@ body {
     width: auto;
     padding-top: 10px;
     padding-left: 50px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
+
+
+
+.logo:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
 
 /* The logo is a link to the home page (hand cursor, works with the
    keyboard). The link takes the logo's old place, so nothing moves and
@@ -126,6 +137,7 @@ button {
     flex-direction: row-reverse;
     align-items: center;
     gap: 30px;
+    
 }
 
 .amazon-content-section {
@@ -251,6 +263,16 @@ button {
     border: 1px solid #fff;
     background-color: #232F3E;
     color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+
+
+.quote-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
 }
 
 .quote-text {
@@ -369,6 +391,7 @@ button {
     background-color: white;
     color: #232F3E;
     font-family: "Amazon Ember", Arial, sans-serif;
+    
 }
 
 .skillsemploy-box {
@@ -385,6 +408,16 @@ button {
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+
+
+.skillsemploy-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
 }
 
 .orangecase-img {
@@ -410,6 +443,16 @@ button {
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+
+
+.experience-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
 }
 
 .orangeppl-img {
@@ -435,7 +478,18 @@ button {
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
+
+
+
+.moreway-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
 
 .orangsign-img {
     position: absolute;
@@ -518,7 +572,18 @@ button {
     justify-content: center;
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
+
+
+
+.percent80-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
 
 .percent80-label {
     position: absolute;
@@ -565,7 +630,18 @@ button {
     justify-content: center;
     gap: 16px;
     font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
+
+
+
+.percent20-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
 
 .percent20-label {
     position: absolute;
@@ -845,6 +921,46 @@ button {
     transform: translateY(-2px);
 }
 
+.subjects-boxes.is-revealing > [class$="-box"] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 1.4s ease, transform 1.4s ease, box-shadow 0.2s ease;
+}
+
+.subjects-boxes.is-revealing > [class$="-box"].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.subjects-boxes.is-revealing > [class$="-box"].is-visible:hover {
+    transform: translateY(-2px);
+    transition-delay: 0s;
+}
+
+.subjects-boxes.is-revealing > [class$="-box"]:nth-child(2) {
+    transition-delay: 200ms;
+}
+
+.subjects-boxes.is-revealing > [class$="-box"]:nth-child(3) {
+    transition-delay: 400ms;
+}
+
+.subjects-boxes.is-revealing > [class$="-box"]:nth-child(4) {
+    transition-delay: 600ms;
+}
+
+.subjects-boxes.is-revealing > [class$="-box"]:nth-child(5) {
+    transition-delay: 800ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .subjects-boxes.is-revealing > [class$="-box"] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
 .learnings-section {
     height: 600px;
     object-fit: cover;
@@ -1076,7 +1192,18 @@ button {
     padding: 20px;
     justify-content: flex-start;
     font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
+
+
+
+.application-box1:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
 
 .application-box1 .learning-card-title {
     margin-top: 0;
@@ -1096,7 +1223,18 @@ button {
     padding: 20px;
     justify-content: flex-start;
     font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
+
+
+
+.application-box2:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
 
 .application-box2 .learning-card-title {
     margin-top: 0;
@@ -1116,7 +1254,18 @@ button {
     padding: 20px;
     justify-content: flex-start;
     font-family: "Amazon Ember", Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
 }
+
+
+
+.application-box3:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
 
 .application-box3 .learning-card-title {
     margin-top: 0;
@@ -1173,6 +1322,7 @@ button {
 .amazon-content .application-boxes {
     position: static;
     margin-top: 0;
+    gap: 100px;
 }
 
 .footer {
