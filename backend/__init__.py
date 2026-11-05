@@ -12,8 +12,10 @@ from .aws import (
 from .chat import ChatService, build_system_prompt, chat
 from .config import Settings
 from .content import S3ContentStore, content, load_catalogue
+from .forum import forum
 from .repositories import (
     ExpressionsOfInterestRepository,
+    ForumRepository,
     SessionsRepository,
     UsersRepository,
 )
@@ -30,6 +32,7 @@ def _settings_from_app(app: Flask) -> Settings:
         dynamodb_table_name=app.config["DYNAMODB_TABLE_NAME"],
         users_table_name=app.config["USERS_TABLE_NAME"],
         sessions_table_name=app.config["SESSIONS_TABLE_NAME"],
+        forum_table_name=app.config["FORUM_TABLE_NAME"],
         content_bucket_name=app.config.get("CONTENT_BUCKET_NAME"),
         session_hours=app.config["SESSION_HOURS"],
         remember_me_days=app.config["REMEMBER_ME_DAYS"],
@@ -51,6 +54,7 @@ def create_app(
     repository=None,
     users_repository=None,
     sessions_repository=None,
+    forum_repository=None,
     content_store=None,
     content_catalogue=None,
     chat_service=None,
@@ -70,6 +74,9 @@ def create_app(
         DYNAMODB_TABLE_NAME=settings.dynamodb_table_name,
         USERS_TABLE_NAME=settings.users_table_name,
         SESSIONS_TABLE_NAME=settings.sessions_table_name,
+        FORUM_TABLE_NAME=settings.forum_table_name,
+        # Add the example forum post the first time the forum is listed.
+        FORUM_EXAMPLE=True,
         CONTENT_BUCKET_NAME=settings.content_bucket_name,
         SESSION_HOURS=settings.session_hours,
         REMEMBER_ME_DAYS=settings.remember_me_days,
@@ -91,7 +98,7 @@ def create_app(
 
     runtime_settings = _settings_from_app(app)
 
-    if None in (repository, users_repository, sessions_repository):
+    if None in (repository, users_repository, sessions_repository, forum_repository):
         dynamodb = get_dynamodb_resource(runtime_settings)
         if repository is None:
             repository = ExpressionsOfInterestRepository(
@@ -104,6 +111,10 @@ def create_app(
         if sessions_repository is None:
             sessions_repository = SessionsRepository(
                 dynamodb.Table(runtime_settings.sessions_table_name)
+            )
+        if forum_repository is None:
+            forum_repository = ForumRepository(
+                dynamodb.Table(runtime_settings.forum_table_name)
             )
 
     # Without a bucket the app still runs; downloads return HTTP 503.
@@ -131,6 +142,7 @@ def create_app(
     app.extensions["expressions_of_interest_repository"] = repository
     app.extensions["users_repository"] = users_repository
     app.extensions["sessions_repository"] = sessions_repository
+    app.extensions["forum_repository"] = forum_repository
     app.extensions["content_store"] = content_store
     app.extensions["chat_service"] = chat_service
     app.extensions["content_catalogue"] = (
@@ -141,4 +153,5 @@ def create_app(
     app.register_blueprint(content)
     app.register_blueprint(saved)
     app.register_blueprint(chat)
+    app.register_blueprint(forum)
     return app

@@ -11,7 +11,18 @@ This describes the Team Rufus website.
 - Register your interest in an Amazon placement, using the form at the bottom
   of the Amazon page.
 
+- Read the community forum: choose Forum in the menu, or Blog and then
+  "Community forum". The newest discussions are also under "Join the
+  conversation" at the bottom of the Blog page. Discussions are about T Levels,
+  subjects, placements and applying, and can be sorted by newest or most
+  liked.
+
 ## With a free account you can
+
+- Use the forum: start a discussion with "Add post", comment on
+  posts, like or dislike posts and comments, share a discussion's link, and
+  report anything that breaks the rules. You can delete your own posts and
+  comments.
 
 - Save subjects and guides so you can find them again. Use the "Save subject"
   button on a subject page, or "Save" on a guide. Saved items are listed on

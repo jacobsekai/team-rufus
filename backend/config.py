@@ -25,6 +25,7 @@ class Settings:
     dynamodb_table_name: str
     users_table_name: str
     sessions_table_name: str
+    forum_table_name: str
     content_bucket_name: Optional[str]
     session_hours: int
     remember_me_days: int
@@ -55,6 +56,10 @@ class Settings:
             sessions_table_name=os.getenv(
                 "SESSIONS_TABLE_NAME",
                 "t-level-sessions-dev",
+            ),
+            forum_table_name=os.getenv(
+                "FORUM_TABLE_NAME",
+                "t-level-forum-dev",
             ),
             content_bucket_name=os.getenv("CONTENT_BUCKET_NAME") or None,
             session_hours=int(os.getenv("SESSION_HOURS", "12")),

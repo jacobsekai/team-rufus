@@ -3,8 +3,37 @@
    Design: "T-Level Blog" screenshot. Dark hero, then a cream band
    with the featured post (image left, text right). The post grid
    below is past the screenshot's cut-off, so it reuses her home
-   page card style: white, soft shadow that lifts on hover.
+   page card style: white, soft shadow that lifts on hover. Then the
+   "Community forum" section (scripts/blog-forum.js); the forum
+   cards themselves are styled in forum.css, loaded first. The
+   Articles / Community forum tabs are also on forum.html.
    ============================================================ */
+
+/* ---------- Articles / Community forum tabs (dark hero) ---------- */
+.blog-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin-top: 28px;
+}
+.blog-tabs a {
+  padding-bottom: 8px;
+  border-bottom: 3px solid transparent;
+  color: white;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  text-decoration: none;
+  opacity: 0.8;
+}
+.blog-tabs a:hover {
+  color: white;
+  text-decoration: none;
+  opacity: 1;
+}
+.blog-tabs a[aria-current] {
+  border-bottom-color: var(--color-orange);
+  opacity: 1;
+}
 
 .blog-featured-section {
   padding: 75px 0 64px;
@@ -120,6 +149,83 @@
   font-size: 0.9375rem;
 }
 
+/* ---------- Community forum section ----------
+   A white band after the cream article bands, so the two parts read
+   as separate. */
+.blog-forum-section {
+  padding: 72px 0 80px;
+  background-color: white;
+}
+.blog-forum-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+/* Darker orange: #FF9900 text on white is too faint (2.1:1); this is 4.9:1. */
+.blog-forum-section .eyebrow-accent {
+  margin-bottom: 12px;
+  color: #B35C00;
+  font-size: 0.8438rem;
+}
+.blog-forum-title {
+  margin: 0 0 10px;
+  color: var(--color-ink);
+  font-size: 2.5rem;
+}
+.blog-forum-lede {
+  max-width: 56ch;
+  margin: 0;
+  color: var(--color-body);
+  font-size: 1.0625rem;
+}
+.blog-forum-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.blog-forum-buttons .btn {
+  padding: 12px 20px;
+  text-decoration: none;
+}
+.blog-forum-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.blog-forum-grid .forum-post-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-cream);
+  box-shadow: none;
+}
+.blog-forum-grid .forum-excerpt {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.blog-forum-grid .forum-actions {
+  margin-top: auto;
+}
+.blog-forum-grid .forum-react {
+  background-color: white;
+}
+.blog-forum-message {
+  margin: 0;
+  color: var(--color-body);
+}
+.blog-forum-more {
+  margin: 28px 0 0;
+  text-align: center;
+}
+.blog-forum-more a {
+  color: var(--color-navy);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 /* ---------- Tablet ---------- */
 @media (max-width: 960px) {
   .blog-featured {
@@ -133,6 +239,9 @@
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-lg);
   }
+  .blog-forum-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- Phone ---------- */
@@ -145,6 +254,16 @@
   }
   .post-grid {
     grid-template-columns: 1fr;
+  }
+  .blog-forum-section {
+    padding: 48px 0 56px;
+  }
+  .blog-forum-title {
+    font-size: 1.875rem;
+  }
+  .blog-forum-buttons,
+  .blog-forum-buttons .btn {
+    width: 100%;
   }
 }
 

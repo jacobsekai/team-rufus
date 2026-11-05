@@ -17,9 +17,18 @@
   aspect-ratio: 719 / 604;
 }
 
-/* Amazon page hero: portrait slot, same shape as "604x800.png". */
+/* Amazon page hero: a square crop of the portrait photo, so the hero fits
+   on a laptop screen next to the text (the full portrait was taller than
+   the screen). Mohammed and the arrow bench stay in view. */
 .amazon-content-section .homepage-image.person-photo {
-  aspect-ratio: 604 / 800;
+  width: min(520px, 45%);
+  aspect-ratio: 1 / 1;
+}
+/* One column (home-responsive.css): full width, up to 420px. */
+@media (max-width: 959px) {
+  .amazon-content-section .homepage-image.person-photo {
+    width: 100%;
+  }
 }
 
 .person-photo--humaid {
@@ -48,5 +57,5 @@
 }
 
 .person-photo--mohammed {
-  object-position: 50% 50%;
+  object-position: 50% 62%;
 }

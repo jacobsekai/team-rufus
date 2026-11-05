@@ -5,10 +5,12 @@
 | `t-level-expressions-of-interest-dev` | `id` | Expressions of interest |
 | `t-level-users-dev` | `email` | User accounts |
 | `t-level-sessions-dev` | `token_hash` | Sign-in sessions |
+| `t-level-forum-dev` | `pk` + sort key `sk` | Forum posts, comments, votes, reports, rate limits |
 
-Every operation reads or writes items by partition key, so no secondary
-indexes or scans are needed and response times stay constant as the tables
-grow. The only multi-item write is changing an email address (see below).
+The first three tables are read and written by partition key only. The forum
+table also uses `Query` on one partition (posts, or one post's comments), so
+no secondary indexes or scans are needed. Multi-item writes are changing an
+email address and the forum transactions (see below).
 
 ## Expressions of interest table
 
@@ -146,6 +148,46 @@ deleting a user's other sessions the application makes them stop matching:
 Sessions created before `user_id` was added are refused, which signs everyone
 out once when this change is deployed.
 
+## Forum table
+
+Development table name `t-level-forum-dev`, configurable through
+`FORUM_TABLE_NAME`. One table holds every forum item; the partition key `pk`
+and sort key `sk` say what each item is:
+
+| Item | `pk` | `sk` | Other attributes |
+|---|---|---|---|
+| Post | `POSTS` | `POST#<post_id>` | `id`, `title`, `body`, `author_id`, `author_name`, `created_at`, `likes`, `dislikes`, `comment_count` |
+| Comment | `POST#<post_id>` | `COMMENT#<comment_id>` | `id`, `post_id`, `body`, `author_id`, `author_name`, `created_at`, `likes`, `dislikes` |
+| Vote | `VOTES#<user_id>` | `post#<id>` or `comment#<id>` | `value`: `1` like, `-1` dislike |
+| Report | `REPORTS` | `<type>#<id>#<reporter_id>` | `type`, `target_id`, `reason`, `reporter_id`, `created_at` |
+| Rate limit | `RATE#<user_id>` | `post`, `comment`, `vote` or `report` | `count`, `window_start`, `expires_at` (TTL) |
+| Example marker | `META` | `EXAMPLE_POST` | `post_id` |
+
+IDs start with the creation time in microseconds, so sort-key order is time
+order: newest posts are a `Query` on `POSTS` read backwards, a post's comments
+a `Query` on `POST#<id>` read forwards.
+
+- **Counts stay right.** Adding or deleting a comment changes the post's
+  `comment_count`, and every like or dislike changes the target's counts, in
+  the same `TransactWriteItems` call as the comment or vote. The vote write is
+  conditional on the vote the API last read, so two requests at the same
+  moment can't count twice (the API retries once).
+- **One vote and one report per person per item**: the key includes the user.
+- **Reading likes**: one `BatchGetItem` (with `ConsistentRead`) for the
+  viewer's votes on the posts or comments on screen.
+- **Rate limits** are counted with conditional updates per user and action;
+  finished windows expire with TTL on `expires_at`.
+- **Example post**: added the first time the forum is listed, with a marker
+  item written first, so it isn't added again after someone deletes it.
+- **Deleting a post** deletes its comments too (`BatchWriteItem`). Votes on it
+  stay in voters' partitions; nothing reads them once the post is gone.
+- **Deleting an account** doesn't delete forum posts (they show the first
+  name only). Removing them on account deletion is future work.
+
+Prototype limits: all posts share the `POSTS` partition (fine for thousands
+of posts), and "Most liked" sorts up to 500 posts in the API. A larger forum
+would add a secondary index on score.
+
 ## Security decisions
 
 - The Flask service defaults to `127.0.0.1`.
@@ -166,6 +208,9 @@ out once when this change is deployed.
 - Deleting an account removes the user item and the current session. Any
   other sessions stop working at once because their user no longer exists.
   Expressions of interest are separate submissions and are not deleted.
+- Forum posts show only the author's first name; the user ID is stored but
+  never returned. Authors can delete their own posts and comments; others get
+  `404`. Posting, commenting, voting and reporting are rate limited per account.
 - AWS credentials are obtained through the standard AWS credential chain.
 - No credentials are stored in source code or `.env.example`.
 - The development table template enables server-side encryption and

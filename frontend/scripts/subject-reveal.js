@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const cards = document.querySelectorAll(".subjects-boxes > [class$='-box']");
+  const cards = document.querySelectorAll(".subjects-boxes > [class$='-box'], .subjects-boxes > .subject-card");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   if (!cards.length || !("IntersectionObserver" in window) || reduceMotion.matches) {

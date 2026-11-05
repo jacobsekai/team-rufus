@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community forum | Blog | Team Rufus</title>
+<link rel="icon" type="image/png" href="pictures/CTI%20logo.png">
+<script src="scripts/nav-early.js"></script>
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/menu.css">
+<link rel="stylesheet" href="styles/layout.css">
+<link rel="stylesheet" href="styles/components.css">
+<link rel="stylesheet" href="styles/pages/forum.css">
+<link rel="stylesheet" href="styles/pages/blog.css">
+<link rel="stylesheet" href="styles/polish.css">
+<script src="scripts/blend.js" defer></script>
+<link rel="stylesheet" href="styles/display-settings.css">
+<script src="scripts/display-settings.js"></script>
+<script src="scripts/read-aloud.js" defer></script>
+<script src="chat/chat-widget.js" defer></script>
+<script src="scripts/nav.js" defer></script>
+<script src="scripts/api.js" defer></script>
+<script src="scripts/account-nav.js" defer></script>
+<script src="scripts/share.js" defer></script>
+<script src="scripts/forum.js" defer></script>
+<script src="scripts/forum-list.js" defer></script>
+</head>
+<body>
+
+<nav class="topnav" aria-label="Primary">
+  <a href="index.html" class="logo-link" aria-label="Home">
+    <img class="logo" src="pictures/CTI%20logo.png" alt="CTI logo">
+  </a>
+  <button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+    <img class="menu-icon" src="pictures/menu%20icon.png" alt="">
+    <span class="account-name"></span>
+    <svg class="account-chevron" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+      <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="nav-menu" id="nav-menu">
+    <div class="nav-links">
+      <a href="subjects.html">Subjects</a>
+      <a href="amazon.html">Amazon</a>
+      <a href="blog.html">Blog</a>
+      <a href="information.html">Information</a>
+      <a href="forum.html" aria-current="page">Forum</a>
+    </div>
+    <div class="nav-extra">
+      <a href="account.html">Account</a>
+      <a href="accessibility.html">Accessibility</a>
+      <button type="button" class="nav-logout" hidden>Log out</button>
+    </div>
+    <div class="nav-actions">
+      <a href="Log_in_page.html" class="login-button">
+        <span>Login</span>
+    <img class="nav-arrow" src="pictures/arrow%20point%20right%20up.png" alt="">
+      </a>
+      <a href="Sign_up_page.html" class="signup-button">
+        <span>Sign Up</span>
+    <img class="nav-arrow" src="pictures/arrow%20point%20right%20up.png" alt="">
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <section class="page-hero hero-dark forum-hero">
+    <div class="wrap-wide">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="blog.html">Blog</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Community forum</span>
+      </nav>
+      <p class="eyebrow eyebrow-accent">COMMUNITY FORUM</p>
+      <h1>Ask, share and learn together.</h1>
+      <p class="hero-lede">Questions about subjects, placements or applying? Ask students, parents and schools who've been there, and help others with what you know.</p>
+      <nav class="blog-tabs" aria-label="Blog sections">
+        <a href="blog.html">Articles</a>
+        <a href="forum.html" aria-current="page">Community forum</a>
+      </nav>
+    </div>
+  </section>
+
+  <section class="section-cream forum-section">
+    <div class="wrap-wide forum-layout">
+
+      <div class="forum-main">
+        <div class="forum-toolbar">
+          <div class="forum-toolbar-end">
+            <label class="forum-sort">
+              <span>Sort by</span>
+              <select id="forum-sort">
+                <option value="new">Newest</option>
+                <option value="top">Most upvoted</option>
+              </select>
+            </label>
+            <button type="button" class="btn btn-primary forum-add" id="forum-new" aria-expanded="false" aria-controls="forum-compose"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>Add post</span></button>
+          </div>
+        </div>
+
+        <!-- New post. Opened by "Add post" (or forum.html?new=1); logged-out
+             visitors go to Log in instead. -->
+        <section class="forum-card forum-compose" id="forum-compose" aria-labelledby="compose-heading" hidden>
+          <h2 id="compose-heading" class="forum-card-title">Add a post</h2>
+          <p class="forum-hint forum-compose-preview" id="compose-preview" hidden>The forum isn't live yet: you can try the form, but posts can't be saved until it opens.</p>
+          <div class="alert alert-error" id="compose-error" role="alert" hidden><span></span></div>
+          <form id="compose-form" novalidate>
+            <div class="field">
+              <label for="compose-title">Title</label>
+              <input type="text" id="compose-title" name="title" maxlength="120" required>
+            </div>
+            <div class="field">
+              <label for="compose-body">Your post</label>
+              <textarea id="compose-body" name="body" rows="6" required></textarea>
+              <p class="field-hint forum-counter" aria-live="polite"></p>
+            </div>
+            <p class="forum-hint">Everyone can read the forum. Don't share your address, phone number or other personal details.</p>
+            <div class="forum-form-actions">
+              <button type="button" class="btn btn-outline" id="compose-cancel">Cancel</button>
+              <button type="submit" class="btn btn-primary">Post</button>
+            </div>
+          </form>
+        </section>
+
+        <div id="forum-list" aria-live="polite" aria-busy="true"></div>
+        <button type="button" class="btn btn-outline forum-more" id="forum-more" hidden>Show more</button>
+      </div>
+
+      <aside class="forum-side" aria-label="About the forum">
+        <section class="forum-card">
+          <h2 class="forum-card-title">Forum guidelines</h2>
+          <ul class="forum-rules">
+            <li>Be kind and respectful, even when you disagree.</li>
+            <li>Keep personal details private: yours and other people's.</li>
+            <li>Stay on topic: T Levels, subjects, placements and applying.</li>
+            <li>See something wrong? Use <strong>Report</strong> and the team will check it.</li>
+          </ul>
+        </section>
+        <section class="forum-card">
+          <h2 class="forum-card-title">Need a quick answer?</h2>
+          <p class="forum-hint">Most common questions are answered on the <a href="information.html">Information</a> page, or ask the chat in the corner.</p>
+        </section>
+      </aside>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <img class="amazon-logo" src="pictures/amazon%20logo.png" alt="Amazon logo">
+  <nav class="footer-links" aria-label="Footer">
+    <span class="footer-heading">Explore</span>
+    <span><a href="index.html">Home</a> &middot; <a href="subjects.html">Subjects</a> &middot; <a href="amazon.html">Amazon</a></span>
+    <span><a href="blog.html">Blog</a> &middot; <a href="information.html">Information</a></span>
+    <span><a href="Sign_up_page.html">Sign up</a> &middot; <a href="Log_in_page.html">Log in</a></span>
+  </nav>
+  <hr class="footer-divider">
+  <p class="footer-text"><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a> &middot; <a href="privacy.html#cookies">Cookies</a> &middot; <a href="accessibility.html" class="footer-a11y-link">Accessibility</a></p>
+</footer>
+</body>
+</html>

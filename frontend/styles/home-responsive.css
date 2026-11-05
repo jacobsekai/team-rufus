@@ -23,6 +23,19 @@
   .homepage-image {
     max-width: 45%;
   }
+  /* The hero text is pulled 40px left by inline margins; this keeps it
+     48px from the edge, like the other sections. */
+  .content-section {
+    padding-left: 88px;
+  }
+  .quotes-section {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+  /* Hero line breaks are placed for 1440px; narrower, they cut lines short. */
+  .content-copy br {
+    display: none;
+  }
   .homepage-section {
     gap: 32px;
   }
@@ -223,6 +236,16 @@
     order: -1;
     gap: 14px;
   }
+  /* Home quotes: one under another instead of three squeezed columns. */
+  .quotes-section {
+    padding: 40px 20px;
+  }
+  .quotes-list {
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
   .content-copy > p,
   .content-copy > h1,
   .content-actions {

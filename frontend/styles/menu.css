@@ -20,6 +20,18 @@
   clip-path: inset(0 0 8px 0);
 }
 
+/* Small laptops (961-1100px): the colleague's nav centres its five links
+   while her Login / Sign up buttons sit at fixed positions on the right,
+   so "Forum" would run into Login. Tighter spacing between her links
+   keeps them apart until the nav collapses at 960px. (Her links are the
+   <a>s directly inside the nav; the styles/ pages use .nav-links.) */
+@media (min-width: 961px) and (max-width: 1100px) {
+  .topnav > a:not(.home-logo-link) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
 /* Her stylesheet positions .menu-icon absolutely and styles every
    <button>; inside the menu button the icon just sits in place. */
 .menu-toggle .menu-icon {
