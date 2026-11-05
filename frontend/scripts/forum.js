@@ -349,7 +349,7 @@
 
   function unavailableBox() {
     return stateBox("unavailable", "The forum isn't available yet",
-      "We're still building the place where posts are saved. Check back soon, or try the Ask about T Levels chat in the meantime.");
+      "We're still building the place where posts are saved. Check back soon, or ask Rufus using the chat button in the bottom-right corner in the meantime.");
   }
 
   // "Not live yet" note above the example post.

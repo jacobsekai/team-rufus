@@ -1,4 +1,6 @@
-// "Ask about T Levels" chat panel. Add to every page with:
+// T Levels chat panel, opened from a round Rufus (corgi) icon button in the
+// bottom-right corner (accessible name "Ask about T Levels"). Add to every
+// page with:
 //   <script src="/chat/chat-widget.js" defer></script>
 //
 // Sends questions to POST /api/chat. The conversation lives only in this
@@ -61,6 +63,45 @@ async function askChat(messages) {
     return data;
 }
 
+// Rufus's head, the same artwork as the logo peek (scripts/rufus-peek.js),
+// copied here so the chat button works on pages without that script.
+// Decorative: the button's aria-label gives it its name.
+const RUFUS_ICON_SVG =
+    '<svg viewBox="-345 -1040 690 800" width="46" height="46" aria-hidden="true" focusable="false" ' +
+    'xmlns="http://www.w3.org/2000/svg"><g class="rufus-chat-head">' +
+    // Ears
+    '<g class="rufus-chat-ear rufus-chat-ear-left">' +
+    '<path d="M-262,-590 C-312,-760 -306,-910 -250,-1010 C-176,-958 -104,-866 -66,-752 Z" fill="#F0A42C"/>' +
+    '<path d="M-230,-640 C-262,-762 -258,-866 -230,-940 C-184,-898 -142,-834 -116,-760 Z" fill="#FCD9B0"/>' +
+    '</g><g class="rufus-chat-ear rufus-chat-ear-right">' +
+    '<path d="M262,-590 C312,-760 306,-910 250,-1010 C176,-958 104,-866 66,-752 Z" fill="#F0A42C"/>' +
+    '<path d="M230,-640 C262,-762 258,-866 230,-940 C184,-898 142,-834 116,-760 Z" fill="#FCD9B0"/>' +
+    '</g>' +
+    // Head and cream blaze
+    '<path d="M0,-815 C182,-815 296,-702 300,-548 C304,-420 238,-318 0,-298 C-238,-318 -304,-420 -300,-548 C-296,-702 -182,-815 0,-815 Z" fill="#F5B335"/>' +
+    '<path d="M0,-770 C30,-770 42,-694 54,-604 C156,-590 270,-514 272,-424 C266,-338 152,-300 0,-298 C-152,-300 -266,-338 -272,-424 C-270,-514 -156,-590 -54,-604 C-42,-694 -30,-770 0,-770 Z" fill="#FBE3C0"/>' +
+    '<ellipse cx="-122" cy="-632" rx="24" ry="15" fill="#FBE3C0"/>' +
+    '<ellipse cx="122" cy="-632" rx="24" ry="15" fill="#FBE3C0"/>' +
+    // Eyes
+    '<circle cx="-120" cy="-548" r="40" fill="#2B1A12"/><circle cx="-132" cy="-562" r="12" fill="#FFFFFF"/>' +
+    '<circle cx="120" cy="-548" r="40" fill="#2B1A12"/><circle cx="108" cy="-562" r="12" fill="#FFFFFF"/>' +
+    // Blush
+    '<ellipse cx="-200" cy="-440" rx="40" ry="22" fill="#FF8F7A" opacity="0.45"/>' +
+    '<ellipse cx="200" cy="-440" rx="40" ry="22" fill="#FF8F7A" opacity="0.45"/>' +
+    // Muzzle, mouth and tongue
+    '<ellipse cx="0" cy="-408" rx="128" ry="88" fill="#FFF3E2"/>' +
+    '<path d="M-84,-396 C-66,-338 -34,-312 0,-312 C34,-312 66,-338 84,-396 C54,-380 26,-386 0,-402 C-26,-386 -54,-380 -84,-396 Z" fill="#6B2B23"/>' +
+    '<path d="M-40,-352 C-44,-296 -22,-262 0,-262 C22,-262 44,-296 40,-352 C20,-340 -20,-340 -40,-352 Z" fill="#FF7486"/>' +
+    '<path d="M0,-342 L0,-296" stroke="#E0506A" stroke-width="8" stroke-linecap="round"/>' +
+    '<path d="M-96,-404 C-70,-384 -30,-384 0,-404 C30,-384 70,-384 96,-404" fill="none" stroke="#3A2018" stroke-width="11" stroke-linecap="round"/>' +
+    '<path d="M0,-428 L0,-402" stroke="#3A2018" stroke-width="11" stroke-linecap="round"/>' +
+    // Nose
+    '<path d="M-60,-472 C-60,-514 60,-514 60,-472 C60,-440 22,-420 0,-420 C-22,-420 -60,-440 -60,-472 Z" fill="#1E1410"/>' +
+    '<ellipse cx="-20" cy="-490" rx="17" ry="9" fill="#FFFFFF" opacity="0.7"/>' +
+    '</g></svg>';
+
+const CHAT_BUTTON_LABEL = "Ask about T Levels";
+
 function addChatWidget(doc) {
     if (doc.getElementById("rufus-chat-button")) return;
 
@@ -68,9 +109,27 @@ function addChatWidget(doc) {
     // Minimal styling so the panel works on any page; the frontend team can
     // restyle everything under #rufus-chat-panel and #rufus-chat-button.
     style.textContent = [
-        "#rufus-chat-button{position:fixed;right:24px;bottom:24px;z-index:1000;padding:14px 20px;border:0;",
-        "border-radius:999px;background:#FF9900;color:#0F1111;font:600 1rem/1.2 sans-serif;cursor:pointer;",
-        "box-shadow:0 2px 8px rgba(0,0,0,.25)}",
+        // Round Rufus icon button: navy disc with an orange ring.
+        "#rufus-chat-button{position:fixed;right:24px;bottom:24px;z-index:1000;width:60px;height:60px;padding:0;",
+        "display:flex;align-items:center;justify-content:center;border:3px solid #FF9900;border-radius:50%;",
+        "background:#232F3E;color:#0F1111;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);",
+        "transition:transform .2s ease,box-shadow .2s ease}",
+        "#rufus-chat-button svg{display:block;width:46px;height:46px;margin-top:2px;pointer-events:none}",
+        ".rufus-chat-head{transform-box:fill-box;transform-origin:50% 90%}",
+        ".rufus-chat-ear-left{transform-box:fill-box;transform-origin:80% 100%}",
+        ".rufus-chat-ear-right{transform-box:fill-box;transform-origin:20% 100%}",
+        "#rufus-chat-button:is(:hover,:focus-visible){transform:translateY(-3px);box-shadow:0 8px 18px rgba(0,0,0,.35)}",
+        // White ring fills the outline gap so the dark focus outline also shows on navy sections.
+        "#rufus-chat-button:focus-visible{box-shadow:0 0 0 2px #fff,0 8px 18px rgba(0,0,0,.35)}",
+        "#rufus-chat-button:is(:hover,:focus-visible) .rufus-chat-head{animation:rufus-chat-wiggle .6s ease-in-out}",
+        "#rufus-chat-button:is(:hover,:focus-visible) .rufus-chat-ear-left{animation:rufus-chat-ear-l .6s ease-in-out}",
+        "#rufus-chat-button:is(:hover,:focus-visible) .rufus-chat-ear-right{animation:rufus-chat-ear-r .6s ease-in-out}",
+        "@keyframes rufus-chat-wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}60%{transform:rotate(6deg)}}",
+        "@keyframes rufus-chat-ear-l{0%,100%{transform:rotate(0)}40%{transform:rotate(-10deg)}}",
+        "@keyframes rufus-chat-ear-r{0%,100%{transform:rotate(0)}55%{transform:rotate(10deg)}}",
+        "@media (prefers-reduced-motion:reduce){#rufus-chat-button{transition:none}",
+        "#rufus-chat-button:is(:hover,:focus-visible){transform:none}",
+        "#rufus-chat-button:is(:hover,:focus-visible) :is(.rufus-chat-head,.rufus-chat-ear){animation:none}}",
         "#rufus-chat-panel{position:fixed;right:24px;bottom:88px;z-index:1000;width:min(380px,calc(100vw - 48px));",
         "height:min(560px,calc(100vh - 120px));display:flex;flex-direction:column;background:#fff;color:#0F1111;",
         "border:1px solid #D5D9D9;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.25);font:1rem/1.45 sans-serif}",
@@ -99,7 +158,9 @@ function addChatWidget(doc) {
     const button = doc.createElement("button");
     button.id = "rufus-chat-button";
     button.type = "button";
-    button.textContent = "Ask about T Levels";
+    button.innerHTML = RUFUS_ICON_SVG;  // fixed markup defined above, no user data
+    button.setAttribute("aria-label", CHAT_BUTTON_LABEL);
+    button.title = CHAT_BUTTON_LABEL;
     button.setAttribute("aria-controls", "rufus-chat-panel");
     button.setAttribute("aria-expanded", "false");
 

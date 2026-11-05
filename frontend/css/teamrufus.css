@@ -39,16 +39,10 @@ body {
     padding-top: 10px;
     padding-left: 50px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
     cursor: pointer;
 }
-
-
-
-.logo:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    transform: translateY(-2px);
-}
+/* Hovering the logo makes Rufus pop out of the "C" (styles/rufus-peek.css,
+   scripts/rufus-peek.js) instead of lifting the logo. */
 
 
 /* The logo is a link to the home page (hand cursor, works with the
